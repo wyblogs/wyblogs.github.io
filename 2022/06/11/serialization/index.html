@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="万叶">
+
+
+
+
+
+<title>序列化 | 万叶&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">万叶&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">万叶&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6;    // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function () {
+            tocbot.refresh(obj_merge(tocbot_default_config, { hasInnerContainers: true }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function () {
+        tocbot.init(obj_merge(tocbot_default_config, { collapseDepth: 1 }));
+    });
+
+    function expandToc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, { collapseDepth: expanded ? 1 : DEPTH_MAX }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">序列化</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">万叶</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">June 11, 2022&nbsp;&nbsp;10:47:16</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Java/">Java</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="什么是序列化"><a href="#什么是序列化" class="headerlink" title="什么是序列化"></a>什么是序列化</h1><p>Java序列化是指把Java对象转换为字节序列的过程，而Java反序列化是指把字节序列恢复为Java对象的过程<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>：</p>
+<ul>
+<li><strong>序列化：</strong>对象序列化的最主要的用处就是在传递和保存对象的时候，保证对象的完整性和可传递性。序列化是把对象转换成有序字节流，以便在网络上传输或者保存在本地文件中。核心作用是对象状态的保存与重建。</li>
+<li><strong>反序列化：</strong>客户端从文件中或网络上获得序列化后的对象字节流，根据字节流中所保存的对象状态及描述信息，通过反序列化重建对象。</li>
+</ul>
+<h1 id="为什么要序列化"><a href="#为什么要序列化" class="headerlink" title="为什么要序列化"></a>为什么要序列化</h1><ol>
+<li><p>对象序列化可以实现分布式对象</p>
+<p>主要应用例如：RMI(即远程调用Remote Method Invocation)要利用对象序列化运行远程主机上的服务，就像在本地机上运行对象时一样。</p>
+</li>
+<li><p>对象序列化不仅保留一个对象的数据，而且递归保存对象引用的每个对象的数据</p>
+<p>可以将整个对象层次写入字节流中，可以保存在文件中或在网络连接上传递。利用对象序列化可以进行对象的”深复制”，即复制对象本身及引用的对象本身。序列化一个对象可能得到整个对象序列。</p>
+</li>
+<li><p>序列化可以将内存中的类写入文件或数据库中</p>
+<p>比如：将某个类序列化后存为文件，下次读取时只需将文件中的数据反序列化就可以将原先的类还原到内存中。也可以将类序列化为流数据进行传输。</p>
+<p>总的来说就是将一个已经实例化的类转成文件存储，下次需要实例化的时候只要反序列化即可将类实例化到内存中并保留序列化时类中的所有变量和状态。</p>
+</li>
+<li><p>对象、文件、数据，有许多不同的格式，很难统一传输和保存</p>
+<p>序列化以后就都是字节流了，无论原来是什么东西，都能变成一样的东西，就可以进行通用的格式传输或保存，传输结束以后，要再次使用，就进行反序列化还原，这样对象还是对象，文件还是文件。</p>
+</li>
+</ol>
+<h1 id="如何实现序列化"><a href="#如何实现序列化" class="headerlink" title="如何实现序列化"></a>如何实现序列化</h1><h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><p>在Java中实现序列化的常见方式有两种：</p>
+<ol>
+<li>实现Serializable接口；</li>
+<li>实现Externalizable接口；</li>
+</ol>
+<h3 id="Serializable"><a href="#Serializable" class="headerlink" title="Serializable"></a>Serializable</h3><p>在Java中使用Serializable来声明一个对象是可以被序列化的。若忘记声明Serializable接口的话，会报<code>java.io.NotSerializableException</code>异常。下面演示一个类的序列化过程。</p>
+<p>首先，创建一个实现Serializable接口的类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.Serializable;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Student</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> score;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Student</span><span class="params">(<span class="type">int</span> score, <span class="type">int</span> age, String name)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.score = score;</span><br><span class="line">        <span class="built_in">this</span>.age = age;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Student&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;score=&quot;</span> + score +</span><br><span class="line">                <span class="string">&quot;, age=&quot;</span> + age +</span><br><span class="line">                <span class="string">&quot;, name=&#x27;&quot;</span> + name + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其次，使用<code>ObjectOutputStream</code>进行序列化操作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> data.User;</span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Demo</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">File</span> <span class="variable">file</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;Student.txt&quot;</span>);</span><br><span class="line">        <span class="type">ObjectOutputStream</span> <span class="variable">bos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectOutputStream</span>(<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(file));</span><br><span class="line">        <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>(<span class="number">100</span>, <span class="number">18</span>, <span class="string">&quot;Hua Li&quot;</span>);</span><br><span class="line">        bos.writeObject(user);</span><br><span class="line">        bos.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>执行完上述程序后，会在项目根路径下生成一个<code>Student.txt</code>文件。这个文件就是序列化后得到的产物。注意，在存在继承关系的类中，如果父类没有实现Serializable，但是子类实现了Serializable，此时子类是可以被序列化的。只不过在反序列化的时候，会先调用父类的无参构造函数（若父类没有无参构造则会抛出异常），然后再执行反序列化操作。这样做的目的是确保子类继承过来的成员变量能够先得到一次初始化。</p>
+<h3 id="Externalizable"><a href="#Externalizable" class="headerlink" title="Externalizable"></a>Externalizable</h3><p>Externalizable继承自Serializable。当需要使用Externalizable时，必须实现<code>writeExternal()</code>和<code>readExternal()</code>方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span> <span class="keyword">implements</span> <span class="title class_">Externalizable</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> longserialVersionUID= <span class="number">4674087742710036718L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> score;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">transient</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">User</span><span class="params">()</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">User</span><span class="params">(<span class="type">int</span> score, <span class="type">int</span> age, String name)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.score = score;</span><br><span class="line">        <span class="built_in">this</span>.age = age;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">writeExternal</span><span class="params">(ObjectOutput out)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        out.writeInt(<span class="built_in">this</span>.score);</span><br><span class="line">        out.writeInt(<span class="built_in">this</span>.age);</span><br><span class="line">        out.writeObject(<span class="built_in">this</span>.name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">readExternal</span><span class="params">(ObjectInput in)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException </span><br><span class="line">		&#123;</span><br><span class="line">        <span class="built_in">this</span>.score = in.readInt();</span><br><span class="line">        <span class="built_in">this</span>.age = in.readInt();</span><br><span class="line">        <span class="built_in">this</span>.name = ((String) in.readObject());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;User&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;score=&quot;</span> + score +</span><br><span class="line">                <span class="string">&quot;, age=&quot;</span> + age +</span><br><span class="line">                <span class="string">&quot;, name=&#x27;&quot;</span> + name + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用Externalizable来进行序列化的时候，需要注意以下几点：</p>
+<ol>
+<li><code>writeExternal()</code>和<code>readExternal()</code>的写入和读取的顺序需要一致；</li>
+<li>需要提供一个默认的构造函数，否则会报错。</li>
+</ol>
+<h3 id="如何选择"><a href="#如何选择" class="headerlink" title="如何选择"></a>如何选择</h3><p>一般来说，假如没有特别的需求，可以优先选择使用实现Serializable接口，其次是选择实现Externalizable接口。这是因为：</p>
+<ol>
+<li>实现Serializable接口的类默认实现的是类中所有的属性，但是可以通过使用关键字<code>transient</code>来避免属性被序列化；</li>
+<li>实现Externalizable接口的类需要重写<code>writeExternal()</code>和<code>readExternal()</code>两个方法，确保序列化和反序列化的顺序一致；</li>
+<li>Serializable的反序列化不执行构造函数，载入的是一个对象的持久化状态。但是Externalizable反序列化的时候会先执行默认的构造函数获取到对象，再调用<code>readExternal()</code>方法来回写属性值。</li>
+</ol>
+<h2 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h2><p>反序列化的过程中就是将已经序列化的对象还原回去。之前通过使用<code>ObjectOutputStream</code>输出对象序列化到本地。那么此时要想把本地的对象还原，就需要使用到反序列化操作。下面的案例演示的是使用<code>ObjectInputStream</code>还原序列化的过程。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> data.User;</span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Demo</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">ObjectInputStream</span> <span class="variable">bis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(file));</span><br><span class="line">        <span class="type">User</span> <span class="variable">user2</span> <span class="operator">=</span> (User) bis.readObject();</span><br><span class="line">		bis.close();</span><br><span class="line">        System.out.println(user2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里需要注意，还原的<code>student</code>和<code>student2</code>不是同一个对象，因为使用<code>student == student2</code>返回的值是<code>false</code>。</p>
+<h1 id="关键字与函数"><a href="#关键字与函数" class="headerlink" title="关键字与函数"></a>关键字与函数</h1><h2 id="transient关键字"><a href="#transient关键字" class="headerlink" title="transient关键字"></a>transient关键字</h2><p>在序列化过程中，我们通过使用<code>transient</code>关键字指定那些不需要序列化的成员变量。换句话来说，凡是被<code>transient</code>修饰的变量，将不再参与序列化过程。<code>transient</code>只能修饰成员变量，不能修饰局部变量，也不能修饰方法和类。对于静态成员不管是否有<code>transient</code>修饰，都不参与序列化过程，这是因为静态的成员变量归属于类，而非对象。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> String name;</span><br></pre></td></tr></table></figure>
+
+<p>上述的约束仅限与类实现的是Serializable接口，若类实现的是Externalizable接口的话，则<code>transient</code>默认情况下会失效。这是因为实现的是Externalizable接口需要重写<code>writeObject()</code>和<code>readObject()</code>方法来手动序列化。</p>
+<h2 id="writeObject-和readObject"><a href="#writeObject-和readObject" class="headerlink" title="writeObject()和readObject()"></a>writeObject()和readObject()</h2><p>在某些场景下，我们可能需要手动序列化成员变量，那么此时就选择实现Externalizable接口，然后重写<code>writeObject()</code>和<code>readObject()</code>方法。这两个方法的定义：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">writeObject</span><span class="params">(java.io.ObjectOutputStream s)</span> <span class="keyword">throws</span> java.io.IOException</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">readObject</span><span class="params">(java.io.ObjectInputStream s)</span> <span class="keyword">throws</span> java.io.IOException, ClassNotFoundException</span><br></pre></td></tr></table></figure>
+
+<p>这是一个实现了实现Externalizable接口，重写了两个方法最简单的一个案例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> data;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.Serializable;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Student</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> score;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">transient</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Student</span><span class="params">(<span class="type">int</span> score, <span class="type">int</span> age, String name)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.score = score;</span><br><span class="line">        <span class="built_in">this</span>.age = age;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Student&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;score=&quot;</span> + score +</span><br><span class="line">                <span class="string">&quot;, age=&quot;</span> + age +</span><br><span class="line">                <span class="string">&quot;, name=&#x27;&quot;</span> + name + <span class="string">&#x27;\\&#x27;</span><span class="string">&#x27; +</span></span><br><span class="line"><span class="string">                &#x27;</span>&#125;<span class="string">&#x27;;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException &#123;</span></span><br><span class="line"><span class="string">        s.defaultWriteObject();</span></span><br><span class="line"><span class="string">        s.writeChars(this.name);</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    private void readObject(java.io.ObjectInputStream s) throws java.io.IOException, ClassNotFoundException &#123;</span></span><br><span class="line"><span class="string">        s.defaultReadObject();</span></span><br><span class="line"><span class="string">        this.name = &quot;San Zhang&quot;;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：写的顺序和读的顺序应该时刻保持一致。</p>
+</blockquote>
+<h2 id="serialVersionUID"><a href="#serialVersionUID" class="headerlink" title="serialVersionUID"></a>serialVersionUID</h2><p>在Java进行序列化过程中，我们往往会添加一个私有静态成员变量<code>serialVersionUID</code>，其目的是为了标记一个类，使其在序列化和反序列化过程中，保持类结构的稳定。其实就可以理解成：<code>serialVersionUID</code>是序列化类的版本号，只有版本号相同的类才可以进行序列化和反序列化，否则就会报出<code>SerializationFailedException</code>异常。</p>
+<p>若没有声明该变量，那么虚拟机会在运行时根据类的结构计算得到一个默认的<code>serialVersionUID</code>。因为虚拟机生成的版本号可能会在序列化和反序列化的时候不一致，因此官方强烈建议参与序列化的类应当主动的声明一个<code>serialVersionUID</code>。声明<code>serialVersionUID</code>可以自己随意写一个，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">1L</span>;</span><br></pre></td></tr></table></figure>
+
+<p>上述这种是不太稳妥的，因此官方提供了一个<em>serialver.exe</em>工具帮助开发者自动生成<code>serialVersionUID</code>。使用该工具的方法是：</p>
+<ol>
+<li><p>首先，在JDK的bin目录下找到<em>serialver.exe</em>，确保其已经被配置到环境变量中（可以通过执行<code>javac</code>检验是否生效）；</p>
+</li>
+<li><p>其次，对Java文件执行<code>javac</code>命令。例如：执行<code>javac \\Projects\\JavaProjects\\HelloWorld\\src\\data\\Student.java</code>后会在当前文件夹生成一个字节文件<code>Student.class</code>；</p>
+</li>
+<li><p>然后，使用<code>serialver -classpath \\Projects\\JavaProjects\\HelloWorld\\src data.Student</code>命令即可生成<code>serialVersionUID</code>。执行完毕后，控制台输出：</p>
+<p><em>data.Student: private static final long serialVersionUID &#x3D; 4674087742710036718L;</em></p>
+</li>
+<li><p>最后，把生成的<code>serialVersionUID</code>配置到类中即可。</p>
+</li>
+</ol>
+<blockquote>
+<p>注意：在实际操作过程中，需要把路径替换成实际的代码路径。</p>
+</blockquote>
+<h1 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h1><p>在进行反序列化过程中，有一个很神奇的现象：反序列化后，获取到的可能不是单例。举个简单的例子<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *静态内部类的单例模式</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">SingletonHolder</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Singletonsingleton= <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> Singleton <span class="title function_">getSingleton</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.singleton;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后进行序列化和反序列化操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> data.Singleton;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Demo</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">File</span> <span class="variable">file</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;Singleton.txt&quot;</span>);</span><br><span class="line">        <span class="type">ObjectOutputStream</span> <span class="variable">bos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectOutputStream</span>(<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(file));</span><br><span class="line">        <span class="type">Singleton</span> <span class="variable">singleton</span> <span class="operator">=</span> Singleton.getSingleton();</span><br><span class="line">        bos.writeObject(singleton);</span><br><span class="line">        bos.close();</span><br><span class="line"></span><br><span class="line">        <span class="type">ObjectInputStream</span> <span class="variable">bis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(file));</span><br><span class="line">        <span class="type">Singleton</span> <span class="variable">singleton1</span> <span class="operator">=</span> (Singleton) bis.readObject();</span><br><span class="line">        System.out.println(singleton1 == singleton);</span><br><span class="line">        System.out.println(singleton1 == Singleton.getSingleton());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出的结果是：</p>
+<p><em>false</em></p>
+<p><em>false</em></p>
+<p>此时说明单例模式获取到的对象并不是单例。为了解决这个问题，只需要在单例类中提供一个<code>readResolve()</code>方法。这是因为当反序列化从流中读取对象时，<code>readResolve()</code>方法会被调用，用其返回的对象代替反序列化产生的对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line">		<span class="comment">//省略其他...</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Object <span class="title function_">readResolve</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.singleton;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="序列化的原理"><a href="#序列化的原理" class="headerlink" title="序列化的原理"></a>序列化的原理</h1><p>先讨论序列化的原理<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup>，然后再讨论反序列化的原理。在序列化过程中，使用的是<code>ObjectOutputStream</code>类中的<code>writeObject</code>方法。那么，我们先从这个方法入手。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">writeObject</span><span class="params">(Object obj)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">    <span class="keyword">if</span> (enableOverride) &#123; <span class="comment">//1. 调用有参构造函数时为false，调用无参构造时为true。无参构造外部无法调用到。</span></span><br><span class="line">        writeObjectOverride(obj);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        writeObject0(obj, <span class="literal">false</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException ex) &#123;</span><br><span class="line">        <span class="keyword">if</span> (depth == <span class="number">0</span>) &#123;</span><br><span class="line">            writeFatalException(ex);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">throw</span> ex;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>判断<code>enableOverride</code>的值，该值由构造函数进行初始化，如果使用的是无参构造创建<code>ObjectOutputStream</code>对象的话，值就是true。否则，就需要传递一个<code>OutputStream</code>类型的参数来调用有参构造，这种情况下该值就是false。当执行到<code>writeObject</code>方法的时候，只有为false的时候才会调用<code>writeObject0</code>方法。很明显，在上述案例中我们在构造的时候会传递一个<code>FileOutputStream</code>的参数，因此会走到<code>writeObject0</code>方法。</p>
+<blockquote>
+<p><code>ObjectOutputStream</code>的无参构造方法是一个protected的方法，外部无法调用到。</p>
+</blockquote>
+<p>在<code>writeObject0</code>方法中，会先进行一系列的检查操作，然后走到这一块核心代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// remaining cases</span></span><br><span class="line"><span class="keyword">if</span> (obj <span class="keyword">instanceof</span> String) &#123;</span><br><span class="line">    writeString((String) obj, unshared);</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (cl.isArray()) &#123;</span><br><span class="line">    writeArray(obj, desc, unshared);</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> Enum) &#123;</span><br><span class="line">    writeEnum((Enum&lt;?&gt;) obj, desc, unshared);</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> Serializable) &#123;</span><br><span class="line">    writeOrdinaryObject(obj, desc, unshared);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (extendedDebugInfo) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">NotSerializableException</span>(</span><br><span class="line">            cl.getName() + <span class="string">&quot;\n&quot;</span> + debugInfoStack.toString());</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">NotSerializableException</span>(cl.getName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果是String、Array和枚举类型的，调用对应的方法进行序列化（这是因为这些类型默认实现了Serializable接口）。如果是Serializable类型的，调用<code>writeOrdinaryObject()</code>方法进行序列化。若都不是，则会报<code>NotSerializableException</code>异常。<code>writeOrdinaryObject()</code>方法的代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">writeOrdinaryObject</span><span class="params">(Object obj, ObjectStreamClass desc, <span class="type">boolean</span> unshared)</span> <span class="keyword">throws</span> IOException&#123;</span><br><span class="line">    <span class="comment">//省略...</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        desc.checkSerialize(); <span class="comment">//1.检查是否可以序列化</span></span><br><span class="line"></span><br><span class="line">        bout.writeByte(TC_OBJECT); <span class="comment">//2.写入类型</span></span><br><span class="line">        writeClassDesc(desc, <span class="literal">false</span>); <span class="comment">//3.写入字节信息</span></span><br><span class="line">        handles.assign(unshared ? <span class="literal">null</span> : obj);</span><br><span class="line">        <span class="keyword">if</span> (desc.isExternalizable() &amp;&amp; !desc.isProxy()) &#123;<span class="comment">//4.判断该类是否实现了Externalizable接口</span></span><br><span class="line">            writeExternalData((Externalizable) obj);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            writeSerialData(obj, desc);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (extendedDebugInfo) &#123;</span><br><span class="line">            debugInfoStack.pop();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>writeOrdinaryObject()</code>方法中会依次：</p>
+<ol>
+<li>检查是否可以序列化；</li>
+<li>写入类型（<code>TC_OBJECT</code>表示新对象）；</li>
+<li>写入字节信息；</li>
+<li>判断该类是否实现了Externalizable接口。<ul>
+<li>若实现了则调用<code>writeExternalData</code>方法；</li>
+<li>否则调用<code>writeSerialData</code>方法。</li>
+</ul>
+</li>
+</ol>
+<p>从第4步可以看出Externalizable的优先级要高于Serializable的，当一个类即实现了Externalizable又实现了Serializable，那么会优先执行Externalizable的序列化方式。</p>
+<h2 id="writeExternalData"><a href="#writeExternalData" class="headerlink" title="writeExternalData"></a>writeExternalData</h2><p>若实现了Externalizable的话，会执行到这个方法里：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">writeExternalData</span><span class="params">(Externalizable obj)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">    <span class="type">PutFieldImpl</span> <span class="variable">oldPut</span> <span class="operator">=</span> curPut;</span><br><span class="line">    curPut = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (extendedDebugInfo) &#123;</span><br><span class="line">        debugInfoStack.push(<span class="string">&quot;writeExternal data&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">SerialCallbackContext</span> <span class="variable">oldContext</span> <span class="operator">=</span> curContext;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        curContext = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (protocol == PROTOCOL_VERSION_1) &#123;</span><br><span class="line">            obj.writeExternal(<span class="built_in">this</span>); <span class="comment">//1. 调用我们序列化类中重写的方法</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            bout.setBlockDataMode(<span class="literal">true</span>);</span><br><span class="line">            obj.writeExternal(<span class="built_in">this</span>); <span class="comment">//2. 调用我们序列化类中重写的方法</span></span><br><span class="line">            bout.setBlockDataMode(<span class="literal">false</span>);</span><br><span class="line">            bout.writeByte(TC_ENDBLOCKDATA);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        curContext = oldContext;</span><br><span class="line">        <span class="keyword">if</span> (extendedDebugInfo) &#123;</span><br><span class="line">            debugInfoStack.pop();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    curPut = oldPut;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在方法中，不管怎么样都会执行<code>obj.writeExternal(this);</code>，而这个方法调用的是在序列化类中必须重写的<code>writeExternal</code>方法，最终完成序列化工作。</p>
+<h2 id="writeSerialData"><a href="#writeSerialData" class="headerlink" title="writeSerialData"></a>writeSerialData</h2><p>若实现了Serializable的话，会执行到这个方法里：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">writeSerialData</span><span class="params">(Object obj, ObjectStreamClass desc)</span></span><br><span class="line">    <span class="keyword">throws</span> IOException</span><br><span class="line">&#123;</span><br><span class="line">    ObjectStreamClass.ClassDataSlot[] slots = desc.getClassDataLayout();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; slots.length; i++) &#123;</span><br><span class="line">        <span class="type">ObjectStreamClass</span> <span class="variable">slotDesc</span> <span class="operator">=</span> slots[i].desc;</span><br><span class="line">        <span class="keyword">if</span> (slotDesc.hasWriteObjectMethod()) &#123; <span class="comment">//1.判断是否存在writeObject()方法</span></span><br><span class="line">         	<span class="comment">//省略了一些代码...</span></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                curContext = <span class="keyword">new</span> <span class="title class_">SerialCallbackContext</span>(obj, slotDesc);</span><br><span class="line">                bout.setBlockDataMode(<span class="literal">true</span>);</span><br><span class="line">                slotDesc.invokeWriteObject(obj, <span class="built_in">this</span>); <span class="comment">//2.若有，则执行该方法。</span></span><br><span class="line">                bout.setBlockDataMode(<span class="literal">false</span>);</span><br><span class="line">                bout.writeByte(TC_ENDBLOCKDATA);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//省略了一些代码...</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            defaultWriteFields(obj, slotDesc);<span class="comment">//3.若没有则执行默认的defaultWriteFields()方法。</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先，该方法会先判断序列化类中是否有<code>writeObject()</code>方法，若有则会通过反射的方式调用。否则，就会执行<code>defaultWriteFields()</code>方法，然后在<code>defaultWriteFields()</code>方法中把对象序列化到流中。</p>
+<h1 id="反序列化的原理"><a href="#反序列化的原理" class="headerlink" title="反序列化的原理"></a>反序列化的原理</h1><p>理解了序列化，再过来看反序列化就会简单很多。在反序列化过程中会通过<code>ObjectInputStream</code>类中的<code>readObject()</code>方法来完成反序列化操作。在<code>ObjectInputStream</code>类中，会执行到<code>readObject()</code>方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Object <span class="title function_">readObject</span><span class="params">(Class&lt;?&gt; type)</span></span><br><span class="line">    <span class="keyword">throws</span> IOException, ClassNotFoundException</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (enableOverride) &#123;</span><br><span class="line">        <span class="keyword">return</span> readObjectOverride(); <span class="comment">//1. 调用有参构造函数时为false，调用无参构造时为true。无参构造外部无法调用到。</span></span><br><span class="line">    &#125;</span><br><span class="line">	<span class="comment">//省略一些代码...</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> readObject0(type, <span class="literal">false</span>); <span class="comment">//2.继续完成反序列化操作。</span></span><br><span class="line">        handles.markDependency(outerHandle, passHandle);</span><br><span class="line">        <span class="type">ClassNotFoundException</span> <span class="variable">ex</span> <span class="operator">=</span> handles.lookupException(passHandle);</span><br><span class="line">        <span class="keyword">if</span> (ex != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> ex;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (depth == <span class="number">0</span>) &#123;</span><br><span class="line">            vlist.doCallbacks();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        passHandle = outerHandle;</span><br><span class="line">        <span class="keyword">if</span> (closed &amp;&amp; depth == <span class="number">0</span>) &#123;</span><br><span class="line">            clear();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>ObjectInputStream</code>的无参构造方法是一个protected的方法，外部无法调用到。</p>
+</blockquote>
+<p>与序列化一样，先判断<code>enableOverride</code>的值，该值由构造函数进行初始化，如果使用的是无参构造创建<code>ObjectInputStream</code>对象的话，值就是true。否则，就需要传递一个<code>InputputStream</code>类型的参数调用有参构造创建对象，这种情况下该值就是false。随后，会调用<code>readObject0</code>来完成反序列化操作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Object <span class="title function_">readObject0</span><span class="params">(Class&lt;?&gt; type, <span class="type">boolean</span> unshared)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">  	<span class="comment">//省略一些代码...</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">switch</span> (tc) &#123;</span><br><span class="line">            <span class="comment">//省略一些代码...</span></span><br><span class="line">            <span class="keyword">case</span> TC_STRING:</span><br><span class="line">            <span class="keyword">case</span> TC_LONGSTRING:</span><br><span class="line">                <span class="keyword">return</span> checkResolve(readString(unshared));</span><br><span class="line"></span><br><span class="line">            <span class="keyword">case</span> TC_ARRAY:</span><br><span class="line">                <span class="keyword">if</span> (type == String.class) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">ClassCastException</span>(<span class="string">&quot;Cannot cast an array to java.lang.String&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> checkResolve(readArray(unshared));</span><br><span class="line"></span><br><span class="line">            <span class="keyword">case</span> TC_ENUM:</span><br><span class="line">                <span class="keyword">if</span> (type == String.class) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">ClassCastException</span>(<span class="string">&quot;Cannot cast an enum to java.lang.String&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> checkResolve(readEnum(unshared));</span><br><span class="line"></span><br><span class="line">            <span class="keyword">case</span> TC_OBJECT: <span class="comment">//1. 序列化对象</span></span><br><span class="line">                <span class="keyword">if</span> (type == String.class) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">ClassCastException</span>(<span class="string">&quot;Cannot cast an object to java.lang.String&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> checkResolve(readOrdinaryObject(unshared));</span><br><span class="line">			<span class="comment">//省略一些代码...</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">StreamCorruptedException</span>(</span><br><span class="line">                    String.format(<span class="string">&quot;invalid type code: %02X&quot;</span>, tc));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        depth--;</span><br><span class="line">        bin.setBlockDataMode(oldMode);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>该方法提供了很多对象，诸如字符串、数组和枚举类型的反序列化操作，我们重点关注的是<code>TC_OBJECT</code>类型中会执行到的<code>readOrdinaryObject</code>方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Object <span class="title function_">readOrdinaryObject</span><span class="params">(<span class="type">boolean</span> unshared)</span></span><br><span class="line">    <span class="keyword">throws</span> IOException</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//省略一些代码...</span></span><br><span class="line">    <span class="keyword">if</span> (desc.isExternalizable()) &#123;</span><br><span class="line">        readExternalData((Externalizable) obj, desc); <span class="comment">//1.若是Externalizable执行readExternalData方法。</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        readSerialData(obj, desc);<span class="comment">//2.否则执行readSerialData方法。</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    handles.finish(passHandle);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (obj != <span class="literal">null</span> &amp;&amp;</span><br><span class="line">        handles.lookupException(passHandle) == <span class="literal">null</span> &amp;&amp;</span><br><span class="line">        desc.hasReadResolveMethod())  <span class="comment">//3.判断是否有readResolve()方法</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">Object</span> <span class="variable">rep</span> <span class="operator">=</span> desc.invokeReadResolve(obj);<span class="comment">//4.有的话就执行readResolve()方法</span></span><br><span class="line">       <span class="comment">//省略一些代码...</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先，还是一样的操作，先判断需要反序列化的类实现的是哪一种类型的接口。若是<code>Externalizable</code>的话，就执行<code>readExternalData()</code>方法，否则就执行<code>readSerialData()</code>方法。</p>
+<h2 id="readExternalData"><a href="#readExternalData" class="headerlink" title="readExternalData"></a>readExternalData</h2><p>在<code>readExternalData()</code>方法中，最终会调用到序列化类中重写的<code>readExternel()</code>方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">readExternalData</span><span class="params">(Externalizable obj, ObjectStreamClass desc)</span></span><br><span class="line">    <span class="keyword">throws</span> IOException</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">//省略一些代码...</span></span><br><span class="line">        <span class="keyword">if</span> (obj != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                obj.readExternal(<span class="built_in">this</span>); <span class="comment">//1. 调用序列化类中重写的readExternel()方法。</span></span><br><span class="line">            &#125; </span><br><span class="line">      <span class="comment">//省略一些代码...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="readSerialData"><a href="#readSerialData" class="headerlink" title="readSerialData"></a>readSerialData</h2><p>在<code>readSerialData()</code>方法中，先判断是否实现了<code>readObject()</code>方法。若实现了则调用，否则就执行<code>defaultReadFields()</code>方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">readSerialData</span><span class="params">(Object obj, ObjectStreamClass desc)</span></span><br><span class="line">        <span class="keyword">throws</span> IOException</span><br><span class="line">    &#123;</span><br><span class="line">        ObjectStreamClass.ClassDataSlot[] slots = desc.getClassDataLayout();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; slots.length; i++) &#123;</span><br><span class="line">            <span class="type">ObjectStreamClass</span> <span class="variable">slotDesc</span> <span class="operator">=</span> slots[i].desc;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (slots[i].hasData) &#123;</span><br><span class="line">                <span class="keyword">if</span> (obj == <span class="literal">null</span> || handles.lookupException(passHandle) != <span class="literal">null</span>) &#123;</span><br><span class="line">                    defaultReadFields(<span class="literal">null</span>, slotDesc); <span class="comment">// skip field values</span></span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (slotDesc.hasReadObjectMethod()) &#123;</span><br><span class="line">                    <span class="comment">//省略一些代码...</span></span><br><span class="line">                        slotDesc.invokeReadObject(obj, <span class="built_in">this</span>);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (ClassNotFoundException ex) &#123;</span><br><span class="line">                      <span class="comment">//省略一些代码...</span></span><br><span class="line">                    &#125; </span><br><span class="line">                      <span class="comment">//省略一些代码...         </span></span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    defaultReadFields(obj, slotDesc);</span><br><span class="line">                &#125;</span><br><span class="line">				<span class="comment">//省略一些代码...</span></span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考与引用"><a href="#参考与引用" class="headerlink" title="参考与引用"></a>参考与引用</h1><div id="footnotes"><hr><div id="footnotelist"><ol style="list-style:none; padding-left: 0;"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">1.</span><span style="display: inline-block; vertical-align: top;">https://www.cnblogs.com/javazhiyin/p/11841374.html.</span><a href="#fnref:1" rev="footnote"> ↩</a></li><li id="fn:2"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">2.</span><span style="display: inline-block; vertical-align: top;">https://www.zhihu.com/question/276240561.</span><a href="#fnref:2" rev="footnote"> ↩</a></li><li id="fn:3"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">3.</span><span style="display: inline-block; vertical-align: top;">https://cloud.tencent.com/developer/article/1130048.</span><a href="#fnref:3" rev="footnote"> ↩</a></li></ol></div></div>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/06/11/generics/">泛型</a>
+            
+            
+            <a class="next" rel="next" href="/2022/06/11/whats-annotation/">注解</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 万叶 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
