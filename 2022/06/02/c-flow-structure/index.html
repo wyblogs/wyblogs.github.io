@@ -15,7 +15,7 @@
 
 
 
-<title>基础（二）基本数据类型 | 万叶&#39;s Blog</title>
+<title>基础（二）代码结构 | 万叶&#39;s Blog</title>
 
 
 
@@ -188,7 +188,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">基础（二）基本数据类型</h1>
+            <h1 class="post-title">基础（二）代码结构</h1>
             
                 <div class="post-meta">
                     
@@ -213,195 +213,7 @@
         </header>
 
         <div class="post-content">
-            <h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h2><p>C语言中使用整型来存放整数类型的数字。整型可以分成短整型short、整型int、长整型long和长长整型long long。</p>
-<h3 id="取值范围"><a href="#取值范围" class="headerlink" title="取值范围"></a>取值范围</h3><table>
-<thead>
-<tr>
-<th>数据类型</th>
-<th>取值范围</th>
-<th>字节数</th>
-<th>输出格式符</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>short</td>
-<td>-32768 ~ 32767</td>
-<td>2</td>
-<td>%hd</td>
-</tr>
-<tr>
-<td>int</td>
-<td>-2147483648 ~ 2147483647</td>
-<td>4</td>
-<td>%d</td>
-</tr>
-<tr>
-<td>long</td>
-<td>-2147483648 ~ 2147483647</td>
-<td>4</td>
-<td>%ld</td>
-</tr>
-<tr>
-<td>long long</td>
-<td>-9223372036854775807 ~ 9223372036854775808</td>
-<td>8</td>
-<td>%lld</td>
-</tr>
-</tbody></table>
-<p>在定义整型的时候，需要根据数据的范围确定应该选择什么类型。若范围选小了，容易造成数据溢出。范围选大了，容易造成资源浪费。</p>
-<h3 id="无符号整型"><a href="#无符号整型" class="headerlink" title="无符号整型"></a>无符号整型</h3><p>在整型前使用关键字<code>unsigned</code>来表示一个无符号的整型的数字。默认情况下定义的整型都是有符号的，只有指明无符号，才表示无符号的整型。从数值上来说，无符号整型的取值范围要比有符号的整型要大一倍。</p>
-<table>
-<thead>
-<tr>
-<th>数据类型</th>
-<th>取值范围</th>
-<th>字节数</th>
-<th>输出格式符</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>unsigned short</td>
-<td>0 ~ 65535</td>
-<td>2</td>
-<td>%hu</td>
-</tr>
-<tr>
-<td>unsigned int</td>
-<td>0 ~ 4294967295</td>
-<td>4</td>
-<td>%u</td>
-</tr>
-<tr>
-<td>unsigned long</td>
-<td>0 ~ 4294967295</td>
-<td>4</td>
-<td>%lu</td>
-</tr>
-<tr>
-<td>unsigned long long</td>
-<td>0 ~ 1844674407370955161</td>
-<td>8</td>
-<td>%llu</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>long类型的全称应该是long int，long long类型的全称应该是long long int。</p>
-</blockquote>
-<blockquote>
-<p>C语言标准中只规定了：long类型不小于int类型长度，int类型长度不小于short类型长度。因此实际过程中的int和long类型取值范围取决于编译器。在16位编译器上，int占2个字节，long占4个，此时int的取值范围就是[-32768~32767]，而long的取值范围就是[-2147483648,2147483647]。在32位和64位的编译器上，int和long都是占4个字节，此时取值范围都是[-2147483648,2147483647]。</p>
-</blockquote>
-<h2 id="char类型"><a href="#char类型" class="headerlink" title="char类型"></a>char类型</h2><p>C语言中char类型只能存储单个字符。char占1个字节。从严格意义上来说，char类型其实本质是整型，因为char类型存储的实际上是ASCII码整数。</p>
-<p>char类型使用的是单引号定义，输出字符使用<code>%c</code>。char 变量在内存中存储的是字符对应的 ASCII 码值。如果以 <code>%c</code> 输出，会根据 ASCII 码表转换成对应的字符；如果以<code>%d</code>输出，那么还是整数。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">char</span> a = <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%c\n&quot;</span>, a);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, a);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>美国信息交换标准码（American Standard Code for Information Interchange，简称ASCII）是一套基于拉丁字母的编码，也是最通用的信息交换标准。ASCII码表的范围是0到127，所以7位比特位就足够表示全部的ASCII码表。</p>
-</blockquote>
-<h2 id="实型（浮点型）"><a href="#实型（浮点型）" class="headerlink" title="实型（浮点型）"></a>实型（浮点型）</h2><p> 实型也被称为浮点型、浮点数、小数。在C语言中，实型被分成了float单精度、double双精度和long double长双精度。在实际开发过程中，建议多使用double类型。</p>
-<table>
-<thead>
-<tr>
-<th>类型</th>
-<th>数的精度</th>
-<th>字节数</th>
-<th>输出格式</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>float</td>
-<td>6-7位的有效数字</td>
-<td>4</td>
-<td>%f</td>
-</tr>
-<tr>
-<td>double</td>
-<td>15-16位有效的数字</td>
-<td>8</td>
-<td>%lf</td>
-</tr>
-<tr>
-<td>long double</td>
-<td>占用的内存是double的两倍，但表达数据的精度和double相同</td>
-<td>16</td>
-<td>%Lf</td>
-</tr>
-</tbody></table>
-<h3 id="格式化输出"><a href="#格式化输出" class="headerlink" title="格式化输出"></a>格式化输出</h3><p>实型在输出的时候，可以格式化输出格式。语法规则是<code>%0m.nlf</code>，其中：</p>
-<ul>
-<li><p>m表示输出的数据中的整数部分加小数部分占m位；</p>
-</li>
-<li><p>n表示输出的小数点后n位。若长度小于m位，则使用<code>0</code>补齐。若长度大于m，则按照实际的位数输出，也就是m此时失效。</p>
-</li>
-</ul>
-<p>例如：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;n = %08.3f\n&quot;</span>, n);</span><br></pre></td></tr></table></figure>
-
-<p>表示的含义是：显示8位数（包含小数点）， 不足8位用0填充。并且保留3位小数。对第4位做四舍五入。</p>
-<h3 id="科学计数法"><a href="#科学计数法" class="headerlink" title="科学计数法"></a>科学计数法</h3><p>科学计数法不改变数值的大小，而是改变数值的书写形式。科学计数法采用<code>%e</code>或者<code>%E</code>来表示，若需要格式化输出科学计数法，还可以使用<code>%0m.ne</code>或者<code>%0m.nE</code>的形式，此时：</p>
-<ul>
-<li>m表示输出的整数部分加小数部分占m位；</li>
-<li>n表示输出的小数点后n位。若长度小于m位，则使用<code>0</code>补齐。若长度大于m，则按照实际的位数输出，也就是m此时失效。</li>
-</ul>
-<p>例如：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">double</span> population = <span class="number">140000000</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%012.2e\n&quot;</span>,population);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>输出的结果是：</p>
-<p><em>00001.40e+08</em></p>
-<h2 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h2><p>C语言术语强类型的语言，不同的类型之间是不允许数据进行运算的，必须保持类型一致才能进行运算。数据类型的转换有两种：隐式类型转换和显式类型转换<sup id="fnref:4"><a href="#fn:4" rel="footnote">4</a></sup>。对于隐式类型转换。其实变化的原因主要是因为计算的数值为了匹配计算精度而进行的，一般情况下都是较低精度的变量类型会转变为较高精度的变量类型。而显式类型转换则是我们主动控制了类型的精度，可以抛去我们不需要的高的精度。同时，由于指定了类型，在转换过程中不会产生歧义。</p>
-<h3 id="隐式类型转换"><a href="#隐式类型转换" class="headerlink" title="隐式类型转换"></a>隐式类型转换</h3><p>C语言是强类型语言，也就是说不同类型的数据之间是不能进行运算的。必须保持一致的类型才能进行运算。也就是说在这个不同数据类型的计算过程中，C语言自动进行了一次类型转换，使得两个变量的数据类型一致，才能进行相关的计算。这种自动的转换，也称之为隐式类型转换。下面的表格就展示了类型转换的规律，当在计算过程中，数值类型不一致的时候，就会发生自动的类型转换，转换的类型是将表格中处于下方的较低优先级的数据类型，向表格上方的较高优先级的数据类型进行转换。</p>
-<table>
-<thead>
-<tr>
-<th>级别</th>
-<th>数据类型</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>long double</td>
-</tr>
-<tr>
-<td>2</td>
-<td>double</td>
-</tr>
-<tr>
-<td>3</td>
-<td>float</td>
-</tr>
-<tr>
-<td>4</td>
-<td>unsigned long long</td>
-</tr>
-<tr>
-<td>5</td>
-<td>long long</td>
-</tr>
-<tr>
-<td>6</td>
-<td>unsigned long</td>
-</tr>
-<tr>
-<td>7</td>
-<td>long</td>
-</tr>
-<tr>
-<td>8</td>
-<td>unsigned int</td>
-</tr>
-<tr>
-<td>9</td>
-<td>int</td>
-</tr>
-<tr>
-<td>10</td>
-<td>char short int</td>
-</tr>
-</tbody></table>
-<p>根据这个表格我们就可以看出之前的转换中，int 与 float 类型进行计算，编译器会自动将 int 类型转换为 float 类型进行计算。从而使得运算在相同的数据类型间进行。</p>
-<h3 id="显式类型转换"><a href="#显式类型转换" class="headerlink" title="显式类型转换"></a>显式类型转换</h3><p>如果说隐式类型转换是编译器自动进行的类型转换，那么显式类型转换，则是我们人为的进行数据类型的转换，这里可以理解为是一种强制的类型的转换，这种转换将不再遵守上面的转换规则，而是按照我们人为的标明的类型进行转换。</p>
-<p>就是在我们需要指定类型的变量前加上数据类型，并用圆括号包裹。例如：<code>(int)a</code>， <code>(float)b</code>， <code>(long)c</code>等。</p>
-<p>C语言中，程序的运行结构有三种：顺序结构、选择结构和循环结构。</p>
-<h1 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h1><h2 id="顺序结构"><a href="#顺序结构" class="headerlink" title="顺序结构"></a>顺序结构</h2><p>顺序结构就是程序按照从上到下，不发生跳转的顺序依次执行代码。</p>
+            <h1 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h1><h2 id="顺序结构"><a href="#顺序结构" class="headerlink" title="顺序结构"></a>顺序结构</h2><p>顺序结构就是程序按照从上到下，不发生跳转的顺序依次执行代码。</p>
 <h2 id="选择结构"><a href="#选择结构" class="headerlink" title="选择结构"></a>选择结构</h2><p>选择结构有时也被称为分支结构，它依据是否满足条件，有选择的执行相应功能。常见的选择结构有两类：</p>
 <ol>
 <li>if-else语句构成单条件或者多条件选择结构；</li>

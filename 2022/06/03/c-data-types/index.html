@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="万叶">
+
+
+    <meta name="subtitle" content="力量的秘密在于专注">
+
+
+
+
+<title>基础（三）数据类型 | 万叶&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">万叶&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">万叶&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expandToc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6;    // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function () {
+            tocbot.refresh(obj_merge(tocbot_default_config, { hasInnerContainers: true }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function () {
+        tocbot.init(obj_merge(tocbot_default_config, { collapseDepth: 1 }));
+    });
+
+    function expandToc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, { collapseDepth: expanded ? 1 : DEPTH_MAX }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">基础（三）数据类型</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">万叶</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">June 3, 2022&nbsp;&nbsp;12:33:18</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/C-C/">C/C++</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>在C语言中，数据类型分成了基本类型、构造类型和指针类型，其构成了如下的关系：</p>
+<p><img src="/../assets/data.jpg" alt="data"></p>
+<h1 id="基本数据"><a href="#基本数据" class="headerlink" title="基本数据"></a>基本数据</h1><h2 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h2><p>C语言中使用整型来存放整数类型的数字。整型可以分成短整型short、整型int、长整型long和长长整型long long。</p>
+<h3 id="取值范围"><a href="#取值范围" class="headerlink" title="取值范围"></a>取值范围</h3><table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>取值范围</th>
+<th>字节数</th>
+<th>输出格式符</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>short</td>
+<td>-32768 ~ 32767</td>
+<td>2</td>
+<td>%hd</td>
+</tr>
+<tr>
+<td>int</td>
+<td>-2147483648 ~ 2147483647</td>
+<td>4</td>
+<td>%d</td>
+</tr>
+<tr>
+<td>long</td>
+<td>-2147483648 ~ 2147483647</td>
+<td>4</td>
+<td>%ld</td>
+</tr>
+<tr>
+<td>long long</td>
+<td>-9223372036854775807 ~ 9223372036854775808</td>
+<td>8</td>
+<td>%lld</td>
+</tr>
+</tbody></table>
+<p>在定义整型的时候，需要根据数据的范围确定应该选择什么类型。若范围选小了，容易造成数据溢出。范围选大了，容易造成资源浪费。</p>
+<h3 id="无符号整型"><a href="#无符号整型" class="headerlink" title="无符号整型"></a>无符号整型</h3><p>在整型前使用关键字<code>unsigned</code>来表示一个无符号的整型的数字。默认情况下定义的整型都是有符号的，只有指明无符号，才表示无符号的整型。从数值上来说，无符号整型的取值范围要比有符号的整型要大一倍。</p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>取值范围</th>
+<th>字节数</th>
+<th>输出格式符</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>unsigned short</td>
+<td>0 ~ 65535</td>
+<td>2</td>
+<td>%hu</td>
+</tr>
+<tr>
+<td>unsigned int</td>
+<td>0 ~ 4294967295</td>
+<td>4</td>
+<td>%u</td>
+</tr>
+<tr>
+<td>unsigned long</td>
+<td>0 ~ 4294967295</td>
+<td>4</td>
+<td>%lu</td>
+</tr>
+<tr>
+<td>unsigned long long</td>
+<td>0 ~ 1844674407370955161</td>
+<td>8</td>
+<td>%llu</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>long类型的全称应该是long int，long long类型的全称应该是long long int。</p>
+</blockquote>
+<blockquote>
+<p>C语言标准中只规定了：long类型不小于int类型长度，int类型长度不小于short类型长度。因此实际过程中的int和long类型取值范围取决于编译器。在16位编译器上，int占2个字节，long占4个，此时int的取值范围就是[-32768~32767]，而long的取值范围就是[-2147483648,2147483647]。在32位和64位的编译器上，int和long都是占4个字节，此时取值范围都是[-2147483648,2147483647]。</p>
+</blockquote>
+<h2 id="char类型"><a href="#char类型" class="headerlink" title="char类型"></a>char类型</h2><p>C语言中char类型只能存储单个字符。char占1个字节。从严格意义上来说，char类型其实本质是整型，因为char类型存储的实际上是ASCII码整数。</p>
+<p>char类型使用的是单引号定义，输出字符使用<code>%c</code>。char 变量在内存中存储的是字符对应的 ASCII 码值。如果以 <code>%c</code> 输出，会根据 ASCII 码表转换成对应的字符；如果以<code>%d</code>输出，那么还是整数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">char</span> a = <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%c\n&quot;</span>, a);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, a);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>美国信息交换标准码（American Standard Code for Information Interchange，简称ASCII）是一套基于拉丁字母的编码，也是最通用的信息交换标准。ASCII码表的范围是0到127，所以7位比特位就足够表示全部的ASCII码表。</p>
+</blockquote>
+<h2 id="实型（浮点型）"><a href="#实型（浮点型）" class="headerlink" title="实型（浮点型）"></a>实型（浮点型）</h2><p> 实型也被称为浮点型、浮点数、小数。在C语言中，实型被分成了float单精度、double双精度和long double长双精度。在实际开发过程中，建议多使用double类型。</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>数的精度</th>
+<th>字节数</th>
+<th>输出格式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>float</td>
+<td>6-7位的有效数字</td>
+<td>4</td>
+<td>%f</td>
+</tr>
+<tr>
+<td>double</td>
+<td>15-16位有效的数字</td>
+<td>8</td>
+<td>%lf</td>
+</tr>
+<tr>
+<td>long double</td>
+<td>占用的内存是double的两倍，但表达数据的精度和double相同</td>
+<td>16</td>
+<td>%Lf</td>
+</tr>
+</tbody></table>
+<h3 id="格式化输出"><a href="#格式化输出" class="headerlink" title="格式化输出"></a>格式化输出</h3><p>实型在输出的时候，可以格式化输出格式。语法规则是<code>%0m.nlf</code>，其中：</p>
+<ul>
+<li><p>m表示输出的数据中的整数部分加小数部分占m位；</p>
+</li>
+<li><p>n表示输出的小数点后n位。若长度小于m位，则使用<code>0</code>补齐。若长度大于m，则按照实际的位数输出，也就是m此时失效。</p>
+</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;n = %08.3f\n&quot;</span>, n);</span><br></pre></td></tr></table></figure>
+
+<p>表示的含义是：显示8位数（包含小数点）， 不足8位用0填充。并且保留3位小数。对第4位做四舍五入。</p>
+<h3 id="科学计数法"><a href="#科学计数法" class="headerlink" title="科学计数法"></a>科学计数法</h3><p>科学计数法不改变数值的大小，而是改变数值的书写形式。科学计数法采用<code>%e</code>或者<code>%E</code>来表示，若需要格式化输出科学计数法，还可以使用<code>%0m.ne</code>或者<code>%0m.nE</code>的形式，此时：</p>
+<ul>
+<li>m表示输出的整数部分加小数部分占m位；</li>
+<li>n表示输出的小数点后n位。若长度小于m位，则使用<code>0</code>补齐。若长度大于m，则按照实际的位数输出，也就是m此时失效。</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">double</span> population = <span class="number">140000000</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%012.2e\n&quot;</span>,population);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出的结果是：</p>
+<p><em>00001.40e+08</em></p>
+<h2 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h2><p>C语言术语强类型的语言，不同的类型之间是不允许数据进行运算的，必须保持类型一致才能进行运算。数据类型的转换有两种：隐式类型转换和显式类型转换<sup id="fnref:4"><a href="#fn:4" rel="footnote">4</a></sup>。对于隐式类型转换。其实变化的原因主要是因为计算的数值为了匹配计算精度而进行的，一般情况下都是较低精度的变量类型会转变为较高精度的变量类型。而显式类型转换则是我们主动控制了类型的精度，可以抛去我们不需要的高的精度。同时，由于指定了类型，在转换过程中不会产生歧义。</p>
+<h3 id="隐式类型转换"><a href="#隐式类型转换" class="headerlink" title="隐式类型转换"></a>隐式类型转换</h3><p>C语言是强类型语言，也就是说不同类型的数据之间是不能进行运算的。必须保持一致的类型才能进行运算。也就是说在这个不同数据类型的计算过程中，C语言自动进行了一次类型转换，使得两个变量的数据类型一致，才能进行相关的计算。这种自动的转换，也称之为隐式类型转换。下面的表格就展示了类型转换的规律，当在计算过程中，数值类型不一致的时候，就会发生自动的类型转换，转换的类型是将表格中处于下方的较低优先级的数据类型，向表格上方的较高优先级的数据类型进行转换。</p>
+<table>
+<thead>
+<tr>
+<th>级别</th>
+<th>数据类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>long double</td>
+</tr>
+<tr>
+<td>2</td>
+<td>double</td>
+</tr>
+<tr>
+<td>3</td>
+<td>float</td>
+</tr>
+<tr>
+<td>4</td>
+<td>unsigned long long</td>
+</tr>
+<tr>
+<td>5</td>
+<td>long long</td>
+</tr>
+<tr>
+<td>6</td>
+<td>unsigned long</td>
+</tr>
+<tr>
+<td>7</td>
+<td>long</td>
+</tr>
+<tr>
+<td>8</td>
+<td>unsigned int</td>
+</tr>
+<tr>
+<td>9</td>
+<td>int</td>
+</tr>
+<tr>
+<td>10</td>
+<td>char short int</td>
+</tr>
+</tbody></table>
+<p>根据这个表格我们就可以看出之前的转换中，int 与 float 类型进行计算，编译器会自动将 int 类型转换为 float 类型进行计算。从而使得运算在相同的数据类型间进行。</p>
+<h3 id="显式类型转换"><a href="#显式类型转换" class="headerlink" title="显式类型转换"></a>显式类型转换</h3><p>如果说隐式类型转换是编译器自动进行的类型转换，那么显式类型转换，则是我们人为的进行数据类型的转换，这里可以理解为是一种强制的类型的转换，这种转换将不再遵守上面的转换规则，而是按照我们人为的标明的类型进行转换。</p>
+<p>就是在我们需要指定类型的变量前加上数据类型，并用圆括号包裹。例如：<code>(int)a</code>， <code>(float)b</code>， <code>(long)c</code>等。</p>
+<p>C语言中，程序的运行结构有三种：顺序结构、选择结构和循环结构。</p>
+<h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><p>数组是一种数据结构，它用来存储一个固定大小的相同类型元素的顺序集合。数组访问的索引位置从0开始，最后一个元素的是数组长度N-1。数组元素的索引的个数也被称为维数，根据维数的不同，可以将数组分成一维数组、二维数组、三维数组等，二维以上的数组也称称为多维数组。C语言，一维数组的声明的初始化数组，常用的几种情况：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//第1种方式. 声明数组，指定数组大小，但是不初始化元素；</span></span><br><span class="line">    <span class="type">int</span> intArray[<span class="number">10</span>];</span><br><span class="line"></span><br><span class="line">    <span class="comment">//第2种方式. 声明数组，不指定数组大小，但是初始化元素；</span></span><br><span class="line">    <span class="type">double</span> doubleArray[] = &#123;<span class="number">1.0</span>, <span class="number">1.1</span>, <span class="number">1.2</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//第3种方式. 声明数组，指定数组大\小，同时初始化元素。</span></span><br><span class="line">    <span class="type">long</span> longArray[<span class="number">10</span>] = &#123;<span class="number">1L</span>, <span class="number">2L</span>, <span class="number">3L</span>, <span class="number">4L</span>, <span class="number">5L</span>, <span class="number">6L</span>&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第1种方式和第3种方式，若是全局数组，编译器会提供一个初始化的值，这个值为0。但是若是局部数组，则初始化的值随机。第2种方式，虽然没有指定数组大小，但是编译器会自动计算初始化值的长度，该长度就是数组的大小。</p>
+<p>二维数组的声明和初始化，常见的有如下几种：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//连续赋值</span></span><br><span class="line">    <span class="type">int</span> intArray[<span class="number">3</span>][<span class="number">4</span>] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>&#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//只给部分元素赋初值，未初始化则为0</span></span><br><span class="line">    <span class="type">long</span> longArray[<span class="number">3</span>][<span class="number">4</span>] = &#123;<span class="number">1L</span>, <span class="number">2L</span>, <span class="number">3L</span>&#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//分段赋值</span></span><br><span class="line">    <span class="type">double</span> doubleArray[<span class="number">3</span>][<span class="number">4</span>] = &#123;</span><br><span class="line">        &#123;<span class="number">1.0</span>, <span class="number">2.0</span>, <span class="number">3.0</span>, <span class="number">4.0</span>&#125;,</span><br><span class="line">        &#123;<span class="number">5.0</span>, <span class="number">6.0</span>, <span class="number">7.0</span>, <span class="number">8.0</span>&#125;,</span><br><span class="line">        &#123;<span class="number">9.0</span>, <span class="number">10.0</span>, <span class="number">11.0</span>, <span class="number">12.0</span>&#125;&#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//[]中不定义元素个数，定义时必须初始化</span></span><br><span class="line"> </span><br><span class="line">    <span class="type">float</span> floatArray[][<span class="number">4</span>] = &#123;<span class="number">1.0f</span>&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="首地址"><a href="#首地址" class="headerlink" title="首地址"></a>首地址</h2><p>数组名是一个地址常量，也是数组中首元素的地址，可以使用<code>[索引]</code>的方式来获取数组中的元素值。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> intArray[<span class="number">10</span>] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;数组名的地址:%p\n&quot;</span>, intArray);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;数组的首个元素地址:%p\n&quot;</span>, &amp;intArray[<span class="number">0</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h2><p>对于一维数组，若需要获取数组的元素个数，需要使用<code>sizeof(数组名)/sizeof(数组名[0])</code>的方式，也即数组的总字节数除以每个元素占用的字节数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> intArray[<span class="number">10</span>] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>&#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="keyword">sizeof</span>(intArray) / <span class="keyword">sizeof</span>(intArray[<span class="number">0</span>]); i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;第%d个元素的值是:%d\n&quot;</span>, i, intArray[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于多维数组，以二维数组为例，遍历的方式也是通过计算元素的个数，然后执行循环遍历操作。假设存在一个<code>a[m][n]</code>的二维数组，那么可以得知：</p>
+<table>
+<thead>
+<tr>
+<th>描述</th>
+<th>计算方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>总的字节数</td>
+<td><code>sizeof(a)</code></td>
+</tr>
+<tr>
+<td>第0个元素占用的字节数</td>
+<td><code>sizeof(a[0])</code></td>
+</tr>
+<tr>
+<td>第0行第0列占用的字节数</td>
+<td><code>sizeof(a[0][0])</code></td>
+</tr>
+<tr>
+<td>行数</td>
+<td><code>sizeof(a)/sizeof(a[0])</code></td>
+</tr>
+<tr>
+<td>列数</td>
+<td><code>sizeof(a[0])/sizeof(a[0][0])</code></td>
+</tr>
+</tbody></table>
+<p>因此，对于一个给定的二维数组，它的遍历方式是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">double</span> doubleArray[<span class="number">3</span>][<span class="number">4</span>] = &#123;</span><br><span class="line">        &#123;<span class="number">1.0</span>, <span class="number">2.0</span>, <span class="number">3.0</span>, <span class="number">4.0</span>&#125;,</span><br><span class="line">        &#123;<span class="number">5.0</span>, <span class="number">6.0</span>, <span class="number">7.0</span>, <span class="number">8.0</span>&#125;,</span><br><span class="line">        &#123;<span class="number">9.0</span>, <span class="number">10.0</span>, <span class="number">11.0</span>, <span class="number">12.0</span>&#125;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//第1种遍历方式：直接使用行列数值，直接遍历</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; <span class="number">4</span>; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;(%d,%d) = %.1f\n&quot;</span>, i, j, doubleArray[i][j]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//第2中遍历方式：通过计算获取行列数组后遍历</span></span><br><span class="line">    <span class="type">int</span> row = <span class="keyword">sizeof</span>(doubleArray) / <span class="keyword">sizeof</span>(doubleArray[<span class="number">0</span>]);</span><br><span class="line">    <span class="type">int</span> column = <span class="keyword">sizeof</span>(doubleArray[<span class="number">0</span>]) / <span class="keyword">sizeof</span>(doubleArray[<span class="number">0</span>][<span class="number">0</span>]);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; row; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; column; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;(%d,%d) = %.1f\n&quot;</span>, i, j, doubleArray[i][j]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h1><p>结构体是一种可以存放多种数据类型的集合，它可以包含基本数据类型、数组，甚至其他结构体等。结构体中的每个变量称为成员。</p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>结构体的语法形如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> 结构体名字 &#123;</span></span><br><span class="line">    定义成员变量</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>例如，需要定义一个学生的结构类型，包含姓名、年龄、学号、小组、成绩等就可以写成：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Student</span> &#123;</span></span><br><span class="line">    <span class="type">char</span> name[<span class="number">50</span>];</span><br><span class="line">    <span class="type">int</span> age;</span><br><span class="line">    <span class="type">long</span> num;</span><br><span class="line">    <span class="type">char</span> group;</span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当定义一个结构体时，系统不会理解为分配内存空间，而是当使用到结构体声明一个结构体变量的时候才会分配内存空间。结构体的定义和初始化常见的有三种方式：</p>
+<ol>
+<li>先声明结构体，然后使用的时候才定义变量；</li>
+<li>声明结构体后立即定义变量；</li>
+<li>定义匿名结构体后立即定义变量。</li>
+</ol>
+<p>也就是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//1. 先声明结构体，然后使用的时候才定义变量</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Student</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">char</span> name[<span class="number">50</span>];</span><br><span class="line">    <span class="type">int</span> age;</span><br><span class="line">    <span class="type">long</span> num;</span><br><span class="line">    <span class="type">char</span> group;</span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line">&#125; Lily, Bob;<span class="comment">//2.声明结构体后立即定义变量</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//定义匿名结构体后立即定义变量</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">char</span> name[<span class="number">50</span>];</span><br><span class="line">    <span class="type">int</span> age;</span><br><span class="line">    <span class="type">long</span> num;</span><br><span class="line">    <span class="type">char</span> group;</span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line">&#125; Emily;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//1. 先声明结构体，然后使用的时候才定义变量</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Student</span> <span class="title">Mike</span>;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>结构体的初始化操作定义的方式略有区别：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Student</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">char</span> name[<span class="number">50</span>];</span><br><span class="line">    <span class="type">int</span> age;</span><br><span class="line">    <span class="type">long</span> num;</span><br><span class="line">    <span class="type">char</span> group;</span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line">&#125; Lily = &#123;</span><br><span class="line">    <span class="comment">//按照结构的顺序初始化</span></span><br><span class="line">    <span class="string">&quot;Lily&quot;</span>, <span class="number">21</span>, <span class="number">10803</span>, <span class="string">&#x27;9&#x27;</span>, <span class="number">89.90</span>&#125;,</span><br><span class="line">  Bob = &#123;</span><br><span class="line">      <span class="comment">//按照结构的顺序初始化</span></span><br><span class="line">      <span class="string">&quot;Bob&quot;</span>, <span class="number">19</span>, <span class="number">10804</span>, <span class="string">&#x27;9&#x27;</span>, <span class="number">59.90</span>&#125;;</span><br><span class="line">;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">char</span> name[<span class="number">50</span>];</span><br><span class="line">    <span class="type">int</span> age;</span><br><span class="line">    <span class="type">long</span> num;</span><br><span class="line">    <span class="type">char</span> group;</span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line">&#125; Emily = &#123;</span><br><span class="line">    <span class="comment">//按照结构的顺序初始化</span></span><br><span class="line">    <span class="string">&quot;Emily&quot;</span>, <span class="number">20</span>, <span class="number">10802</span>, <span class="string">&#x27;9&#x27;</span>, <span class="number">99.90</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Student</span> <span class="title">Mike</span> =</span> &#123;</span><br><span class="line">        <span class="comment">//按照结构的顺序初始化</span></span><br><span class="line">        <span class="string">&quot;Mike&quot;</span>, <span class="number">18</span>, <span class="number">10801</span>, <span class="string">&#x27;9&#x27;</span>, <span class="number">100.0</span>&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="成员变量"><a href="#成员变量" class="headerlink" title="成员变量"></a>成员变量</h2><p>结构体中的成员变量的两种使用方式：如果是普通变量，可以通过点运算符<code>.</code>操作结构体成员；如果是指针变量，可以通过<code>-&gt;</code>操作成员变量。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Student</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">char</span> name[<span class="number">50</span>];</span><br><span class="line">    <span class="type">int</span> age;</span><br><span class="line">    <span class="type">long</span> num;</span><br><span class="line">    <span class="type">char</span> group;</span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//如果是普通变量，可以通过点运算符操作结构体成员</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Student</span> <span class="title">Mike</span>;</span></span><br><span class="line">    <span class="built_in">strcpy</span>(Mike.name, <span class="string">&quot;Mike&quot;</span>);</span><br><span class="line">    Mike.age = <span class="number">19</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;My name is %s and I am %d years old.\n&quot;</span>, Mike.name, Mike.age);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//如果是指针变量，可以通过 -&gt; 操作结构体成员</span></span><br><span class="line">    <span class="built_in">strcpy</span>((&amp;Mike)-&gt;name, <span class="string">&quot;Old Mike&quot;</span>);</span><br><span class="line">    (&amp;Mike)-&gt;age = <span class="number">21</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;My name is %s and I am %d years old.\n&quot;</span>, (&amp;Mike)-&gt;name, (&amp;Mike)-&gt;age);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="联合体"><a href="#联合体" class="headerlink" title="联合体"></a>联合体</h1><p>联合体也被称为共用体，是一个能够在同一个存储空间内存储不同类型数据的类型，使用关键字<code>union</code>修饰。联合体所占内存的字节数等于其最长的成员变量的倍数。也就是说，联合体使用同一块内存空间来存储不同类型的成员。联合体变量中其作用的成员是最后一次存放的成员变量，每当存入一个新的成员变量后，会把之前原有的成员变量值覆盖。联合体的变量地址和其内部的其他成员地址同属一个地址。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">union</span> <span class="title">UnionStructure</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> c;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">int</span> i;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> l;</span><br><span class="line">    <span class="type">double</span> d;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">union</span> <span class="title">UnionStructure</span> <span class="title">structure</span>;</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;char_addr = %p, int_addr = %p, long_addr = %p, double_addr = %p\n&quot;</span>,</span><br><span class="line">           &amp;(structure.c), &amp;(structure.i), &amp;(structure.l), &amp;(structure.d));</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;size of UnionStructure:%lu\n&quot;</span>, <span class="keyword">sizeof</span>(structure));</span><br><span class="line"></span><br><span class="line">    structure.i = <span class="number">12123</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;char_addr = %c, int_addr = %i, long_addr = %ld, double_addr = %lf\n&quot;</span>,</span><br><span class="line">           structure.c, structure.i, structure.l, structure.d);</span><br><span class="line"></span><br><span class="line">    structure.l = <span class="number">456789L</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;char_addr = %c, int_addr = %i, long_addr = %ld, double_addr = %lf\n&quot;</span>,</span><br><span class="line">           structure.c, structure.i, structure.l, structure.d);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">char_addr = <span class="number">0x7ffe7810a150</span>, int_addr = <span class="number">0x7ffe7810a150</span>, long_addr = <span class="number">0x7ffe7810a150</span>, double_addr = <span class="number">0x7ffe7810a150</span></span><br><span class="line">size of UnionStructure:<span class="number">8</span></span><br><span class="line">char_addr = [, int_addr = <span class="number">12123</span>, long_addr = <span class="number">140728898432859</span>, double_addr = <span class="number">0.000000</span></span><br><span class="line">char_addr = U, int_addr = <span class="number">456789</span>, long_addr = <span class="number">456789</span>, double_addr = <span class="number">0.000000</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h1><p>在C语言中，枚举其实也算是一种基本数据类型。其语法定义形如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> 枚举名 &#123;</span>元素<span class="number">1</span>, 元素<span class="number">2</span>, ...&#125;</span><br></pre></td></tr></table></figure>
+
+<p>被定义成枚举的元素的特点是：</p>
+<ol>
+<li>枚举值是常量，不可赋值；</li>
+<li>默认的枚举值从0开始，依次逐个加1。但可以初始化默认值；</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Weekday</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    Monday,</span><br><span class="line">    Tuesday,</span><br><span class="line">    Wednesday,</span><br><span class="line">    Thursday,</span><br><span class="line">    Friday = <span class="number">100</span>,</span><br><span class="line">    Saturday,</span><br><span class="line">    Sunday</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">enum</span> Weekday mon, tue, wed, thu, fri, sat, sun;</span><br><span class="line">    mon = Monday;</span><br><span class="line">    tue = Tuesday;</span><br><span class="line">    wed = Wednesday;</span><br><span class="line">    thu = Thursday;</span><br><span class="line">    fri = Friday;</span><br><span class="line">    sat = Saturday;</span><br><span class="line">    sun = Sunday;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, mon); <span class="comment">// Output: 0</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, tue); <span class="comment">// Output: 1</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, wed); <span class="comment">// Output: 2</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, thu); <span class="comment">// Output: 3</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, fri); <span class="comment">// Output: 100</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, sat); <span class="comment">// Output: 101</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, sun); <span class="comment">// Output: 102</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="typedef"><a href="#typedef" class="headerlink" title="typedef"></a>typedef</h1><p>当复合类型的名字难以记忆时，可以使用<code>typedef</code>给复合类型的类型结构取一个别名。typedef的处理阶段发生在编译阶段。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">int</span> INT;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">char</span> BYTE;</span><br><span class="line"><span class="keyword">typedef</span> BYTE T_BYTE;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">unsigned</span> <span class="type">char</span> U_BYTE;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">type</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    U_BYTE a;</span><br><span class="line">    INT b;</span><br><span class="line">    T_BYTE c;</span><br><span class="line">&#125; TYPE, *P_TYPE;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    TYPE t;</span><br><span class="line">    t.a = <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">    t.b = <span class="number">20</span>;</span><br><span class="line">    t.c = <span class="string">&#x27;c&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    P_TYPE p = &amp;t;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%c,%d,%d\n&quot;</span>, p-&gt;a, p-&gt;b, p-&gt;c);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>#define</code>是定义一个宏，发生的阶段在预编译期间。</p>
+</blockquote>
+<h1 id="sizeof"><a href="#sizeof" class="headerlink" title="sizeof"></a>sizeof</h1><p><code>sizeof</code>是c语言中的一个操作符，类似于<code>++</code>、<code>--</code>等等。<code>sizeof</code>能够告诉我们编译器为某一特定数据或者某一个类型的数据在内存中分配空间时分配的大小，大小以字节为单位。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">sizeof</span>(<span class="type">int</span>);</span><br><span class="line"><span class="keyword">sizeof</span>(a);</span><br><span class="line"><span class="keyword">sizeof</span> a;</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>sizeof</code>需要注意的地方有：</p>
+<ol>
+<li><code>sizeof</code>返回的占用空间大小是为这个变量开辟的大小，而不只是它用到的空间。和现今住房的建筑面积和实用面积的概念差不多。所以对结构体用的时候，大多情况下就得考虑字节对齐的问题了；</li>
+<li><code>sizeof</code>返回的数据结果类型是<code>unsigned int</code>；</li>
+<li>要注意数组名和指针变量的区别。通常情况下，我们总觉得数组名和指针变量差不多，但是在用<code>sizeof</code>的时候差别很大，对数组名用<code>sizeof</code>返回的是整个数组的大小，而对指针变量进行操作的时候返回的则是指针变量本身所占得空间，在32位机的条件下一般都是4。而且当数组名作为函数参数时，在函数内部，形参也就是个指针，所以不再返回数组的大小；</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. sizeof基本用法</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">test01</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> a = <span class="number">10</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;len:%d\n&quot;</span>, <span class="keyword">sizeof</span>(a));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;len:%d\n&quot;</span>, <span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;len:%d\n&quot;</span>, <span class="keyword">sizeof</span> a);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. sizeof 结果类型</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">test02</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">int</span> a = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">if</span> (a - <span class="number">11</span> &lt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;结果小于0\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;结果大于0\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> b = <span class="number">5</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">sizeof</span>(b) - <span class="number">10</span> &lt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;结果小于0\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;结果大于0\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. sizeof 碰到数组</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">TestArray</span><span class="params">(<span class="type">int</span> arr[])</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;TestArray arr size:%d\n&quot;</span>, <span class="keyword">sizeof</span>(arr));</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">test03</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> arr[] = &#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>&#125;;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;array size: %d\n&quot;</span>, <span class="keyword">sizeof</span>(arr));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//数组名在某些情况下等价于指针</span></span><br><span class="line">    <span class="type">int</span> *pArr = arr;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;arr[2]:%d\n&quot;</span>, pArr[<span class="number">2</span>]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;array size: %d\n&quot;</span>, <span class="keyword">sizeof</span>(pArr));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//数组做函数函数参数，将退化为指针,在函数内部不再返回数组大小</span></span><br><span class="line">    TestArray(arr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="指针类型"><a href="#指针类型" class="headerlink" title="指针类型"></a>指针类型</h1><p>由于指针类型较为复杂，因为单独开设一个章节来详细说明指针类型。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/06/04/c-funtion/">基础（四）函数</a>
+            
+            
+            <a class="next" rel="next" href="/2022/06/03/c-define-const/">基础（三）宏与常量</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 万叶 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
