@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="万叶">
+
+
+    <meta name="subtitle" content="力量的秘密在于专注">
+
+
+
+
+<title>基础（六）数组与字符串 | 万叶&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">万叶&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">万叶&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6;    // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function () {
+            tocbot.refresh(obj_merge(tocbot_default_config, { hasInnerContainers: true }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function () {
+        tocbot.init(obj_merge(tocbot_default_config, { collapseDepth: 1 }));
+    });
+
+    function expandToc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, { collapseDepth: expanded ? 1 : DEPTH_MAX }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">基础（六）数组与字符串</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">万叶</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">June 6, 2022&nbsp;&nbsp;12:33:18</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/C-C/">C/C++</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><p>数组是一种数据结构，它用来存储一个固定大小的相同类型元素的顺序集合。数组访问的索引位置从0开始，最后一个元素的是数组长度N-1。数组元素的索引的个数也被称为维数，根据维数的不同，可以将数组分成一维数组、二维数组、三维数组等，二维以上的数组也称称为多维数组。C语言，一维数组的声明的初始化数组，常用的几种情况：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//第1种方式. 声明数组，指定数组大小，但是不初始化元素；</span></span><br><span class="line">    <span class="type">int</span> intArray[<span class="number">10</span>];</span><br><span class="line"></span><br><span class="line">    <span class="comment">//第2种方式. 声明数组，不指定数组大小，但是初始化元素；</span></span><br><span class="line">    <span class="type">double</span> doubleArray[] = &#123;<span class="number">1.0</span>, <span class="number">1.1</span>, <span class="number">1.2</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//第3种方式. 声明数组，指定数组大\小，同时初始化元素。</span></span><br><span class="line">    <span class="type">long</span> longArray[<span class="number">10</span>] = &#123;<span class="number">1L</span>, <span class="number">2L</span>, <span class="number">3L</span>, <span class="number">4L</span>, <span class="number">5L</span>, <span class="number">6L</span>&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第1种方式和第3种方式，若是全局数组，编译器会提供一个初始化的值，这个值为0。但是若是局部数组，则初始化的值随机。第2种方式，虽然没有指定数组大小，但是编译器会自动计算初始化值的长度，该长度就是数组的大小。</p>
+<p>二维数组的声明和初始化，常见的有如下几种：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//连续赋值</span></span><br><span class="line">    <span class="type">int</span> intArray[<span class="number">3</span>][<span class="number">4</span>] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>&#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//只给部分元素赋初值，未初始化则为0</span></span><br><span class="line">    <span class="type">long</span> longArray[<span class="number">3</span>][<span class="number">4</span>] = &#123;<span class="number">1L</span>, <span class="number">2L</span>, <span class="number">3L</span>&#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//分段赋值</span></span><br><span class="line">    <span class="type">double</span> doubleArray[<span class="number">3</span>][<span class="number">4</span>] = &#123;</span><br><span class="line">        &#123;<span class="number">1.0</span>, <span class="number">2.0</span>, <span class="number">3.0</span>, <span class="number">4.0</span>&#125;,</span><br><span class="line">        &#123;<span class="number">5.0</span>, <span class="number">6.0</span>, <span class="number">7.0</span>, <span class="number">8.0</span>&#125;,</span><br><span class="line">        &#123;<span class="number">9.0</span>, <span class="number">10.0</span>, <span class="number">11.0</span>, <span class="number">12.0</span>&#125;&#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//[]中不定义元素个数，定义时必须初始化</span></span><br><span class="line"> </span><br><span class="line">    <span class="type">float</span> floatArray[][<span class="number">4</span>] = &#123;<span class="number">1.0f</span>&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="首地址"><a href="#首地址" class="headerlink" title="首地址"></a>首地址</h2><p>数组名是一个地址常量，也是数组中首元素的地址，可以使用<code>[索引]</code>的方式来获取数组中的元素值。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> intArray[<span class="number">10</span>] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;数组名的地址:%p\n&quot;</span>, intArray);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;数组的首个元素地址:%p\n&quot;</span>, &amp;intArray[<span class="number">0</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h2><p>对于一维数组，若需要获取数组的元素个数，需要使用<code>sizeof(数组名)/sizeof(数组名[0])</code>的方式，也即数组的总字节数除以每个元素占用的字节数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> intArray[<span class="number">10</span>] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>&#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="keyword">sizeof</span>(intArray) / <span class="keyword">sizeof</span>(intArray[<span class="number">0</span>]); i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;第%d个元素的值是:%d\n&quot;</span>, i, intArray[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于多维数组，以二维数组为例，遍历的方式也是通过计算元素的个数，然后执行循环遍历操作。假设存在一个<code>a[m][n]</code>的二维数组，那么可以得知：</p>
+<table>
+<thead>
+<tr>
+<th>描述</th>
+<th>计算方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>总的字节数</td>
+<td><code>sizeof(a)</code></td>
+</tr>
+<tr>
+<td>第0个元素占用的字节数</td>
+<td><code>sizeof(a[0])</code></td>
+</tr>
+<tr>
+<td>第0行第0列占用的字节数</td>
+<td><code>sizeof(a[0][0])</code></td>
+</tr>
+<tr>
+<td>行数</td>
+<td><code>sizeof(a)/sizeof(a[0])</code></td>
+</tr>
+<tr>
+<td>列数</td>
+<td><code>sizeof(a[0])/sizeof(a[0][0])</code></td>
+</tr>
+</tbody></table>
+<p>因此，对于一个给定的二维数组，它的遍历方式是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">double</span> doubleArray[<span class="number">3</span>][<span class="number">4</span>] = &#123;</span><br><span class="line">        &#123;<span class="number">1.0</span>, <span class="number">2.0</span>, <span class="number">3.0</span>, <span class="number">4.0</span>&#125;,</span><br><span class="line">        &#123;<span class="number">5.0</span>, <span class="number">6.0</span>, <span class="number">7.0</span>, <span class="number">8.0</span>&#125;,</span><br><span class="line">        &#123;<span class="number">9.0</span>, <span class="number">10.0</span>, <span class="number">11.0</span>, <span class="number">12.0</span>&#125;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//第1种遍历方式：直接使用行列数值，直接遍历</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; <span class="number">4</span>; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;(%d,%d) = %.1f\n&quot;</span>, i, j, doubleArray[i][j]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//第2中遍历方式：通过计算获取行列数组后遍历</span></span><br><span class="line">    <span class="type">int</span> row = <span class="keyword">sizeof</span>(doubleArray) / <span class="keyword">sizeof</span>(doubleArray[<span class="number">0</span>]);</span><br><span class="line">    <span class="type">int</span> column = <span class="keyword">sizeof</span>(doubleArray[<span class="number">0</span>]) / <span class="keyword">sizeof</span>(doubleArray[<span class="number">0</span>][<span class="number">0</span>]);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; row; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; column; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;(%d,%d) = %.1f\n&quot;</span>, i, j, doubleArray[i][j]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h1><p>不管是什么语言，字符串的学习都是比较重要的知识点。但是C语言中，没有像Java或者C#语言一样的<code>String</code>类型，而是通过以NUL结尾的字符数组来表示字符串。</p>
+<p>字符串的初始化可以直接使用双引号<code>&quot;&quot;</code>引用起来，也可以使用数组的初始化方式进行初始化。若使用双引号的方式初始化字符串，编译器会自动在末尾多追加一个元素NUL。因此这种方式初始化的数组比实际的数组要多1个单位长度。若使用数组的方式初始化，则需要手动在最后添加一个<code>\0</code>元素。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span>[] hello = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line"><span class="type">char</span>[] world = <span class="string">&quot;World&quot;</span>;</span><br><span class="line"><span class="type">char</span>[<span class="number">6</span>] hellos = &#123;<span class="string">&#x27;h&#x27;</span>,<span class="string">&#x27;e&#x27;</span>,<span class="string">&#x27;l&#x27;</span>,<span class="string">&#x27;l&#x27;</span>,<span class="string">&#x27;o&#x27;</span>,<span class="string">&#x27;\0&#x27;</span>&#125;;</span><br><span class="line"><span class="type">char</span>[<span class="number">6</span>] worlds = &#123;<span class="string">&#x27;w&#x27;</span>,<span class="string">&#x27;o&#x27;</span>,<span class="string">&#x27;r&#x27;</span>,<span class="string">&#x27;l&#x27;</span>,<span class="string">&#x27;d&#x27;</span>,<span class="string">&#x27;\0&#x27;</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在C语言中，NUL的转移字符对应的是<code>\0</code>。</p>
+</blockquote>
+<p>对于初学者而言会经常搞混字符数组和字符串的概念，其实搞清楚它们的区别，主要记两点即可：</p>
+<ol>
+<li>使用双引号引用的字符数组类型的，一定是字符串；</li>
+<li>数组形式初始化的字符串的末尾一定是NUL，若不是它就是一个字符数组，否则就是字符串。</li>
+</ol>
+<p>对于初学者而言，经常会搞混字符串和字符串常量。字符串是变量，字符串是常量。定义一个字符串变量可以使用：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> str1[] = &#123;<span class="string">&#x27;h&#x27;</span>, <span class="string">&#x27;i&#x27;</span>, <span class="string">&#x27;\0&#x27;</span>&#125;;</span><br><span class="line"><span class="type">char</span> str2[] = <span class="string">&quot;hi&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>定义一个字符串常量，则使用：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> *str3 = <span class="string">&quot;hi&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>等号左边的<code>*str3</code>是一个指针，存储的是字母<code>h</code>的首地址，<code>str3</code>是一个变量，但是右边由于是常量，所以右边的值是不可以改变的。也就是说，若想修改<code>str3</code>的值，则会报错：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str3[<span class="number">1</span>] = <span class="string">&#x27;H&#x27;</span>; <span class="comment">//ERROR!</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>当使用字符串作为函数参数的时候，由于每个字符自身结尾存在<code>\0</code>，因此不需要像数组那样单独再封装一个长度。</p>
+</blockquote>
+<h1 id="字符串库函数"><a href="#字符串库函数" class="headerlink" title="字符串库函数"></a>字符串库函数</h1><p>在编程过程中，经常会与字符串打交道，因此学习一些常用的字符串库函数是有必要的。</p>
+<table>
+<thead>
+<tr>
+<th>作用</th>
+<th>函数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>求字符串的长度</td>
+<td>strlen</td>
+</tr>
+<tr>
+<td>字符串查找</td>
+<td>strchr strrchr strstr</td>
+</tr>
+<tr>
+<td>字符串分割</td>
+<td>strtok</td>
+</tr>
+<tr>
+<td>复制字符串函数</td>
+<td>strcpy strncpy</td>
+</tr>
+<tr>
+<td>字符串拼接</td>
+<td>strcat strncat</td>
+</tr>
+<tr>
+<td>字符串比较</td>
+<td>strcmp strncmp</td>
+</tr>
+<tr>
+<td>字符串转换类型</td>
+<td>atoi atof atol</td>
+</tr>
+<tr>
+<td>内存操作函数</td>
+<td>memcpy memset memcmp</td>
+</tr>
+</tbody></table>
+<h2 id="长度"><a href="#长度" class="headerlink" title="长度"></a>长度</h2><p><code>strlen</code>函数用来求字符串长度。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">char</span> str[] = <span class="string">&quot;Hello World.&quot;</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%ld&quot;</span>, <span class="built_in">strlen</span>(str));<span class="comment">//output: 12</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h2><h3 id="strchar"><a href="#strchar" class="headerlink" title="strchar"></a>strchar</h3><p>查找一个字符，返回第一次查找到的结果。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">char</span> str[] = <span class="string">&quot;Hello World.&quot;</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>,<span class="built_in">strchr</span>(str, <span class="string">&#x27;l&#x27;</span>));<span class="comment">//output: llo World.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="strrchr"><a href="#strrchr" class="headerlink" title="strrchr"></a>strrchr</h3><p>查找一个字符，自右向左查找，返回第一次查找到的结果。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">char</span> str[] = <span class="string">&quot;Hello World.&quot;</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>,<span class="built_in">strrchr</span>(str, <span class="string">&#x27;l&#x27;</span>));<span class="comment">//output: ld.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="strstr"><a href="#strstr" class="headerlink" title="strstr"></a>strstr</h3><p>查找字符子串，返回第一次查找到的结果。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">char</span> str[] = <span class="string">&quot;Hello World.&quot;</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>,<span class="built_in">strstr</span>(str, <span class="string">&quot;Wo&quot;</span>));<span class="comment">//output: World.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="分割"><a href="#分割" class="headerlink" title="分割"></a>分割</h2><p><code>strtok</code>可以对字符串进行分割操作，该函数返回被分解的第一个子字符串，如果没有可检索的字符串，则返回一个空指针。第一次使用的时候第一个参数传入待分割的字符串，第二参数传入分割符号。第二次使用的时候第一个参数传入<code>NULL</code>，第二个参数传入分割字符。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">char</span> str[] = <span class="string">&quot;c@programm.com&quot;</span>;</span><br><span class="line">    <span class="type">char</span> *result = strtok(str, <span class="string">&quot;@&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (result != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>, result);</span><br><span class="line">        result = strtok(<span class="literal">NULL</span>, <span class="string">&quot;@&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<p><em>c</em><br><em>programm.com</em></p>
+<h2 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h2><h3 id="strcpy"><a href="#strcpy" class="headerlink" title="strcpy"></a>strcpy</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> *<span class="title function_">strcpy</span><span class="params">(<span class="type">char</span> *dest, <span class="type">const</span> <span class="type">char</span> *src)</span></span><br></pre></td></tr></table></figure>
+
+<p>把<code>src</code>所指向的字符串复制到<code>dest</code>。如果目标数组<code>dest</code>不够大，而源字符串的长度又太长，可能会造成缓冲溢出的情况。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">char</span> src[<span class="number">40</span>];</span><br><span class="line">    <span class="type">char</span> dest[<span class="number">100</span>];</span><br><span class="line">    <span class="built_in">strcpy</span>(dest, <span class="string">&quot;Hello World!&quot;</span>);</span><br><span class="line">    <span class="built_in">strcpy</span>(src, dest);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>, dest);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>, src);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="strncpy"><a href="#strncpy" class="headerlink" title="strncpy"></a>strncpy</h3><p>在<code>strcpy</code>的基础上，限定复制的长度。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">char</span> src[<span class="number">40</span>];</span><br><span class="line">    <span class="type">char</span> dest[<span class="number">100</span>];</span><br><span class="line">    <span class="built_in">strncpy</span>(dest, <span class="string">&quot;Hello World!&quot;</span>,<span class="number">4</span>);</span><br><span class="line">    <span class="built_in">strncpy</span>(src, dest,<span class="number">4</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>, dest);<span class="comment">//output: Hell</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>, src);<span class="comment">//output: Hell</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="拼接"><a href="#拼接" class="headerlink" title="拼接"></a>拼接</h2><h3 id="strcat"><a href="#strcat" class="headerlink" title="strcat"></a>strcat</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> *<span class="title function_">strcat</span><span class="params">(<span class="type">char</span> *dest, <span class="type">const</span> <span class="type">char</span> *src)</span></span><br></pre></td></tr></table></figure>
+
+<p>把<code>src</code>所指向的字符串追加到<code>dest</code>所指向的字符串的结尾。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">char</span> src[<span class="number">50</span>], dest[<span class="number">100</span>];</span><br><span class="line">    <span class="built_in">strcpy</span>(src, <span class="string">&quot;Hello&quot;</span>);</span><br><span class="line">    <span class="built_in">strcpy</span>(dest, <span class="string">&quot;World&quot;</span>);</span><br><span class="line">    <span class="built_in">strcat</span>(src, dest);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>, src);<span class="comment">//output: HelloWorld</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="strncat"><a href="#strncat" class="headerlink" title="strncat"></a>strncat</h3><p>在<code>strcat</code>的基础上，限定拼接的长度。</p>
+<h2 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h2><h3 id="strcmp"><a href="#strcmp" class="headerlink" title="strcmp"></a>strcmp</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,<span class="built_in">strcmp</span>(<span class="string">&quot;hello&quot;</span>, <span class="string">&quot;hello&quot;</span>));<span class="comment">//output: 0</span></span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,<span class="built_in">strcmp</span>(<span class="string">&quot;helloa&quot;</span>, <span class="string">&quot;hello&quot;</span>));<span class="comment">//output: 1</span></span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,<span class="built_in">strcmp</span>(<span class="string">&quot;hello&quot;</span>, <span class="string">&quot;helloa&quot;</span>));<span class="comment">//output: -1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>返回的结果：</p>
+<ul>
+<li>如果返回值 &lt; 0，则表示参数1小于参数2。</li>
+<li>如果返回值 &gt; 0，则表示参数1大于参数2。</li>
+<li>如果返回值 &#x3D; 0，则表示参数1等于参数2。</li>
+</ul>
+<h3 id="strncmp"><a href="#strncmp" class="headerlink" title="strncmp"></a>strncmp</h3><p>在<code>strcat</code>的基础上，限定比较的长度。</p>
+<h2 id="转换"><a href="#转换" class="headerlink" title="转换"></a>转换</h2><p>把字符串转换成int、float和long类型的函数是atoi，atof和atol。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,atoi(<span class="string">&quot;100&quot;</span>));<span class="comment">//output: 100</span></span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;%f\n&quot;</span>,atof(<span class="string">&quot;99.99&quot;</span>));<span class="comment">//output: 99.990000</span></span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;%ld\n&quot;</span>,atol(<span class="string">&quot;1000L&quot;</span>));<span class="comment">//output: 1000</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="内存操作"><a href="#内存操作" class="headerlink" title="内存操作"></a>内存操作</h2><h3 id="memcpy"><a href="#memcpy" class="headerlink" title="memcpy"></a>memcpy</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> *<span class="title function_">memcpy</span><span class="params">(<span class="type">void</span> *str1, <span class="type">const</span> <span class="type">void</span> *str2, <span class="type">size_t</span> n)</span></span><br></pre></td></tr></table></figure>
+
+<p>从存储区<code>str2</code>赋值n个字节到存储区<code>str1</code>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">char</span> src[<span class="number">50</span>] = <span class="string">&quot;HelloWorld&quot;</span>;</span><br><span class="line">    <span class="type">char</span> dest[<span class="number">50</span>];</span><br><span class="line">    <span class="built_in">memcpy</span>(dest, src, <span class="built_in">strlen</span>(src) + <span class="number">1</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>, dest);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>strcpy和memcpy的区别如下<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>：</p>
+<ol>
+<li>复制的内容不同。strcpy只能复制字符串，而memcpy可以复制任意内容，例如字符数组、整型、结构体、类等。企业中使用memcpy很平常，因为需要拷贝大量的结构体参数。memcpy通常与memset函数配合使用；</li>
+<li>复制的方法不同。strcpy不需要指定长度，它遇到被复制字符的串结束符”\0”才结束，所以容易溢出。memcpy则是根据其第3个参数决定复制的长度。因此strcpy会复制字符串的结束符“\0”，而memcpy则不会复制；</li>
+<li>用途不同。通常在复制字符串时用strcpy，而需要复制其他类型数据时则一般用memcpy。</li>
+</ol>
+<blockquote>
+<p>注意：str1和str2所指的内存空间不可重叠，可能会导致程序报错。</p>
+</blockquote>
+<h3 id="memmove"><a href="#memmove" class="headerlink" title="memmove"></a>memmove</h3><p>memmove()功能用法和memcpy()一样，区别在于：dest和src所指的内存空间重叠时，memmove()仍然能处理，不过执行效率比memcpy()低些。</p>
+<h3 id="memset"><a href="#memset" class="headerlink" title="memset"></a>memset</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> *<span class="title function_">memset</span><span class="params">(<span class="type">void</span> *str, <span class="type">int</span> c, <span class="type">size_t</span> n)</span></span><br></pre></td></tr></table></figure>
+
+<p>复制字符<code>c</code>到参数<code>str</code>所指向的字符串前n个字符。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">char</span> src[<span class="number">50</span>] = <span class="string">&quot;HelloWorld&quot;</span>;</span><br><span class="line">    <span class="built_in">memset</span>(src, <span class="string">&#x27;&amp;&#x27;</span>, <span class="number">2</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>, src);<span class="comment">//output:&amp;&amp;lloWorld</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="memcmp"><a href="#memcmp" class="headerlink" title="memcmp"></a>memcmp</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">memcmp</span><span class="params">(<span class="type">const</span> <span class="type">void</span> *str1, <span class="type">const</span> <span class="type">void</span> *str2, <span class="type">size_t</span> n)</span></span><br></pre></td></tr></table></figure>
+
+<p>把存储区<code>str1</code>和存储区<code>str2</code>的前n个字节进行比较。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, <span class="built_in">memcmp</span>(<span class="string">&quot;HelloWorld&quot;</span>, <span class="string">&quot;HelloWorld&quot;</span>, <span class="number">11</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, <span class="built_in">memcmp</span>(<span class="string">&quot;HelloWorlda&quot;</span>, <span class="string">&quot;HelloWorld&quot;</span>, <span class="number">11</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, <span class="built_in">memcmp</span>(<span class="string">&quot;HelloWorld&quot;</span>, <span class="string">&quot;HelloWorldz&quot;</span>, <span class="number">11</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>memcmp和strcmp的区别是<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup>：</p>
+<ol>
+<li><p>memcmp是比较两个存储空间的前n个字节，即使字符串已经结束，仍然要比较剩余的空间，直到比较完n个字节。</p>
+</li>
+<li><p>strcmp比较的是两个字符串，任一字符串结束，则比较结束。</p>
+</li>
+<li><p>strncmp在strcmp的基础上增加比较个数，其结束条件包括任一字符串结束和比较完n个字节。</p>
+</li>
+</ol>
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><div id="footnotes"><hr><div id="footnotelist"><ol style="list-style:none; padding-left: 0;"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">1.</span><span style="display: inline-block; vertical-align: top;">kukou. memcpy 与strcpy的区别. https://www.cnblogs.com/goul/p/10191733.html.</span><a href="#fnref:1" rev="footnote"> ↩</a></li><li id="fn:2"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">2.</span><span style="display: inline-block; vertical-align: top;">fengwang0301. C语言库函数：memcmp/strcmp和strncmp的区别. https://blog.csdn.net/u013073067/article/details/112796818.</span><a href="#fnref:2" rev="footnote"> ↩</a></li><li id="fn:3"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">3.</span><span style="display: inline-block; vertical-align: top;">嵌入式Linux开发 嵌入式Linux开发. C语言 -- 字符串详解.  https://zhuanlan.zhihu.com/p/65737134.</span><a href="#fnref:3" rev="footnote"> ↩</a></li></ol></div></div>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/06/07/c-build/">基础（七）编译过程</a>
+            
+            
+            <a class="next" rel="next" href="/2022/06/05/c-operators/">基础（五）运算符</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 万叶 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

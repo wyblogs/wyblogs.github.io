@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="万叶">
+
+
+    <meta name="subtitle" content="力量的秘密在于专注">
+
+
+
+
+<title>基础（八）文件操作 | 万叶&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">万叶&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">万叶&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6;    // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function () {
+            tocbot.refresh(obj_merge(tocbot_default_config, { hasInnerContainers: true }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function () {
+        tocbot.init(obj_merge(tocbot_default_config, { collapseDepth: 1 }));
+    });
+
+    function expandToc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, { collapseDepth: expanded ? 1 : DEPTH_MAX }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">基础（八）文件操作</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">万叶</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">June 8, 2022&nbsp;&nbsp;12:33:18</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/C-C/">C/C++</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="什么是文件"><a href="#什么是文件" class="headerlink" title="什么是文件"></a>什么是文件</h1><p>文件是操作系统管理数据的基本单位，也是程序对文件读和写的基本对象。计算机上的各种资源由操作系统管理和控制，专门负责管理设备中文件的系统称之为文件系统。文件一般指的是在外部存储介质上一系列相关数据的有序集合。<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup></p>
+<p>计算机的存储在物理上是通过二进制实现的，因此理论上所有的文件的本质都是以字节位单位进行顺序存储的二进制文件。但是从用户和操作系统使用的角度（也就是从逻辑上），根据文件的数据组织形式可以分成文本文件和二进制文件。</p>
+<ul>
+<li><p>文本文件</p>
+<p>基于字符编码的文件。把需要存储的数据当成一系列的字符组成。或是把每个字符的ASCII码值存入到文件中，或是通过UNICODE编码的形式存储字符到文件中。若是以ASCII码值存储，则每个ASCII码值占一个字节（每个字节表示一个字符）。不管怎样，文本文件也称为字符文件或字符序列文件。</p>
+</li>
+<li><p>二进制文件</p>
+<p>基于值编码的文件。把数据以二进制的形式存储到文件中，属于字节序列文件。</p>
+</li>
+</ul>
+<p>例如，存在一个数据123，把123分别当做文本文件和二进制文件存储就是：</p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>‘1’</th>
+<th>‘2’</th>
+<th>‘3’</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ASCII（十进制）</td>
+<td>49</td>
+<td>50</td>
+<td>51</td>
+</tr>
+<tr>
+<td>ASCII（二进制）</td>
+<td>0011 0001</td>
+<td>00110010</td>
+<td>00110011</td>
+</tr>
+</tbody></table>
+<p>如果按照二进制文件形式存储，则把数据 123 看成整型数，如果该系统中整型数占 4 个字节，则数据 123 二进制存储形式的 4 个字节如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0111</span> <span class="number">1011</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="文件指针"><a href="#文件指针" class="headerlink" title="文件指针"></a>文件指针</h1><p>C语言中，用一个指针变量指向一个文件，这个指针称为文件指针。文件指针的结构简要可以看成：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="type">short</span>           level;	<span class="comment">//缓冲区&quot;满&quot;或者&quot;空&quot;的程度 </span></span><br><span class="line">	<span class="type">unsigned</span>        flags;	<span class="comment">//文件状态标志 </span></span><br><span class="line">	<span class="type">char</span>            fd;		<span class="comment">//文件描述符</span></span><br><span class="line">	<span class="type">unsigned</span> <span class="type">char</span>   hold;	<span class="comment">//如无缓冲区不读取字符</span></span><br><span class="line">	<span class="type">short</span>           bsize;	<span class="comment">//缓冲区的大小</span></span><br><span class="line">	<span class="type">unsigned</span> <span class="type">char</span>   *buffer;<span class="comment">//数据缓冲区的位置 </span></span><br><span class="line">	<span class="type">unsigned</span>        ar;	 <span class="comment">//指针，当前的指向 </span></span><br><span class="line">	<span class="type">unsigned</span>        istemp;	<span class="comment">//临时文件，指示器</span></span><br><span class="line">	<span class="type">short</span>           token;	<span class="comment">//用于有效性的检查 </span></span><br><span class="line">&#125;FILE;</span><br></pre></td></tr></table></figure>
+
+<p><code>FILE</code>是系统使用<code>typedef</code>定义的有关文件信息的一个结构体，结构体中包含文件的基本元数据信息。声明文件指针结构体的头文件是在<code>#include &lt;stdio.h&gt;</code>中。在程序开发过程中，一般会声明和初始化一个文件指针，该指针指向系统中的某个文件。通过文件指针的方式，来对文件进行读、写或追加等操作。</p>
+<p>C语言中，有三个特殊的文件指针由系统默认打开，用户无需定义就可以直接使用。</p>
+<table>
+<thead>
+<tr>
+<th>文件指针</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>stdin</td>
+<td>标准输入。默认为当前终端（键盘），scanf、getchar等函数默认从此终端获取数据。</td>
+</tr>
+<tr>
+<td>stdout</td>
+<td>标准输出。默认为当前终端（屏幕），printf、puts等函数默认输出的信息到此终端。</td>
+</tr>
+<tr>
+<td>stderr</td>
+<td>标准出错。默认为当前终端（屏幕），perror等函数默认输出信息到此终端。</td>
+</tr>
+</tbody></table>
+<h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><h2 id="打开与关闭"><a href="#打开与关闭" class="headerlink" title="打开与关闭"></a>打开与关闭</h2><p>文件在使用之前需要先执行打开操作，打开后的文件需要及时关闭。打开函数的声明：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FILE * <span class="title function_">fopen</span><span class="params">(<span class="type">const</span> <span class="type">char</span> * filename, <span class="type">const</span> <span class="type">char</span> * mode)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>其中：</p>
+<ol>
+<li><p>参数<code>filename</code></p>
+<p>需要打开的文件名，可以使用绝对路径或者相对路径。</p>
+</li>
+<li><p>参数<code>mode</code></p>
+<p>文件的打开的模式。</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>含义</th>
+<th>注意</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>r</td>
+<td>只读</td>
+<td>若文件不存在，报错。</td>
+</tr>
+<tr>
+<td>w</td>
+<td>只写</td>
+<td>若文件存在则清空文件，若文件不存在，新建一个文件。</td>
+</tr>
+<tr>
+<td>a</td>
+<td>追加只写</td>
+<td>若文件存在，则位置指针移到文件末尾，在文件尾部追加写人，故该方式不删除原文件数据；若文件不存在，则打开失败。</td>
+</tr>
+<tr>
+<td>r+</td>
+<td>读写</td>
+<td>文件必须存在。在只读 r 的基础上加 ‘+’ 表示增加可写的功能。</td>
+</tr>
+<tr>
+<td>w+</td>
+<td>读写</td>
+<td>新建一个文件，先向该文件中写人数据，然后可从该文件中读取数据。</td>
+</tr>
+<tr>
+<td>a+</td>
+<td>读写</td>
+<td>在<code>a</code>模式的基础上，增加可读功能。</td>
+</tr>
+<tr>
+<td>rb</td>
+<td>二进制读</td>
+<td>以二进制模式打开文件，功能同模式<code>r</code>。</td>
+</tr>
+<tr>
+<td>wb</td>
+<td>二进制写</td>
+<td>以二进制模式打开文件，功能同模式<code>w</code>。</td>
+</tr>
+<tr>
+<td>ab</td>
+<td>二进制追加</td>
+<td>以二进制模式打开文件，功能同模式<code>a</code>。</td>
+</tr>
+<tr>
+<td>rb+</td>
+<td>二进制读写</td>
+<td>以二进制模式打开文件，功能同模式<code>r+</code>。</td>
+</tr>
+<tr>
+<td>wb+</td>
+<td>二进制读写</td>
+<td>以二进制模式打开文件，功能同模式<code>w+</code>。</td>
+</tr>
+<tr>
+<td>ab+</td>
+<td>二进制读写</td>
+<td>以二进制模式打开文件，功能同模式<code>a+</code>。</td>
+</tr>
+</tbody></table>
+<p>   说明：</p>
+<ol>
+<li><code>b</code>是二进制的意思。该模式只有在Windows下有效，在Linux下<code>r</code>和<code>rb</code>的作用相同；</li>
+<li>Unix和Linux下的所有文本文件的行结尾都是以<code>\n</code>结尾，而Windows所有的文本文件行都是以<code>\r\n</code>结尾；</li>
+<li>在Windows平台下，以文本文件的形式打开文件，不需要加<code>b</code>。当读文件的时候，系统会将所有的<code>\r\n</code>转成成<code>\n</code>。当写文件的时候，系统会将<code>\n</code>转换成<code>\r\n</code>写入。但是，当以二进制文件打开文件的时候，这条规则不成立；</li>
+<li>在Unix和Linux平台下，文本与二进制模式没有区别，<code>\r\n</code>作为字符原样输入和输出。</li>
+</ol>
+<p>关闭文件使用<code>fclose</code>方法，其声明如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">fclose</span><span class="params">(FILE * stream)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>其中参数为一个文件指针，返回值若成功则返回0，失败返回-1。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    FILE *file = <span class="literal">NULL</span>;</span><br><span class="line">    file = fopen(<span class="string">&quot;../HelloWorld.txt&quot;</span>, <span class="string">&quot;w+&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (file == <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        perror(<span class="string">&quot;Open failed.&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Open a file successfully.\n&quot;</span>);</span><br><span class="line">    fclose(file);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="文件结束标志"><a href="#文件结束标志" class="headerlink" title="文件结束标志"></a>文件结束标志</h2><p>对于文本文件而言，<code>EOF</code>表示文件的结束符 (end of file)。因为在文本文件中，数据以字符的ASCII码值的形式进行存放，ASCII码值的范围是0~127，因此不会出现-1的情况，而此时使用让<code>EOF</code>等于-1，就可以让其表示文件结束。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> EOF (-1)</span></span><br></pre></td></tr></table></figure>
+
+<p>但是当文件是二进制文件的时候，就无法使用EOF的模式判断文件的结束，而是使用<code>feof</code>函数来判断文件是否结束。当然，在设计<code>feof</code>函数的时候，若只针对二进制文件会显得比较险隘，因此该函数同样可以使用在文本文件上。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">feof</span><span class="params">(FILE * stream)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>该函数的返回值若是非0值，表示已经到文件结束。0值表示还没有到文件结尾。</p>
+<h2 id="按字符读写"><a href="#按字符读写" class="headerlink" title="按字符读写"></a>按字符读写</h2><p>按照字符的方式读或写字符到文件中可以使用<code>fgetc</code>和<code>fputc</code>函数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    FILE *file = <span class="literal">NULL</span>;</span><br><span class="line">    file = fopen(<span class="string">&quot;HelloWorld.txt&quot;</span>, <span class="string">&quot;w+&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (file == <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        perror(<span class="string">&quot;Open failed.&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> ch;</span><br><span class="line">    <span class="keyword">while</span> ((ch = fgetc(file) != EOF))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>, ch);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (feof(file))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;The file has reached the end.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fclose(file);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    FILE *file = <span class="literal">NULL</span>;</span><br><span class="line">    file = fopen(<span class="string">&quot;HelloWorld.txt&quot;</span>, <span class="string">&quot;w+&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (file == <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        perror(<span class="string">&quot;Open failed.&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> ch = <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">26</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        fputc(ch, file);</span><br><span class="line">        ch++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fclose(file);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="按行读写"><a href="#按行读写" class="headerlink" title="按行读写"></a>按行读写</h2><p>按照行的方式读或写字符到文件中可以使用<code>fgets</code>和<code>fputs</code>函数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    FILE *file = <span class="literal">NULL</span>;</span><br><span class="line">    file = fopen(<span class="string">&quot;HelloWorld.txt&quot;</span>, <span class="string">&quot;w+&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (file == <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        perror(<span class="string">&quot;Open failed.&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> *paras[] = &#123;</span><br><span class="line">        <span class="string">&quot;Hello&quot;</span>,</span><br><span class="line">        <span class="string">&quot;World&quot;</span>,</span><br><span class="line">        <span class="string">&quot;C&quot;</span>,</span><br><span class="line">        <span class="string">&quot;C++&quot;</span>&#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">fputs</span>(paras[i], file);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fclose(file);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    FILE *file = <span class="literal">NULL</span>;</span><br><span class="line">    file = fopen(<span class="string">&quot;HelloWorld.txt&quot;</span>, <span class="string">&quot;r&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (file == <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        perror(<span class="string">&quot;Open failed.&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> buff[<span class="number">100</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="keyword">while</span> (!feof(file))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">char</span> *p = fgets(buff, <span class="keyword">sizeof</span>(buff), file);</span><br><span class="line">        <span class="keyword">if</span> (p != <span class="literal">NULL</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;buff = %s&quot;</span>, buff);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fclose(file);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="按格式化读写"><a href="#按格式化读写" class="headerlink" title="按格式化读写"></a>按格式化读写</h2><p>按照格式的方式对文件进行读取和写入可以使用<code>fprintf</code>和<code>fscanf</code>函数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    FILE *file = <span class="literal">NULL</span>;</span><br><span class="line">    file = fopen(<span class="string">&quot;HelloWorld.txt&quot;</span>, <span class="string">&quot;w&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (file == <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        perror(<span class="string">&quot;Open failed.&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">fprintf</span>(file, <span class="string">&quot;I am %d years old&quot;</span>, <span class="string">&quot;Kiki&quot;</span>, <span class="number">12</span>);</span><br><span class="line"></span><br><span class="line">    fclose(file);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    FILE *file = <span class="literal">NULL</span>;</span><br><span class="line">    file = fopen(<span class="string">&quot;HelloWorld.txt&quot;</span>, <span class="string">&quot;r&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (file == <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        perror(<span class="string">&quot;Open failed.&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">fprintf</span>(file, <span class="string">&quot;I am %d years old.&quot;</span>, <span class="number">12</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> age = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">fscanf</span>(file, <span class="string">&quot;I am %d years old.&quot;</span>, &amp;age);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;My age is %d.\n&quot;</span>, age);</span><br><span class="line"></span><br><span class="line">    fclose(file);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="按块读写"><a href="#按块读写" class="headerlink" title="按块读写"></a>按块读写</h2><p>使用<code>fread</code>和<code>fwrite</code>函数可以按块进行读写操作。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Student</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">char</span> name[<span class="number">50</span>];</span><br><span class="line">    <span class="type">int</span> id;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    FILE *file = <span class="literal">NULL</span>;</span><br><span class="line">    file = fopen(<span class="string">&quot;HelloWorld.txt&quot;</span>, <span class="string">&quot;w&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (file == <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        perror(<span class="string">&quot;Open failed.&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Student</span> <span class="title">students</span>[3];</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">sprintf</span>(students[i].name, <span class="string">&quot;stu#%d%d%d&quot;</span>, i, i, i);</span><br><span class="line">        students[i].id = i + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fwrite(students, <span class="keyword">sizeof</span>(<span class="keyword">struct</span> Student), <span class="number">3</span>, file);</span><br><span class="line"></span><br><span class="line">    fclose(file);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Student</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">char</span> name[<span class="number">50</span>];</span><br><span class="line">    <span class="type">int</span> id;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    FILE *file = <span class="literal">NULL</span>;</span><br><span class="line">    file = fopen(<span class="string">&quot;HelloWorld.txt&quot;</span>, <span class="string">&quot;r&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (file == <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        perror(<span class="string">&quot;Open failed.&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Student</span> <span class="title">students</span>[3];</span></span><br><span class="line">    </span><br><span class="line">    fread(students, <span class="keyword">sizeof</span>(<span class="keyword">struct</span> Student), <span class="number">3</span>, file);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;My name is %s and my id is %d.\n&quot;</span>, students[i].name, students[i].id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fclose(file);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="随机读写"><a href="#随机读写" class="headerlink" title="随机读写"></a>随机读写</h2><p>文件的随机读写常用的三个函数是：</p>
+<ol>
+<li><p>fseek</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">fseek</span><span class="params">(FILE *stream, <span class="type">long</span> offset, <span class="type">int</span> whence)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>该函数的功能是移动文件流（文件光标）的读写位置，成功返回0，失败返回-1。参数<code>stream</code> 是一个需要操作的文件指针。参数<code>offset</code>是根据<code>whence</code>为参考坐标的偏移量。<code>offset</code>的值为正，则相对于<code>whence</code>右移动。<code>offset</code>的值为负，则相对于<code>whence</code>左移动。若向前移动的字节数超过了文件开头则出错，若向后移动超过了文件末尾，再次写入时会增大文件尺寸。</p>
+<p><code>Whence</code>的取值：</p>
+<ul>
+<li>SEEK_SET：从文件开头移动offset个字节</li>
+<li>SEEK_CUR：从当前位置移动offset个字节</li>
+<li>SEEK_END：从文件末尾移动offset个字节</li>
+</ul>
+</li>
+<li><p>ftell</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">long</span> <span class="title function_">ftell</span><span class="params">(FILE *stream)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>该函数的功能是获取文件流（文件光标）的读写位置，成功返回当前（文件光标）的读写位置，失败返回-1。</p>
+</li>
+<li><p>rewind</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">rewind</span><span class="params">(FILE *stream)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>该函数的功能是把文件流（文件光标）的读写位置移动到文件开头。</p>
+</li>
+</ol>
+<p>文件随时读写的一个例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Student</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">char</span> name[<span class="number">50</span>];</span><br><span class="line">    <span class="type">int</span> id;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    FILE *file = <span class="literal">NULL</span>;</span><br><span class="line">    file = fopen(<span class="string">&quot;HelloWorld.txt&quot;</span>, <span class="string">&quot;r&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (file == <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        perror(<span class="string">&quot;Open failed.&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Student</span> <span class="title">students</span>[3];</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//...假设已经有3个对象被写入到文件中</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//跳过前2个元素</span></span><br><span class="line">    fseek(file, <span class="number">2</span> * <span class="keyword">sizeof</span>(<span class="keyword">struct</span> Student), SEEK_SET);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//直接访问第3个元素</span></span><br><span class="line">    fread(students, <span class="keyword">sizeof</span>(<span class="keyword">struct</span> Student) * <span class="number">1</span>, <span class="number">1</span>, file);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;My name is %s and my id is %d.\n&quot;</span>, students[<span class="number">0</span>].name, students[<span class="number">0</span>].id);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//在把光标移动到文件开头</span></span><br><span class="line">    rewind(file); <span class="comment">//等同于fseek(file,0,SEEK_SET);</span></span><br><span class="line"></span><br><span class="line">    fread(students,<span class="keyword">sizeof</span>(<span class="keyword">struct</span> Student) * <span class="number">3</span>, <span class="number">3</span>,file);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;My name is %s and my id is %d.\n&quot;</span>, students[i].name, students[i].id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fclose(file);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="文件状态"><a href="#文件状态" class="headerlink" title="文件状态"></a>文件状态</h1><h2 id="获取文件状态"><a href="#获取文件状态" class="headerlink" title="获取文件状态"></a>获取文件状态</h2><p>想要获取文件的状态，可以借助结构体<code>stat</code>，该结构的结构如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">stat</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">dev_t</span> st_dev;             <span class="comment">//文件的设备编号</span></span><br><span class="line">    <span class="type">ino_t</span> st_ino;             <span class="comment">//节点</span></span><br><span class="line">    <span class="type">mode_t</span> st_mode;           <span class="comment">//文件的类型和存取的权限</span></span><br><span class="line">    <span class="type">nlink_t</span> st_nlink;         <span class="comment">//连到该文件的硬连接数目，刚建立的文件值为1</span></span><br><span class="line">    <span class="type">uid_t</span> st_uid;             <span class="comment">//用户ID</span></span><br><span class="line">    <span class="type">gid_t</span> st_gid;             <span class="comment">//组ID</span></span><br><span class="line">    <span class="type">dev_t</span> st_rdev;            <span class="comment">//(设备类型)若此文件为设备文件，则为其设备编号</span></span><br><span class="line">    <span class="type">off_t</span> st_size;            <span class="comment">//文件字节数(文件大小)</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> st_blksize; <span class="comment">//块大小(文件系统的I/O 缓冲区大小)</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> st_blocks;  <span class="comment">//块数</span></span><br><span class="line">    <span class="type">time_t</span> st_atime;          <span class="comment">//最后一次访问时间</span></span><br><span class="line">    <span class="type">time_t</span> st_mtime;          <span class="comment">//最后一次修改时间</span></span><br><span class="line">    <span class="type">time_t</span> st_ctime;          <span class="comment">//最后一次改变时间(指属性)</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>以获取文件的大小为例，使用的时候只需要提供文件的路径即可：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/stat.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">stat</span> <span class="title">st</span>;</span></span><br><span class="line">    stat(<span class="string">&quot;HelloWorld.txt&quot;</span>, &amp;st);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%ld&quot;</span>, st.st_size);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h2><p>删除文件使用的是<code>remove</code>函数，其声明如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">remove</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *pathname)</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="重命名文件"><a href="#重命名文件" class="headerlink" title="重命名文件"></a>重命名文件</h2><p>重命名文件使用的是<code>rename</code>函数，其声明如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">rename</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *oldpath, <span class="type">const</span> <span class="type">char</span> *newpath)</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="文件缓冲"><a href="#文件缓冲" class="headerlink" title="文件缓冲"></a>文件缓冲</h1><p>所谓缓冲文件系统是指系统自动地在内存区为程序中每一个正在使用的文件开辟一个文件缓冲区从内存向磁盘输出数据必须先送到内存中的缓冲区，装满缓冲区后才一起送到磁盘去。如果从磁盘向计算机读入数据，则一次从磁盘文件将一批数据输入到内存缓冲区（充满缓冲区），然后再从缓冲区逐个地将数据送到程序数据区（给程序变量） 。</p>
+<p><img src="/assets/images/file-cache.png" alt="file-cache"></p>
+<h1 id="参考与引用"><a href="#参考与引用" class="headerlink" title="参考与引用"></a>参考与引用</h1><div id="footnotes"><hr><div id="footnotelist"><ol style="list-style:none; padding-left: 0;"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">1.</span><span style="display: inline-block; vertical-align: top;">c语言中文网. C语言文件操作完全攻略[EB/OL]. [2022-05-17]. http://c.biancheng.net/c/file/.</span><a href="#fnref:1" rev="footnote"> ↩</a></li></ol></div></div>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/06/10/c-memory-control/">基础（十）作用域与内存四区</a>
+            
+            
+            <a class="next" rel="next" href="/2022/06/07/c-build/">基础（七）编译过程</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 万叶 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

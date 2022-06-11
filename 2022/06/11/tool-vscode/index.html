@@ -15,7 +15,7 @@
 
 
 
-<title>下载Android AOSP源码 | 万叶&#39;s Blog</title>
+<title>VS Code使用教程 | 万叶&#39;s Blog</title>
 
 
 
@@ -188,7 +188,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">下载Android AOSP源码</h1>
+            <h1 class="post-title">VS Code使用教程</h1>
             
                 <div class="post-meta">
                     
@@ -197,14 +197,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">June 11, 2022&nbsp;&nbsp;11:40:18</a>
+                        Date: <a href="#">June 11, 2022&nbsp;&nbsp;12:33:18</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/Android/">Android</a>
+                                <a href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
                             
                         </span>
                     
@@ -213,24 +213,28 @@
         </header>
 
         <div class="post-content">
-            <h1 id="下载AOSP源码"><a href="#下载AOSP源码" class="headerlink" title="下载AOSP源码"></a>下载AOSP源码</h1><p>以Ubuntu 20.04.4 LTS环境，下载android-12.1.0_r2为例。</p>
+            <h1 id="Visual-Studio-Code"><a href="#Visual-Studio-Code" class="headerlink" title="Visual Studio Code"></a>Visual Studio Code</h1><p>编写C语言的程序的工具有很多，我们把提供一整套完整的开发流程的工具称为集成开发环境（Integrated Development Environment，简称IDE）。笔者学习C语言的开发决定使用微软的Visual Studio Code（也称为VS Code）。</p>
+<p>VS Code是微软在2015年4月30日Build开发者大会上正式发布的一款针对Web和云应用的跨平台源代码编辑器，内置支持JavaScript、TypeScript和Node.js等常见的编程语言。由于VS Code具有良好的扩展性，可以编写插件集成到软件中，因此扩展后理论上可以支持任何的语言编写、调试和开发。截止2019年9月份，VS Code已经支持了37种语言：F#、HandleBars、Markdown、Python、Java、PHP、Haxe、Ruby、Sass、Rust、PowerShell、Groovy、R、Makefile、HTML、JSON、TypeScript、Batch、Visual  Basic、Swift、Less、SQL、XML、Lua、Go、C++、Ini、Razor、Clojure、C#、Objective-C、CSS、JavaScript、Perl、Coffee Script、Dockerfile、Dart<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>。</p>
+<h1 id="软件安装"><a href="#软件安装" class="headerlink" title="软件安装"></a>软件安装</h1><p>可以直接访问<a target="_blank" rel="noopener" href="https://code.visualstudio.com/">官方</a>，然后下载对应的版本进行安装。</p>
+<h1 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h1><p>下载安装完成后，运行C语言需要安装一些插件。在左边的插件市场（Ctrl + Shift + X）输入<code>C/C++</code>，安装排名最高的插件即可。安装完成后，再安装一个<code>Code Runner</code>方便运行和调试C语言用。</p>
+<blockquote>
+<p>如果你的英语不好，还可以在插件市场中搜索中文插件。</p>
+</blockquote>
+<h1 id="运行Hello-World"><a href="#运行Hello-World" class="headerlink" title="运行Hello World"></a>运行Hello World</h1><p>安装完成后，就可以使用软件了。</p>
 <ol>
-<li><p><code>mkdir android-12.1.0-r2</code></p>
-<p>创建一个文件夹，用于存放下载的代码；</p>
+<li><p>创建工作区</p>
+<p>首先，创建一个文件夹，然后使用VS Code打开该文件夹，之后选择File &gt; Save Workspace as &gt; 选择刚刚创建的文件夹。</p>
 </li>
-<li><p><code>curl https://storage.googleapis.com/git-repo-downloads/repo &gt; ~/bin/repo</code></p>
-<p>下载repo脚本，保存到<code>~/bin/reop</code>文件夹；</p>
+<li><p>新建文件</p>
+<p>File  &gt; New File &gt; <em>Select a language</em> &gt; 选择C语言 &gt; 修改名字，并保存。</p>
 </li>
-<li><p><code>chmod a+x ~/bin/repo</code></p>
-<p>修改文件夹的权限；</p>
-</li>
-<li><p>可以访问外网就使用<code>repo init -u https://android.googlesource.com/platform/manifest -b android-12.1.0_r2</code>，否则就使用<code>repo init -u https://mirrors.tuna.tsinghua.edu.cn/git/AOSP/platform/manifest -b android-12.1.0_r2</code>。</p>
-<p><code>-b</code>后面跟的参数是版本，可以通过<a target="_blank" rel="noopener" href="https://source.android.com/setup/start/build-numbers#source-code-tags-and-builds">Codenames, Tags, and Build Numbers</a>查询版本号。例如需要下载<code>android-11.0.0_r48</code>的代码，使用的命令就是<code>repo init -u https://android.googlesource.com/platform/manifest -b android-11.0.0_r48</code>或者<code>repo init -u https://mirrors.tuna.tsinghua.edu.cn/git/AOSP/platform/manifest -b android-11.0.0_r48</code>。</p>
-</li>
-<li><p>执行<code>repo sync -c</code>同步代码，等待同步完成大概需要4~5小时。</p>
+<li><p>运行文件</p>
+<p>在文件中输入能够运行的Hello World代码，然后点击右上角的三角形运行。</p>
 </li>
 </ol>
-<h1 id="参考与引用"><a href="#参考与引用" class="headerlink" title="参考与引用"></a>参考与引用</h1><div id="footnotes"><hr><div id="footnotelist"><ol style="list-style:none; padding-left: 0;"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">1.</span><span style="display: inline-block; vertical-align: top;">https://source.android.com/setup/build/downloading.</span><a href="#fnref:1" rev="footnote"> ↩</a></li></ol></div></div>
+<h1 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h1><p>通过官网可以获取VS Code常用的快捷键：</p>
+<p><a target="_blank" rel="noopener" href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf">https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf</a></p>
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><div id="footnotes"><hr><div id="footnotelist"><ol style="list-style:none; padding-left: 0;"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">1.</span><span style="display: inline-block; vertical-align: top;">https://baike.baidu.com/item/visual%20studio%20code/17514281.</span><a href="#fnref:1" rev="footnote"> ↩</a></li></ol></div></div>
         </div>
 
         
@@ -262,10 +266,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2022/06/11/tool-vscode/">VS Code使用教程</a>
+                <a class="prev" rel="prev" href="/2022/06/11/c-pointer/">基础（十一）指针</a>
             
             
-            <a class="next" rel="next" href="/2022/06/11/generics/">Java基础进阶（三）泛型</a>
+            <a class="next" rel="next" href="/2022/06/11/download-aosp/">下载Android AOSP源码</a>
             
         </section>
 

@@ -15,7 +15,7 @@
 
 
 
-<title>下载Android AOSP源码 | 万叶&#39;s Blog</title>
+<title>基础（三）宏与常量 | 万叶&#39;s Blog</title>
 
 
 
@@ -188,7 +188,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">下载Android AOSP源码</h1>
+            <h1 class="post-title">基础（三）宏与常量</h1>
             
                 <div class="post-meta">
                     
@@ -197,14 +197,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">June 11, 2022&nbsp;&nbsp;11:40:18</a>
+                        Date: <a href="#">June 3, 2022&nbsp;&nbsp;12:33:18</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/Android/">Android</a>
+                                <a href="/categories/C-C/">C/C++</a>
                             
                         </span>
                     
@@ -213,24 +213,51 @@
         </header>
 
         <div class="post-content">
-            <h1 id="下载AOSP源码"><a href="#下载AOSP源码" class="headerlink" title="下载AOSP源码"></a>下载AOSP源码</h1><p>以Ubuntu 20.04.4 LTS环境，下载android-12.1.0_r2为例。</p>
+            <h1 id="宏定义"><a href="#宏定义" class="headerlink" title="宏定义"></a>宏定义</h1><p>在C语言中，宏定义分两种：无参数宏定义和有参数宏定义。宏定义是常见的预处理指令，使用“标识符”来表示“替换列表”中的内容，标识符称为宏名。在编译过程中的预处理阶段，编译器会把源代码中的宏定义替换成列表中内容。</p>
+<h2 id="无参宏定义"><a href="#无参宏定义" class="headerlink" title="无参宏定义"></a>无参宏定义</h2><p>无参宏定义的格式为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> 标识符 替换列表</span></span><br></pre></td></tr></table></figure>
+
+<p>替换列表可以是数值常量、字符常量、字符串常量等。例如，需要宏定义一个圆周率π，可以写成：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> PI 3.1415926</span></span><br></pre></td></tr></table></figure>
+
+<p>使用宏定义的时候，需要注意<code>#define</code>最好另起一行写，最后不需要添加分号<code>;</code>，若添加分号的话，虽然不会提示错误，但是在预处理阶段的时候会造成错误。例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> SIZE 10;</span></span><br></pre></td></tr></table></figure>
+
+<p> 在预处理的时候假如存在<code>int a[SIZE];</code>，那么替换后就变成了：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a[<span class="number">10</span>;];</span><br></pre></td></tr></table></figure>
+
+<p>很明显多了一个分号，此时就会造成代码运行的过程中出现错误。</p>
+<h2 id="有参宏定义"><a href="#有参宏定义" class="headerlink" title="有参宏定义"></a>有参宏定义</h2><p>有参宏定义的格式为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> 标识符(参数1,参数2,参数3,...)替换列表</span></span><br></pre></td></tr></table></figure>
+
+<p>例如需要使用有参的宏定义来比较两个参数最大的值，就是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> MAX(a,b) ((a)&gt;(b)?(a):(b))</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="常量定义"><a href="#常量定义" class="headerlink" title="常量定义"></a>常量定义</h1><p>常量有时候也被称为字面量。常量在程序执行期间不会改变，因此常量也可以称为只读变量。常量可以是C语言中任何基本数据类型。在C语言中，可以使用<code>const</code>来定义一个常量。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> var = <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="宏定义和const的区别"><a href="#宏定义和const的区别" class="headerlink" title="宏定义和const的区别"></a>宏定义和const的区别</h1><p>宏定义和使用const的两者区别是：</p>
 <ol>
-<li><p><code>mkdir android-12.1.0-r2</code></p>
-<p>创建一个文件夹，用于存放下载的代码；</p>
-</li>
-<li><p><code>curl https://storage.googleapis.com/git-repo-downloads/repo &gt; ~/bin/repo</code></p>
-<p>下载repo脚本，保存到<code>~/bin/reop</code>文件夹；</p>
-</li>
-<li><p><code>chmod a+x ~/bin/repo</code></p>
-<p>修改文件夹的权限；</p>
-</li>
-<li><p>可以访问外网就使用<code>repo init -u https://android.googlesource.com/platform/manifest -b android-12.1.0_r2</code>，否则就使用<code>repo init -u https://mirrors.tuna.tsinghua.edu.cn/git/AOSP/platform/manifest -b android-12.1.0_r2</code>。</p>
-<p><code>-b</code>后面跟的参数是版本，可以通过<a target="_blank" rel="noopener" href="https://source.android.com/setup/start/build-numbers#source-code-tags-and-builds">Codenames, Tags, and Build Numbers</a>查询版本号。例如需要下载<code>android-11.0.0_r48</code>的代码，使用的命令就是<code>repo init -u https://android.googlesource.com/platform/manifest -b android-11.0.0_r48</code>或者<code>repo init -u https://mirrors.tuna.tsinghua.edu.cn/git/AOSP/platform/manifest -b android-11.0.0_r48</code>。</p>
-</li>
-<li><p>执行<code>repo sync -c</code>同步代码，等待同步完成大概需要4~5小时。</p>
-</li>
+<li>编译器处理方式不同。宏定义是在预处理阶段展开，const常量是在编译运行阶段使用；</li>
+<li>类型和安全检查不同。#define 宏没有类型，不做任何类型检查，仅仅是展开。const 常量有具体的类型，在编译阶段会执行类型检查；</li>
+<li>存储方式不同。#define 宏仅仅是展开，有多少地方使用，就展开多少次，不会分配内存。宏定义不分配内存，变量定义分配内存。const定义常量会分配内存。</li>
 </ol>
-<h1 id="参考与引用"><a href="#参考与引用" class="headerlink" title="参考与引用"></a>参考与引用</h1><div id="footnotes"><hr><div id="footnotelist"><ol style="list-style:none; padding-left: 0;"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">1.</span><span style="display: inline-block; vertical-align: top;">https://source.android.com/setup/build/downloading.</span><a href="#fnref:1" rev="footnote"> ↩</a></li></ol></div></div>
+<h1 id="变量的定义与声明"><a href="#变量的定义与声明" class="headerlink" title="变量的定义与声明"></a>变量的定义与声明</h1><p>变量的定义语法是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">类型名 变量名 = 变量值</span><br></pre></td></tr></table></figure>
+
+<p>例如需要定义一个整型的变量：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a = <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+<p>在C语言中，变量的定义和变量声明是被区别开的。变量的定义用于为变量分配存储空间，还为变量指定初始值。程序中，变量有且仅有一个定义。变量声明用于向程序表明变量的类型和名字。变量的定义本身就属于变量的声明，但是使用了<code>extern</code>的声明不是变量的定义。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="type">int</span> a; <span class="comment">//不是定义，是声明。</span></span><br><span class="line"><span class="type">int</span> b; <span class="comment">//是定义，也是声明，未初始化。</span></span><br><span class="line"><span class="type">int</span> c = <span class="number">10</span>;  <span class="comment">//是定义，也是声明，且被初始化。</span></span><br></pre></td></tr></table></figure>
+
+<p>总结几点<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup>：</p>
+<ol>
+<li>带有初始化值的，不管是否有<code>extern</code>关键字，都被认为是定义；</li>
+<li>凡是带有<code>&#123;&#125;</code>的函数一定是定义，否则就是声明；</li>
+<li>除非有<code>extern</code>关键字，否则都是变量的定义。</li>
+</ol>
+
         </div>
 
         
@@ -262,10 +289,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2022/06/11/tool-vscode/">VS Code使用教程</a>
+                <a class="prev" rel="prev" href="/2022/06/04/c-funtion/">基础（四）函数</a>
             
             
-            <a class="next" rel="next" href="/2022/06/11/generics/">Java基础进阶（三）泛型</a>
+            <a class="next" rel="next" href="/2022/06/02/c-basics/">基础（二）基本数据类型</a>
             
         </section>
 

@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="万叶">
+
+
+    <meta name="subtitle" content="力量的秘密在于专注">
+
+
+
+
+<title>基础（五）运算符 | 万叶&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">万叶&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">万叶&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6;    // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function () {
+            tocbot.refresh(obj_merge(tocbot_default_config, { hasInnerContainers: true }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function () {
+        tocbot.init(obj_merge(tocbot_default_config, { collapseDepth: 1 }));
+    });
+
+    function expandToc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, { collapseDepth: expanded ? 1 : DEPTH_MAX }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">基础（五）运算符</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">万叶</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">June 5, 2022&nbsp;&nbsp;12:33:18</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/C-C/">C/C++</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>C语言中的常见的运算符有算术运算符、赋值运算符、比较运算符、逻辑运算符、位运算符、<code>sizeof</code>运算符和三目运算符。</p>
+<h1 id="算术运算符"><a href="#算术运算符" class="headerlink" title="算术运算符"></a>算术运算符</h1><p>用于处理常见的算术运算，例如加减乘除等。</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>术语</th>
+<th>示例</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>+</td>
+<td>正号</td>
+<td>+3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>-</td>
+<td>负号</td>
+<td>-3</td>
+<td>-3</td>
+</tr>
+<tr>
+<td>+</td>
+<td>加</td>
+<td>10 + 5</td>
+<td>15</td>
+</tr>
+<tr>
+<td>-</td>
+<td>减</td>
+<td>10 - 5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>*</td>
+<td>乘</td>
+<td>10 * 5</td>
+<td>50</td>
+</tr>
+<tr>
+<td>&#x2F;</td>
+<td>除</td>
+<td>10 &#x2F; 5</td>
+<td>2</td>
+</tr>
+<tr>
+<td>%</td>
+<td>取模(取余)</td>
+<td>10 % 3</td>
+<td>1</td>
+</tr>
+<tr>
+<td>++</td>
+<td>前自增</td>
+<td>a&#x3D;2; b&#x3D;++a;</td>
+<td>a&#x3D;3; b&#x3D;3;</td>
+</tr>
+<tr>
+<td>++</td>
+<td>后自增</td>
+<td>a&#x3D;2; b&#x3D;a++;</td>
+<td>a&#x3D;3; b&#x3D;2;</td>
+</tr>
+<tr>
+<td>–</td>
+<td>前自减</td>
+<td>a&#x3D;2; b&#x3D;–a;</td>
+<td>a&#x3D;1; b&#x3D;1;</td>
+</tr>
+<tr>
+<td>–</td>
+<td>后自减</td>
+<td>a&#x3D;2; b&#x3D;a–;</td>
+<td>a&#x3D;1; b&#x3D;2;</td>
+</tr>
+</tbody></table>
+<h1 id="赋值运算符"><a href="#赋值运算符" class="headerlink" title="赋值运算符"></a>赋值运算符</h1><p>用于将数、数值、对象或表达式的计算机结果赋值给某个变量。</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>术语</th>
+<th>示例</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&#x3D;</td>
+<td>赋值</td>
+<td>a&#x3D;2; b&#x3D;3;</td>
+<td>a&#x3D;2; b&#x3D;3;</td>
+</tr>
+<tr>
+<td>+&#x3D;</td>
+<td>加等于</td>
+<td>a&#x3D;0; a+&#x3D;2;</td>
+<td>a&#x3D;2;</td>
+</tr>
+<tr>
+<td>-&#x3D;</td>
+<td>减等于</td>
+<td>a&#x3D;5; a-&#x3D;3;</td>
+<td>a&#x3D;2;</td>
+</tr>
+<tr>
+<td>*&#x3D;</td>
+<td>乘等于</td>
+<td>a&#x3D;2; a*&#x3D;2;</td>
+<td>a&#x3D;4;</td>
+</tr>
+<tr>
+<td>&#x2F;&#x3D;</td>
+<td>除等于</td>
+<td>a&#x3D;4; a&#x2F;&#x3D;2;</td>
+<td>a&#x3D;2;</td>
+</tr>
+<tr>
+<td>%&#x3D;</td>
+<td>模等于</td>
+<td>a&#x3D;3; a%2;</td>
+<td>a&#x3D;1;</td>
+</tr>
+</tbody></table>
+<h1 id="比较运算符"><a href="#比较运算符" class="headerlink" title="比较运算符"></a>比较运算符</h1><p>用于表达式的比较，返回一个布尔类型的值。非0表示真，0表示假。</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>术语</th>
+<th>示例</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&#x3D;&#x3D;</td>
+<td>相等于</td>
+<td>4 &#x3D;&#x3D; 3</td>
+<td>0</td>
+</tr>
+<tr>
+<td>!&#x3D;</td>
+<td>不等于</td>
+<td>4 !&#x3D; 3</td>
+<td>1</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>小于</td>
+<td>4 &lt; 3</td>
+<td>0</td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>大于</td>
+<td>4 &gt; 3</td>
+<td>1</td>
+</tr>
+<tr>
+<td>&lt;&#x3D;</td>
+<td>小于等于</td>
+<td>4 &lt;&#x3D; 3</td>
+<td>0</td>
+</tr>
+<tr>
+<td>&gt;&#x3D;</td>
+<td>大于等于</td>
+<td>4 &gt;&#x3D; 1</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<h1 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h1><p>用于逻辑运算，返回一个布尔类型的值。</p>
+<table>
+    <thead>
+        <tr>
+            <th><span>运算符</span></th>
+            <th><span>术语</span></th>
+            <th><span>示例</span></th>
+            <th><span>结果</span></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><span>!</span></td>
+            <td><span>非</span></td>
+            <td><span>!a</span></td>
+            <td><span>如果a为假，则!a为真； </span><span> </span><span>如果a为真，则!a为假。</span></td>
+        </tr>
+        <tr>
+            <td><span>&amp;&amp;</span></td>
+            <td><span>与</span></td>
+            <td><span>a &amp;&amp; b</span></td>
+            <td><span>如果a和b都为真，则结果为真，否则为假。</span></td>
+        </tr>
+        <tr>
+            <td><span>|</span><span>|</span></td>
+            <td><span>或</span></td>
+            <td><span>a </span><span>|</span><span>|</span><span> b</span></td>
+            <td><span>如果a和b有一个为真，则结果为真，二者都为假时，结果为假。</span></td>
+        </tr>
+    </tbody>
+</table>
+
+<h1 id="位运算符"><a href="#位运算符" class="headerlink" title="位运算符"></a>位运算符</h1><p>用于处理数据的位运算。</p>
+<table>
+    <thead>
+        <tr>
+            <th><span>运算符</span></th>
+            <th><span>术语</span></th>
+            <th><span>含义</span></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="firstRow">
+            <td style="word-break: break-all;" >&lt;&lt;</td>
+            <td style="word-break: break-all;" >左移运算符</td>
+            <td style="word-break: break-all;" >向左（即高位）移位，右侧补0</td>
+        </tr>
+        <tr>
+            <td style="word-break: break-all;" >&gt;&gt;</td>
+            <td style="word-break: break-all;" >右移运算符</td>
+            <td style="word-break: break-all;" >向右（即低位）移位，左侧补0</td>
+        </tr>
+        <tr>
+            <td style="word-break: break-all;" >~</td>
+            <td style="word-break: break-all;" >按位取反</td>
+            <td style="word-break: break-all;" >如名，即0变1,1变0</td>
+        </tr>
+        <tr>
+            <td style="word-break: break-all;" >&amp;</td>
+                <td style="word-break: break-all;" >按位与</td>
+            <td style="word-break: break-all;" >相对应的两个位都为1则为1，反之为0</td>
+        </tr>
+        <tr>
+            <td style="word-break: break-all;" >|</td>
+            <td style="word-break: break-all;" >按位或</td>
+            <td style="word-break: break-all;" >相对应的两个位至少有一个为1即为1，反之为0</td>
+        </tr>
+        <tr>
+            <td style="word-break: break-all;" >^</td>
+            <td style="word-break: break-all;" >按位异或</td>
+            <td style="word-break: break-all;" >相对应的两个位相同为0，相异（不同）为1</td>
+        </tr>
+    </tbody>
+</table>
+
+<h1 id="sizeof运算符"><a href="#sizeof运算符" class="headerlink" title="sizeof运算符"></a>sizeof运算符</h1><p>计算字节数的长度。</p>
+<h1 id="三目运算符"><a href="#三目运算符" class="headerlink" title="三目运算符"></a>三目运算符</h1><p>三目运算符属于条件运算，可以简化if语句。语法是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">语句<span class="number">1</span> ? 语句<span class="number">2</span> ： 语句<span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<p>当语句 1 中条件成立的时候返回语句 2 的值，如果语句 1 中条件不成立，那么就返回语句 3 的值。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/06/06/c-arrays/">基础（六）数组与字符串</a>
+            
+            
+            <a class="next" rel="next" href="/2022/06/04/c-funtion/">基础（四）函数</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 万叶 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

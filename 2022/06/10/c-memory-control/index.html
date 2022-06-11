@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="万叶">
+
+
+    <meta name="subtitle" content="力量的秘密在于专注">
+
+
+
+
+<title>基础（十）作用域与内存四区 | 万叶&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">万叶&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">万叶&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6;    // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function () {
+            tocbot.refresh(obj_merge(tocbot_default_config, { hasInnerContainers: true }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function () {
+        tocbot.init(obj_merge(tocbot_default_config, { collapseDepth: 1 }));
+    });
+
+    function expandToc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, { collapseDepth: expanded ? 1 : DEPTH_MAX }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">基础（十）作用域与内存四区</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">万叶</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">June 10, 2022&nbsp;&nbsp;12:33:18</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/C-C/">C/C++</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h1><p>按照作用域的范围划分，可以分成：代码块作用域、函数作用域和文件作用域。块作用域作用于某对括号内，函数作用域作用于某个函数内，文件作用域作用于某个文件内部。</p>
+<h2 id="局部变量与全局变量"><a href="#局部变量与全局变量" class="headerlink" title="局部变量与全局变量"></a>局部变量与全局变量</h2><p>按照变量的位置，可以分成局部变量和全局变量。局部变量也叫做auto自动变量（auto可省略不写），通常在代码块（一对大括号内）内部定义的变量都是自动变量。自动变量的特点是，在一个函数内定义，则只在该函数范围内有效。在复合语句中定义，只在复合语句中有效。但是，随着函数或复合语句的执行结束，局部变量的声明周期也随着结束。若局部变量初始化时没有赋值，则内容随机。被static关键字修饰的局部变量是一个静态局部变量。静态局部变量只初始化一次，但是可以多次赋值，其作用域在定义的函数内有效，生命周期和程序运行周期相同。静态局部变量若未赋以初值，则由系统自动赋值：数值型变量自动赋初值0，字符型变量赋空字符。</p>
+<p>全局变量指的是在函数外定义，可以被本文件以及其他文件的函数所使用的变量。当需要被其他文件使用的时候，需要添加<code>extern</code>声明。全局变量的声明周期与程序运行相同，不问的文件的全局变量不可重名。被static关键字的全局变量称为静态全局变量。静态全局变量定义在函数外，作用范围被限制在所定义的文件中，不同文件静态全局变量可以重名，但作用域不冲突。静态全局变量的生命周期和程序运行周期一样，同时静态全局变量的值只初始化一次。</p>
+<p>在C语言中，遵循的就近原则，也就是说同一块作用域内存在同名的局部变量和全局变量，那么使用的时候，程序就会就近寻找变量。</p>
+<h2 id="全局函数与静态函数"><a href="#全局函数与静态函数" class="headerlink" title="全局函数与静态函数"></a>全局函数与静态函数</h2><p>根据函数的类型，可以成为全局函数和静态函数。在C语言中，函数默认都是全局的，只有使用了关键字static修饰的函数才是静态函数。静态函数的作用域在该函数所在的文件中有效，无法在其他文件中调用，即使在其他文件中声明这个函数也无法使用。</p>
+<p>所有的函数默认都是全局的，意味着所有的函数都不能重名，但如果是静态函数，那么作用域是文件级的，所以不同的文件static函数名是可以相同的。</p>
+<h1 id="内存四区"><a href="#内存四区" class="headerlink" title="内存四区"></a>内存四区</h1><p>C语言经过预处理、编译、汇编和链接四个步骤后可以生成一个可执行文件。在操作系统下，可以查询到该执行文件的基本情况。假设存在一个HelloWorld.c的文件，那么：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">harvey@Harvey:~/project$ gcc HelloWorld.c -o helloworld.exe</span><br></pre></td></tr></table></figure>
+
+<p>得到一个可执行文件后，执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">harvey@Harvey:~/project$ file helloworld.exe</span><br><span class="line">helloworld.exe: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=e2c48a9abae67a215e8c98a7765a67792c0bd1b1, for GNU/Linux 3.2.0, not stripped</span><br></pre></td></tr></table></figure>
+
+<p>最后，通过size查看可执行文件的结构情况：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">harvey@Harvey:~/project$ size helloworld.exe</span><br><span class="line">   text	   data	    bss	    dec	    hex	filename</span><br><span class="line">   1623	    600	      8	   2231	    8b7	helloworld.exe</span><br></pre></td></tr></table></figure>
+
+<p>其中：</p>
+<ul>
+<li>text：代码区；</li>
+<li>data：静态数据或全局初始化数据区；</li>
+<li>bss：未初始化数据区；</li>
+<li>dec：十进制总和；</li>
+<li>hex：十六进制总和；</li>
+<li>filename：文件名。</li>
+</ul>
+<p>也就是说，当一个可执行文件在没有加载到内存之前，已经被分成了三段信息：代码区（text）、数据区（data）和未初始化数据区（bss）。</p>
+<p>程序在加载到内存前，代码区和全局区（data和bss）的大小是固定的，程序运行期间不能够改变。然后当程序可运行的时候，系统会把程序加载到内存，除了代码区、数据区和未初始化的数据区以外，还会额外新增栈区和堆区<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>。</p>
+<p><img src="/assets/images/memory.png" alt="memory"></p>
+<p>通过上图，我们可以看到内存四区：代码区、全局区、栈区和堆区。</p>
+<ol>
+<li><p>代码区</p>
+<p>存放 CPU  执行的机器指令。通常代码区是可共享的（即另外的执行程序可以调用它），使其可共享的目的是对于频繁被执行的程序，只需要在内存中有一份代码即可。代码区通常是只读的，使其只读的原因是防止程序意外地修改了它的指令。另外，代码区还规划了局部变量的相关信息。</p>
+<p>大白话就是：你所写的所有代码都会放入到代码区中，代码区的特点是共享和只读。</p>
+</li>
+<li><p>全局区</p>
+<p>全局区中主要存放的数据有：全局变量、静态变量、常量（如字符串常量）。全局区的叫法有很多：全局区、静态区、数据区、全局静态区、静态全局区。这部分可以细分为data区和bss区。</p>
+<ul>
+<li>data区：主要存放的是已经初始化的全局变量、静态变量和常量；</li>
+<li>bss区：主要存放的是未初始化的全局变量、静态变量，这些未初始化的数据在程序执行前会自动被系统初始化为0或者NULL；</li>
+<li>常量区：是全局区中划分的一个小区域，里面存放的是常量，如const修饰的全局变量、字符串常量等。</li>
+</ul>
+</li>
+<li><p>栈区（Stack）</p>
+<p>栈是一种先进后出的内存结构，由编译器自动分配释放，存放函数的参数值、返回值、局部变量等。在程序运行过程中实时加载和释放，因此，局部变量的生存周期为申请到释放该段栈空间。</p>
+</li>
+<li><p>堆区（Heap）</p>
+<p>堆是一个大容器，它的容量要远远大于栈，但没有栈那样先进后出的顺序。用于动态内存分配。堆在内存中位于BSS区和栈区之间。一般由程序员分配和释放，若程序员不释放，程序结束时由操作系统回收。</p>
+</li>
+</ol>
+<h1 id="作用域与内存"><a href="#作用域与内存" class="headerlink" title="作用域与内存"></a>作用域与内存</h1><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>作用域</th>
+<th>生命周期</th>
+<th>存储位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>auto变量</td>
+<td>一对{}内</td>
+<td>当前函数</td>
+<td>栈区</td>
+</tr>
+<tr>
+<td>static局部变量</td>
+<td>一对{}内</td>
+<td>整个程序运行期</td>
+<td>初始化在data段，未初始化在BSS段</td>
+</tr>
+<tr>
+<td>extern变量</td>
+<td>整个程序</td>
+<td>整个程序运行期</td>
+<td>初始化在data段，未初始化在BSS段</td>
+</tr>
+<tr>
+<td>static全局变量</td>
+<td>当前文件</td>
+<td>整个程序运行期</td>
+<td>初始化在data段，未初始化在BSS段</td>
+</tr>
+<tr>
+<td>extern函数</td>
+<td>整个程序</td>
+<td>整个程序运行期</td>
+<td>代码区</td>
+</tr>
+<tr>
+<td>static函数</td>
+<td>当前文件</td>
+<td>整个程序运行期</td>
+<td>代码区</td>
+</tr>
+<tr>
+<td>register变量</td>
+<td>一对{}内</td>
+<td>当前函数</td>
+<td>运行时存储在CPU寄存器</td>
+</tr>
+<tr>
+<td>全局变量</td>
+<td>整个程序</td>
+<td>整个程序运行期</td>
+<td>data段</td>
+</tr>
+</tbody></table>
+<p>上述的关系，可以通过一个案例粗略的看以下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> e;</span><br><span class="line"><span class="type">static</span> <span class="type">int</span> f;</span><br><span class="line"><span class="type">int</span> g = <span class="number">10</span>;</span><br><span class="line"><span class="type">static</span> <span class="type">int</span> h = <span class="number">10</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> a;</span><br><span class="line">	<span class="type">int</span> b = <span class="number">10</span>;</span><br><span class="line">	<span class="type">static</span> <span class="type">int</span> c;</span><br><span class="line">	<span class="type">static</span> <span class="type">int</span> d = <span class="number">10</span>;</span><br><span class="line">	<span class="type">char</span> *i = <span class="string">&quot;test&quot;</span>;</span><br><span class="line">	<span class="type">char</span> *k = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;&amp;a\t %p\t //局部未初始化变量\n&quot;</span>, &amp;a);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;&amp;b\t %p\t //局部初始化变量\n&quot;</span>, &amp;b);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;&amp;c\t %p\t //静态局部未初始化变量\n&quot;</span>, &amp;c);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;&amp;d\t %p\t //静态局部初始化变量\n&quot;</span>, &amp;d);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;&amp;e\t %p\t //全局未初始化变量\n&quot;</span>, &amp;e);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;&amp;f\t %p\t //全局静态未初始化变量\n&quot;</span>, &amp;f);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;&amp;g\t %p\t //全局初始化变量\n&quot;</span>, &amp;g);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;&amp;h\t %p\t //全局静态初始化变量\n&quot;</span>, &amp;h);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;i\t %p\t //只读数据(文字常量区)\n&quot;</span>, i);</span><br><span class="line"></span><br><span class="line">	k = (<span class="type">char</span> *)<span class="built_in">malloc</span>(<span class="number">10</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;k\t %p\t //动态分配的内存\n&quot;</span>, k);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出的结果：</p>
+<p><em>&amp;a       0x7ffc92e09de0  &#x2F;&#x2F;局部未初始化变量</em></p>
+<p><em>&amp;b       0x7ffc92e09de4  &#x2F;&#x2F;局部初始化变量</em></p>
+<p><em>&amp;c       0x55c702cf9024  &#x2F;&#x2F;静态局部未初始化变量</em></p>
+<p><em>&amp;d       0x55c702cf9018  &#x2F;&#x2F;静态局部初始化变量</em></p>
+<p><em>&amp;e       0x55c702cf9028  &#x2F;&#x2F;全局未初始化变量</em></p>
+<p><em>&amp;f       0x55c702cf9020  &#x2F;&#x2F;全局静态未初始化变量</em></p>
+<p><em>&amp;g       0x55c702cf9010  &#x2F;&#x2F;全局初始化变量</em></p>
+<p><em>&amp;h       0x55c702cf9014  &#x2F;&#x2F;全局静态初始化变量</em></p>
+<p><em>i         0x55c702cf7008  &#x2F;&#x2F;只读数据(文字常量区)</em></p>
+<p><em>k        0x55c7043606b0  &#x2F;&#x2F;动态分配的内存</em></p>
+<h1 id="堆内存分配和释放"><a href="#堆内存分配和释放" class="headerlink" title="堆内存分配和释放"></a>堆内存分配和释放</h1><p>堆的存储空间要比栈大很多，当数据很大的时候，就可以考虑把数据存放到堆中。向堆申请一块内存空间可以使用函数<code>malloc()</code>，当空间使用完毕后，可以调用<code>free()</code>释放该空间。</p>
+<ol>
+<li><p>malloc</p>
+<p>该函数的声明<code>void *malloc(size_t size);</code>。作用是在内存的动态存储区（堆区）中分配一块长度为size字节的连续区域，用来存放类型说明符指定的类型。分配的内存空间内容不确定，一般使用memset初始化。若申请成功返回值是分配空间的起始地址，若失败返回NULL。</p>
+</li>
+<li><p>free</p>
+<p>该函数的声明<code>void free(void *ptr)</code>。作用是释放ptr所指向的一块内存空间，ptr是一个任意类型的指针变量，指向被释放区域的首地址。对同一内存空间多次释放会出错。注意，被释放区应是由malloc函数所分配的区域。</p>
+</li>
+</ol>
+<p> 这是一个使用了上述函数的例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 1.向堆申请一块10个大小的int类型的空间</span></span><br><span class="line">    <span class="type">int</span> *<span class="built_in">array</span> = (<span class="type">int</span> *)<span class="built_in">malloc</span>(<span class="number">10</span> * <span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">array</span> == <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;ERROR!&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2.把申请到的内存空间清0</span></span><br><span class="line">    <span class="built_in">memset</span>(<span class="built_in">array</span>, <span class="number">0</span>, <span class="keyword">sizeof</span>(<span class="type">int</span>) * <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3.向申请到的数据添加数据</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">array</span>[i] = i;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 4.打印数据</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, <span class="built_in">array</span>[i]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 5.释放申请的空间</span></span><br><span class="line">    <span class="built_in">free</span>(<span class="built_in">array</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="内存分区与代码分析"><a href="#内存分区与代码分析" class="headerlink" title="内存分区与代码分析"></a>内存分区与代码分析</h1><h2 id="返回栈区地址"><a href="#返回栈区地址" class="headerlink" title="返回栈区地址"></a>返回栈区地址</h2><p>当函数返回栈区中的地址时，会报错。这是因为栈区当函数执行完毕后会被释放。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> *<span class="title function_">fun</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="type">int</span> a = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">return</span> &amp;a;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> *p = <span class="literal">NULL</span>;</span><br><span class="line">    p = fun();</span><br><span class="line">    *p = <span class="number">100</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="返回data区地址"><a href="#返回data区地址" class="headerlink" title="返回data区地址"></a>返回data区地址</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> *<span class="title function_">fun</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">static</span> <span class="type">int</span> a = <span class="number">10</span>;</span><br><span class="line">	<span class="keyword">return</span> &amp;a; <span class="comment">//函数调用完毕，a不释放</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> *p = <span class="literal">NULL</span>;</span><br><span class="line">	p = fun();</span><br><span class="line">	*p = <span class="number">100</span>; <span class="comment">//ok</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;*p = %d\n&quot;</span>, *p);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="返回堆区地址"><a href="#返回堆区地址" class="headerlink" title="返回堆区地址"></a>返回堆区地址</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> *<span class="title function_">fun</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> *tmp = <span class="literal">NULL</span>;</span><br><span class="line">	tmp = (<span class="type">int</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">	*tmp = <span class="number">100</span>;</span><br><span class="line">	<span class="keyword">return</span> tmp;<span class="comment">//返回堆区地址，函数调用完毕，不释放</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> *p = <span class="literal">NULL</span>;</span><br><span class="line">	p = fun();</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;*p = %d\n&quot;</span>, *p);<span class="comment">//ok</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//堆区空间，使用完毕，手动释放</span></span><br><span class="line">	<span class="keyword">if</span> (p != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">free</span>(p);</span><br><span class="line">		p = <span class="literal">NULL</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="值传递"><a href="#值传递" class="headerlink" title="值传递"></a>值传递</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">fun1</span><span class="params">(<span class="type">int</span> *tmp)</span></span><br><span class="line">&#123;</span><br><span class="line">    *tmp = <span class="number">100</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">fun2</span><span class="params">(<span class="type">int</span> *tmp)</span></span><br><span class="line">&#123;</span><br><span class="line">    tmp = (<span class="type">int</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">    *tmp = <span class="number">100</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> *p = <span class="literal">NULL</span>;</span><br><span class="line">    p = (<span class="type">int</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line"></span><br><span class="line">    fun1(p);                 <span class="comment">//值传递</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;*p = %d\n&quot;</span>, *p); <span class="comment">// ok，*p为100</span></span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> *q = <span class="literal">NULL</span>;</span><br><span class="line">    fun2(q);                 <span class="comment">//值传递，形参修改不会影响实参</span></span><br><span class="line">    <span class="comment">//printf(&quot;*p = %d\n&quot;, *q); // ERROR，操作空指针指向的内存</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><p>[ ^1]:黑马程序员 . C&#x2F;C++教程，详解C&#x2F;C++中的内存四区. <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/120997610">https://zhuanlan.zhihu.com/p/120997610</a>.</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/06/11/whats-annotation/">Java基础进阶（一）注解</a>
+            
+            
+            <a class="next" rel="next" href="/2022/06/08/c-file/">基础（八）文件操作</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 万叶 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

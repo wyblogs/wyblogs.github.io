@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="万叶">
+
+
+    <meta name="subtitle" content="力量的秘密在于专注">
+
+
+
+
+<title>基础（一）C语言发展简史与初探 | 万叶&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">万叶&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">万叶&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6;    // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function () {
+            tocbot.refresh(obj_merge(tocbot_default_config, { hasInnerContainers: true }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function () {
+        tocbot.init(obj_merge(tocbot_default_config, { collapseDepth: 1 }));
+    });
+
+    function expandToc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, { collapseDepth: expanded ? 1 : DEPTH_MAX }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">基础（一）C语言发展简史与初探</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">万叶</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">June 1, 2022&nbsp;&nbsp;12:33:18</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/C-C/">C/C++</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="发展简史"><a href="#发展简史" class="headerlink" title="发展简史"></a>发展简史</h1><p>编程语言发展到今天，很多语言由于其独特的优势还依旧受到大家的青睐，C语言就是其中之一。C语言是很多语言的“鼻祖”，因为从其他语言诸如Object-C、C++和C#等，都可以看到C语言的身影。</p>
+<p>C语言诞生与1970年代初的贝尔实验室（Bell Labs）。Dennis Ritchie曾经发表过一篇名为《The Development of the C Language》的论文，该论文提到“C语言是在 1970 年代初设计的，作为新生Unix操作系统的系统实现语言。衍生自无类型语言BCPL，演化出类型结构；在微型机器上创建，作为改善微不足道的编程环境的工具”。贝尔实验室的工程师Ken Thompson希望能够为Unix平台开发一种编程语言，他修改了BCPL语言，然后创造了B语言。但是由于B语言的缓慢性和无法利用操作系统中的PDP-11功能，导致没有多少实用的程序使用B语言。后来，又由Dennis Ritchie在B语言的基础上，创造了C语言。</p>
+<p>C语言的发展成为了Unix的基础。贝尔实验室的论文提到：“到1973年初，C语言的基本设计已经完成。C语言和编译器足够强大，可以让我们在今年夏天用C语言为PDP-11重写Unix内核。”如今，C语言已经真的很强大，可以在很多系统中使用到它。在1987年，Brian Kernighan和Dennis Ritchie共同编写了《The C Programming Language》，该书籍在正式标准成立之前一致被作为C语言的参考教材。五年后，美国国家标准协会（American Notional Standard Institute，简称ANSI）成立了X3J11委员会，建立了C语言的正式标准。</p>
+<p>随后到了20世纪80年代，同样在贝尔实验室，Bjarne Stroustrup博士发明了C++语言。据说，他当时正在准备他的博士毕业论文，有机会使用一种叫做Simula的语言，这个语言主要是做仿真，但是由于Simula的语言执行效率低，实用性不强。然后，Bjarne Stroustrup博士就开始着手了“C with Classes”的研究工作。“C with Classes”是在C语言的基础上进行扩展的，属于C语言的超集。由于C语言的执行速度以及底层函数的性能不受程序移植的影响，Bjarne Stroustrup博士决定将面向对象的思想引入到C语言中。随后，C++不断增加新特性。虚函数（virtual function）、运算符重载（operator  overloading）、多继承（multiple inheritance）、标准模板库（standard template library,  STL）、异常处理（exception）、运行时类型信息（runtime type  information）、名字空间（namespace）等概念逐渐纳入标准。</p>
+<p>根据Toptal的说法，Unix操作系统基本上都是用C语言编写的，大多数的Linux系统也是用C语言编写，以及Oracle数据库、MySQL、MS SQL Server和PostgresSQL等数据库都有C语言参与的基础模块。C语言也是其他语言编译器或解释器的基础，例如Python、Perl。迄今为止，C语言任然是很多低级程序（如内核）中使用的通用语言。截止2022年4月，C语言的标准已经更新到了第四个标准——C17（也被成为C18）， 下一个版本的C2x标准，预计将在2022年12月1日完成。</p>
+<h1 id="初探C语言"><a href="#初探C语言" class="headerlink" title="初探C语言"></a>初探C语言</h1><p>C语言的特点非常明显，其优点是语言简洁、使用方便和灵活；运算符丰富、数据类型丰富，具有结构化的控制语句，是一门面向过程的编程语言；C语言允许直接访问物理地址，能进行位操作，同时能够集成汇编语言；生成目标的代码质量高，程序执行效率高。其缺点是写代码实现的周期长，可移植性差；代码编程自由，经验不足者容易出现越界、内存泄露等问题；对于平台库的依赖比较大。</p>
+<p>C语言的应用是很广泛的，从网站的后台到底层操作系统，从多媒体应用到大型的网络游戏，都可以使用C语言来开发。在一些特定的领域，例如微处理器、嵌入式系统，以及各种系统的驱动等，C语言占据了半壁江山。</p>
+<h2 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h2><p>C语言仅有32个关键字，9种控制语句和34种运算符。</p>
+<p>auto 	break	case	char	const	continue	default	do	double	else</p>
+<p>enum	extern	float	for	goto	if	int	long	register	return	short</p>
+<p>signed	sizeof	static	struct	switch	typedef	unsigned	union	void</p>
+<p>volatile	whie</p>
+<h2 id="控制流程"><a href="#控制流程" class="headerlink" title="控制流程"></a>控制流程</h2><p>C语言有9种控制流程语句：</p>
+<p>if-else	for	while	do-while	continue	break	switch	goto	return</p>
+<h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><p>C语言有34种运算符：</p>
+<ol>
+<li><p>算术运算符</p>
+<p><code>+</code>、<code>-</code>、<code>*</code>、<code>/</code>、<code>%</code>、<code>++</code>、<code>--</code></p>
+</li>
+<li><p>关系运算符</p>
+<p><code>&lt;</code>、<code>&lt;=</code>、<code>==</code>、<code>&gt;</code>、<code>&gt;=</code>、<code>!=</code></p>
+</li>
+<li><p>逻辑运算符</p>
+<p><code>!</code>、<code>&amp;&amp;</code>、<code>||</code></p>
+</li>
+<li><p>位运算符</p>
+<p><code>&lt;&lt;</code>、<code>&gt;&gt;</code>、<code>~</code>、<code>|</code>、<code>^</code>、<code>&amp;</code></p>
+</li>
+<li><p>赋值运算符</p>
+<p><code>=</code></p>
+</li>
+<li><p>条件运算符</p>
+<p><code>?:</code></p>
+</li>
+<li><p>逗号运算符</p>
+<p><code>,</code></p>
+</li>
+<li><p>指针运算符</p>
+<p><code>*</code>、<code>&amp;</code></p>
+</li>
+<li><p>求字节数</p>
+<p><code>sizeof</code></p>
+</li>
+<li><p>强制类型转换</p>
+<p><code>(type)</code></p>
+</li>
+<li><p>分量运算符</p>
+<p><code>-&gt;</code></p>
+</li>
+<li><p>下标运算符</p>
+<p><code>[]</code></p>
+</li>
+<li><p>其他</p>
+<p><code>()</code></p>
+</li>
+</ol>
+<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><p>第一行代码就是<code>Hello World</code>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Hello World&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>C语言的所有程序都需要包含一个<code>main()</code>函数，代码从<code>main()</code>函数开始执行。<code>stdio.h</code>是一个头文件（标准输入输出头文件），<code>#include</code>是一个预处理命令，用来引入头文件。<code>printf()</code>函数用于格式化输出到屏幕，该函数在<code>stdio.h</code>头文件中声明。<code>return 0</code>用于表示程序正常退出。</p>
+<h1 id="主函数"><a href="#主函数" class="headerlink" title="主函数"></a>主函数</h1><p>C语言有且只有一个主函数，主函数可以携带参数。</p>
+<h2 id="无参主函数"><a href="#无参主函数" class="headerlink" title="无参主函数"></a>无参主函数</h2><p>无参的主函数形如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="带参主函数"><a href="#带参主函数" class="headerlink" title="带参主函数"></a>带参主函数</h2><p>带参主函数形如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span></span><br></pre></td></tr></table></figure>
+
+<p>其中：</p>
+<ol>
+<li><p><code>argc</code></p>
+<p>表示主函数传递的参数总个数</p>
+</li>
+<li><p><code>*argv[]</code>或<code>**argv</code></p>
+<p>表示一个数组，数组的每一个元素都是字符串char *</p>
+</li>
+</ol>
+<p>带参数的主函数，可以在命令行模式下使用，执行<code>.exe</code>文件的时候可以进行传递参数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;argc = %d\n&quot;</span>, argc);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; argc; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;argv[%ld] = %s\n&quot;</span>, i, argv[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>执行的时候，在控制台运行代码：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">gcc HelloWorld.c -o hw.exe</span><br><span class="line">./hw.exe hello world</span><br><span class="line">//Output:</span><br><span class="line">argc = 3</span><br><span class="line">argv[0] = ./hw.exe</span><br><span class="line">argv[1] = hello</span><br><span class="line">argv[2] = world</span><br></pre></td></tr></table></figure>
+
+<h1 id="命名规范"><a href="#命名规范" class="headerlink" title="命名规范"></a>命名规范</h1><p>C语言的命令规范通常应当遵守：</p>
+<ol>
+<li>变量使用小写，两个单词之间使用下划线<code>_</code>分割；</li>
+<li>常量通常大写；</li>
+<li>只能使用字母、数字和下划线<code>_</code>，且不能以数字开头;</li>
+<li>禁止使用关键字和系统函数命名。</li>
+</ol>
+<h1 id="类型限定符"><a href="#类型限定符" class="headerlink" title="类型限定符"></a>类型限定符</h1><p>类型限定符有extern、const、volatile、register，它们的含义是：</p>
+<table>
+<thead>
+<tr>
+<th>限定符</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>extern</td>
+<td>声明一个变量，extern声明的变量没有建立存储空间。</td>
+</tr>
+<tr>
+<td>const</td>
+<td>定义一个常量，常量的值不能修改。</td>
+</tr>
+<tr>
+<td>Volatile</td>
+<td>防止编译器优化代码。</td>
+</tr>
+<tr>
+<td>register</td>
+<td>定义寄存器变量，提高效率。register是建议型的指令，而不是命令型的指令，如果CPU有空闲寄存器，那么register就生效，如果没有空闲寄存器，那么register无效。</td>
+</tr>
+</tbody></table>
+<h1 id="宏与常量"><a href="#宏与常量" class="headerlink" title="宏与常量"></a>宏与常量</h1><h2 id="宏定义"><a href="#宏定义" class="headerlink" title="宏定义"></a>宏定义</h2><p>在C语言中，宏定义分两种：无参数宏定义和有参数宏定义。宏定义是常见的预处理指令，使用“标识符”来表示“替换列表”中的内容，标识符称为宏名。在编译过程中的预处理阶段，编译器会把源代码中的宏定义替换成列表中内容。</p>
+<h3 id="无参宏定义"><a href="#无参宏定义" class="headerlink" title="无参宏定义"></a>无参宏定义</h3><p>无参宏定义的格式为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> 标识符 替换列表</span></span><br></pre></td></tr></table></figure>
+
+<p>替换列表可以是数值常量、字符常量、字符串常量等。例如，需要宏定义一个圆周率π，可以写成：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> PI 3.1415926</span></span><br></pre></td></tr></table></figure>
+
+<p>使用宏定义的时候，需要注意<code>#define</code>最好另起一行写，最后不需要添加分号<code>;</code>，若添加分号的话，虽然不会提示错误，但是在预处理阶段的时候会造成错误。例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> SIZE 10;</span></span><br></pre></td></tr></table></figure>
+
+<p> 在预处理的时候假如存在<code>int a[SIZE];</code>，那么替换后就变成了：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a[<span class="number">10</span>;];</span><br></pre></td></tr></table></figure>
+
+<p>很明显多了一个分号，此时就会造成代码运行的过程中出现错误。</p>
+<h3 id="有参宏定义"><a href="#有参宏定义" class="headerlink" title="有参宏定义"></a>有参宏定义</h3><p>有参宏定义的格式为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> 标识符(参数1,参数2,参数3,...)替换列表</span></span><br></pre></td></tr></table></figure>
+
+<p>例如需要使用有参的宏定义来比较两个参数最大的值，就是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> MAX(a,b) ((a)&gt;(b)?(a):(b))</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="常量定义"><a href="#常量定义" class="headerlink" title="常量定义"></a>常量定义</h2><p>常量有时候也被称为字面量。常量在程序执行期间不会改变，因此常量也可以称为只读变量。常量可以是C语言中任何基本数据类型。在C语言中，可以使用<code>const</code>来定义一个常量。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> var = <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="宏定义和const的区别"><a href="#宏定义和const的区别" class="headerlink" title="宏定义和const的区别"></a>宏定义和const的区别</h2><p>宏定义和使用const的两者区别是：</p>
+<ol>
+<li>编译器处理方式不同。宏定义是在预处理阶段展开，const常量是在编译运行阶段使用；</li>
+<li>类型和安全检查不同。#define 宏没有类型，不做任何类型检查，仅仅是展开。const 常量有具体的类型，在编译阶段会执行类型检查；</li>
+<li>存储方式不同。#define 宏仅仅是展开，有多少地方使用，就展开多少次，不会分配内存。宏定义不分配内存，变量定义分配内存。const定义常量会分配内存。</li>
+</ol>
+<h1 id="变量的定义与声明"><a href="#变量的定义与声明" class="headerlink" title="变量的定义与声明"></a>变量的定义与声明</h1><p>变量的定义语法是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">类型名 变量名 = 变量值</span><br></pre></td></tr></table></figure>
+
+<p>例如需要定义一个整型的变量：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a = <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+<p>在C语言中，变量的定义和变量声明是被区别开的。变量的定义用于为变量分配存储空间，还为变量指定初始值。程序中，变量有且仅有一个定义。变量声明用于向程序表明变量的类型和名字。变量的定义本身就属于变量的声明，但是使用了<code>extern</code>的声明不是变量的定义。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="type">int</span> a; <span class="comment">//不是定义，是声明。</span></span><br><span class="line"><span class="type">int</span> b; <span class="comment">//是定义，也是声明，未初始化。</span></span><br><span class="line"><span class="type">int</span> c = <span class="number">10</span>;  <span class="comment">//是定义，也是声明，且被初始化。</span></span><br></pre></td></tr></table></figure>
+
+<p>总结几点<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup>：</p>
+<ol>
+<li>带有初始化值的，不管是否有<code>extern</code>关键字，都被认为是定义；</li>
+<li>凡是带有<code>&#123;&#125;</code>的函数一定是定义，否则就是声明；</li>
+<li>除非有<code>extern</code>关键字，否则都是变量的定义。</li>
+</ol>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/06/02/c-basics/">基础（二）基本数据类型</a>
+            
+            
+            <a class="next" rel="next" href="/2022/06/01/ascii/">附录1：ASCII码表</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 万叶 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

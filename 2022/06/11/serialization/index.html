@@ -10,10 +10,12 @@
     <meta name="author" content="万叶">
 
 
+    <meta name="subtitle" content="力量的秘密在于专注">
 
 
 
-<title>序列化 | 万叶&#39;s Blog</title>
+
+<title>Java基础进阶（二）序列化 | 万叶&#39;s Blog</title>
 
 
 
@@ -186,7 +188,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">序列化</h1>
+            <h1 class="post-title">Java基础进阶（二）序列化</h1>
             
                 <div class="post-meta">
                     
@@ -358,7 +360,7 @@
 <h2 id="readSerialData"><a href="#readSerialData" class="headerlink" title="readSerialData"></a>readSerialData</h2><p>在<code>readSerialData()</code>方法中，先判断是否实现了<code>readObject()</code>方法。若实现了则调用，否则就执行<code>defaultReadFields()</code>方法。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">readSerialData</span><span class="params">(Object obj, ObjectStreamClass desc)</span></span><br><span class="line">        <span class="keyword">throws</span> IOException</span><br><span class="line">    &#123;</span><br><span class="line">        ObjectStreamClass.ClassDataSlot[] slots = desc.getClassDataLayout();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; slots.length; i++) &#123;</span><br><span class="line">            <span class="type">ObjectStreamClass</span> <span class="variable">slotDesc</span> <span class="operator">=</span> slots[i].desc;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (slots[i].hasData) &#123;</span><br><span class="line">                <span class="keyword">if</span> (obj == <span class="literal">null</span> || handles.lookupException(passHandle) != <span class="literal">null</span>) &#123;</span><br><span class="line">                    defaultReadFields(<span class="literal">null</span>, slotDesc); <span class="comment">// skip field values</span></span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (slotDesc.hasReadObjectMethod()) &#123;</span><br><span class="line">                    <span class="comment">//省略一些代码...</span></span><br><span class="line">                        slotDesc.invokeReadObject(obj, <span class="built_in">this</span>);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (ClassNotFoundException ex) &#123;</span><br><span class="line">                      <span class="comment">//省略一些代码...</span></span><br><span class="line">                    &#125; </span><br><span class="line">                      <span class="comment">//省略一些代码...         </span></span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    defaultReadFields(obj, slotDesc);</span><br><span class="line">                &#125;</span><br><span class="line">				<span class="comment">//省略一些代码...</span></span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h1 id="参考与引用"><a href="#参考与引用" class="headerlink" title="参考与引用"></a>参考与引用</h1><div id="footnotes"><hr><div id="footnotelist"><ol style="list-style:none; padding-left: 0;"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">1.</span><span style="display: inline-block; vertical-align: top;">https://www.cnblogs.com/javazhiyin/p/11841374.html.</span><a href="#fnref:1" rev="footnote"> ↩</a></li><li id="fn:2"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">2.</span><span style="display: inline-block; vertical-align: top;">https://www.zhihu.com/question/276240561.</span><a href="#fnref:2" rev="footnote"> ↩</a></li><li id="fn:3"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">3.</span><span style="display: inline-block; vertical-align: top;">https://cloud.tencent.com/developer/article/1130048.</span><a href="#fnref:3" rev="footnote"> ↩</a></li></ol></div></div>
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><div id="footnotes"><hr><div id="footnotelist"><ol style="list-style:none; padding-left: 0;"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">1.</span><span style="display: inline-block; vertical-align: top;">https://www.cnblogs.com/javazhiyin/p/11841374.html.</span><a href="#fnref:1" rev="footnote"> ↩</a></li><li id="fn:2"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">2.</span><span style="display: inline-block; vertical-align: top;">https://www.zhihu.com/question/276240561.</span><a href="#fnref:2" rev="footnote"> ↩</a></li><li id="fn:3"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">3.</span><span style="display: inline-block; vertical-align: top;">https://cloud.tencent.com/developer/article/1130048.</span><a href="#fnref:3" rev="footnote"> ↩</a></li></ol></div></div>
         </div>
 
         
@@ -390,10 +392,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2022/06/11/download-aosp/">下载Android AOSP源码</a>
+                <a class="prev" rel="prev" href="/2022/06/11/generics/">Java基础进阶（三）泛型</a>
             
             
-            <a class="next" rel="next" href="/2022/06/11/whats-annotation/">注解</a>
+            <a class="next" rel="next" href="/2022/06/11/whats-annotation/">Java基础进阶（一）注解</a>
             
         </section>
 

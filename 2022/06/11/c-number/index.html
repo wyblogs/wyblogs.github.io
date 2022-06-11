@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="万叶">
+
+
+    <meta name="subtitle" content="力量的秘密在于专注">
+
+
+
+
+<title>通识（一）进制数与存储单位 | 万叶&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">万叶&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">万叶&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6;    // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function () {
+            tocbot.refresh(obj_merge(tocbot_default_config, { hasInnerContainers: true }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function () {
+        tocbot.init(obj_merge(tocbot_default_config, { collapseDepth: 1 }));
+    });
+
+    function expandToc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, { collapseDepth: expanded ? 1 : DEPTH_MAX }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">通识（一）进制数与存储单位</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">万叶</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">June 11, 2022&nbsp;&nbsp;12:33:18</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Common/">Common</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="进制数"><a href="#进制数" class="headerlink" title="进制数"></a>进制数</h1><p>进制也就是进位计数制，是人为定义的带进位的计数方法。对于任何一个进制，表示的含义是每逢多少进1位。例如十进制表示的含义就是每逢十进一，十六进制就是每逢十六进一。</p>
+<p>在计算机中，常见的进制数有二进制、八进制、十进制和十六进制。二进制是计算机唯一能够直接识别的进制数，十进制是现实日常生活中最常用的进制数。八进制的出现是由于二进制的不方便，早期在小型机中引入八进制。随着计算机的发展，八进制后来表示的数字也太长，于是出现了十六进制。</p>
+<h2 id="进制表"><a href="#进制表" class="headerlink" title="进制表"></a>进制表</h2><p>每一种进制数都由特定的字母（元素）组成。</p>
+<table>
+<thead>
+<tr>
+<th>进制</th>
+<th>组成元素</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>二进制（Binary）</td>
+<td>0、1</td>
+</tr>
+<tr>
+<td>八进制（Octonary）</td>
+<td>0、1、2、3、4、5、6、7</td>
+</tr>
+<tr>
+<td>十进制（Decimal）</td>
+<td>0、1、2、3、4、5、6、7、8、9</td>
+</tr>
+<tr>
+<td>十六进制（Hexadecimal）</td>
+<td>0、1、2、3、4、5、6、7、8、9、A、B、C、D、E、F</td>
+</tr>
+</tbody></table>
+<p>二进制、八进制、十进制和十六进制的对应关系表是：</p>
+<table>
+<thead>
+<tr>
+<th>十进制</th>
+<th>二进制</th>
+<th>八进制</th>
+<th>十六进制</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>10</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>11</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>4</td>
+<td>100</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>5</td>
+<td>101</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>6</td>
+<td>110</td>
+<td>6</td>
+<td>6</td>
+</tr>
+<tr>
+<td>7</td>
+<td>111</td>
+<td>7</td>
+<td>7</td>
+</tr>
+<tr>
+<td>8</td>
+<td>1000</td>
+<td>10</td>
+<td>8</td>
+</tr>
+<tr>
+<td>9</td>
+<td>1001</td>
+<td>11</td>
+<td>9</td>
+</tr>
+<tr>
+<td>10</td>
+<td>1010</td>
+<td>12</td>
+<td>A</td>
+</tr>
+<tr>
+<td>11</td>
+<td>1011</td>
+<td>13</td>
+<td>B</td>
+</tr>
+<tr>
+<td>12</td>
+<td>1100</td>
+<td>14</td>
+<td>C</td>
+</tr>
+<tr>
+<td>13</td>
+<td>1101</td>
+<td>15</td>
+<td>D</td>
+</tr>
+<tr>
+<td>14</td>
+<td>1110</td>
+<td>16</td>
+<td>E</td>
+</tr>
+<tr>
+<td>15</td>
+<td>1111</td>
+<td>17</td>
+<td>F</td>
+</tr>
+<tr>
+<td>16</td>
+<td>10000</td>
+<td>20</td>
+<td>10</td>
+</tr>
+</tbody></table>
+<h2 id="进制转换"><a href="#进制转换" class="headerlink" title="进制转换"></a>进制转换</h2><h3 id="十进制转任意进制"><a href="#十进制转任意进制" class="headerlink" title="十进制转任意进制"></a>十进制转任意进制</h3><p>十进制转任意进制的方法是“基数取余，反向输出法”。二进制的基数是2，八进制的基数是8，十六进制的基数是16。十进制转成它们的时候，只需要把十进制的数字除以基数，取余后继续除基数，直到余数小于基数，最后反向输出即可。例如，把十进制的100分别转换成二进制、八进制和十六进制的过程是：</p>
+<p><img src="/../assets/oct-to-others.png" alt="Number Conversion"></p>
+<ol>
+<li><p>十进制转二进制</p>
+<p>100 ÷ 2 &#x3D; 50……0; 50 ÷ 2 &#x3D; 25……0; 25 ÷ 2 &#x3D; 12……1; ….直到除尽，最后把余数反向输出就是十进制100转二进制的结果1100100。</p>
+</li>
+<li><p>十进制转八进制</p>
+<p>100 ÷ 8 &#x3D; 12……4; 12 ÷ 8 &#x3D; 1……4; 最后把余数反向输出就是十进制100转八进制的结果144。</p>
+</li>
+<li><p>十进制转十六进制</p>
+<p>100 ÷ 16 &#x3D; 6……4; 最后把余数反向输出就是十进制100转十六进制的结果64。</p>
+</li>
+</ol>
+<blockquote>
+<p>十进制转任意进制，主要能够确定进制的基数，就可以模仿上述的方式进行计算。</p>
+</blockquote>
+<h3 id="任意进制转十进制"><a href="#任意进制转十进制" class="headerlink" title="任意进制转十进制"></a>任意进制转十进制</h3><p>任意进制转十进制的方法是“权（基数）自右向左，按权（基数）求和”。例如把二进制1100100、八进制144和十六进制64转换成十进制的过程是：</p>
+<p><img src="/../assets/others-to-oct.png"></p>
+<ol>
+<li><p>二进制转十进制</p>
+<p>自右向左，分别是基数的0次方、1次方、2次方、3次方，然后与二进制的每一位一一对应，最后把二进制乘以基数次方，全部相加的结果就是二进制1100100转换成十进制的结果100。</p>
+</li>
+<li><p>八进制转十进制</p>
+<p>原理与二进制转十进制相同。</p>
+</li>
+<li><p>十六进制转十进制</p>
+<p>原理与二进制转十进制相同。</p>
+</li>
+</ol>
+<blockquote>
+<p>任意进制转十进制，主要能够确定进制的基数，就可以模仿上述的方式进行计算。</p>
+</blockquote>
+<h3 id="二进制转八和十六进制"><a href="#二进制转八和十六进制" class="headerlink" title="二进制转八和十六进制"></a>二进制转八和十六进制</h3><p>二进制、八进制和十六进制之间的转换可以依靠中间的十进制过渡计算，也可以向将它们全部转成二进制，通过二进制过渡进行计算。若选择使用二进制过渡，则需要记住：八进制三位一隔开，十六进制四位一隔开。因为八进制最多使用3位二进制数（2<sup>3</sup>&#x3D;8）就可以全部表示，十六进制最多使用4位二进制数（2<sup>4</sup>&#x3D;16）就可以全部表示。例如二进制1100100分别转换成八进制和十六进制的过程如下：</p>
+<p><img src="/../assets/bin-to-oct-and-hex.png"></p>
+<h3 id="八和十六进制转二进制"><a href="#八和十六进制转二进制" class="headerlink" title="八和十六进制转二进制"></a>八和十六进制转二进制</h3><p>与二进制转八和十六进制类似，将上述的过程逆过来即可。</p>
+<h1 id="存储单位"><a href="#存储单位" class="headerlink" title="存储单位"></a>存储单位</h1><p>在计算机内部，信息都是釆用二进制的形式进行存储、运算、处理和传输的。信息存储单位有位、字节和字等几种。各种存储设备存储容量单位有KB、MB、GB和TB等几种。</p>
+<p>位（bit）：二进制数中的一个数位，可以是0或者1，是计算机中数据的最小单位。</p>
+<p>字节（Byte，B）：计算机中数据的基本单位，每8位组成一个字节。各种信息在计算机中存储、处理至少需要一个字节。例如，一个ASCII码用一个字节表示，一个汉字用两个字节表示。</p>
+<p>字（Word）：两个字节称为一个字。汉字的存储单位都是一个字。</p>
+<table>
+<thead>
+<tr>
+<th>存储换算</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1 Byte &#x3D; 8 bits 有时候也写成：1B &#x3D; 8b</td>
+</tr>
+<tr>
+<td>1 KB &#x3D; 1024 B</td>
+</tr>
+<tr>
+<td>1 MB &#x3D; 1024 KB</td>
+</tr>
+<tr>
+<td>1 GB &#x3D; 1024 MB</td>
+</tr>
+<tr>
+<td>1 TB &#x3D; 1024 GB</td>
+</tr>
+</tbody></table>
+<h2 id="原码、反码和补码"><a href="#原码、反码和补码" class="headerlink" title="原码、反码和补码"></a>原码、反码和补码</h2><p>计算机底层存储数据时使用的是二进制，但是这个二进制并不是该数字的直接二进制，而是存储该数字的二进制补码。再了解补码之前，需要先了解什么是原码和反码。</p>
+<h3 id="原码"><a href="#原码" class="headerlink" title="原码"></a>原码</h3><p>原码的表示与实际的数字是一样的，只不过使用最高位表示符号位，其他位表示数值大小。正数的符号位是0，负数的符号位是1。例如十进制100和-100的原码表示是：</p>
+<p>十进制100：0110 0100</p>
+<p>十进制-100：1110 0100</p>
+<h3 id="反码"><a href="#反码" class="headerlink" title="反码"></a>反码</h3><p>正数的反码是其本身，负数的反码在原码的基础上，符号位不变，其余各位取反。正数的符号位是0，负数的符号位是1。例如十进制100和-100的反码表示是：</p>
+<p>十进制100：0110 0100</p>
+<p>十进制-100：1001 1011</p>
+<h3 id="补码"><a href="#补码" class="headerlink" title="补码"></a>补码</h3><p>正数的补码是其本身，负数的补码在原码的基础上，符号位不变，其余各位取反后加1。也即：负数的补码在反码的基础上直接加1。例如十进制100和-100的补码表示是：</p>
+<p>十进制100：0110 0100</p>
+<p>十进制-100：1001 1100</p>
+<h2 id="深入理解三者关系"><a href="#深入理解三者关系" class="headerlink" title="深入理解三者关系"></a>深入理解三者关系</h2><p>要想深入的理解原码、反码和补码的关系，可以参考<a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhangziqiu/archive/2011/03/30/ComputerCode.html">张子秋</a>同学发表的一篇博文<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup>。对于正数而言，不管是原码、反码还是补码，编码得到的结果都是一样的。但是对于负数而言，例如-1的原码、反码和补码就会不一样：</p>
+<p>[-1] <sub>十进制</sub> &#x3D; [10000001]<sub>原码</sub> &#x3D; [11111110]<sub>反码</sub> &#x3D; [11111111]<sub>补码</sub></p>
+<p>为什么会选择以补码作为计算机二进制最终的存储方式，其主要考虑到了两点：</p>
+<ol>
+<li><p>计算机硬件</p>
+<p>计算机的计算能力是由一个一个的元器件构成的，由于原码、反码和补码的最高位都涉及到了符号位，所以在计算过程中要考虑到符号位的处理会增加计算机额外的电路设计。因此，在原码、反码和补码的基础上，尽可能地让符号位一同参与到计算过程中，并能够得到正确的结果，是最佳的方式。</p>
+</li>
+<li><p>临界点的处理</p>
+<p>原码、反码和补码，计算机最终选择了使用补码的方式存储，这是因为原码和反码在处理一些临界点值的时候会存在歧义。我们可以使用反证法来证明。</p>
+<p>假设计算使用原码来存储二进制，需要同时满足符号位参与运算，要求全部使用加法运算（为了电路设计简单），那么：</p>
+<p>1 - 1 &#x3D; 1 + (-1) &#x3D;  [00000001]<sub>原码</sub> +[10000001]<sub>原码</sub> &#x3D; [10000010]<sub>原码</sub> &#x3D; -2</p>
+<p>显然，若要同时满足上述两个要求，使用原码计算是结果是不正确的。接下来，证明反码是否可行：</p>
+<p>1 - 1 &#x3D; 1 + (-1) &#x3D;  [00000001]<sub>反码</sub> +[11111110]<sub>反码</sub> &#x3D; [11111111]<sub>反码</sub> &#x3D; [10000000]<sub>原码</sub> &#x3D; -0</p>
+<p>虽然使用反码进行计算得到的数值结果是0，但是符号位存在问题。对于0这个数字而言，没有正负号。因此，反码也不能满足要求。最后，来看看补码是否可行：</p>
+<p>1 - 1 &#x3D; 1 + (-1) &#x3D;  [00000001]<sub>补码</sub> +[11111111]<sub>补码</sub> &#x3D; [00000000]<sub>补码</sub> &#x3D; [00000000]<sub>原码</sub> &#x3D; 0</p>
+<p>第二个等式，计算得到的超出8位，舍弃掉超出的位数，因此得到的结果是0。使用补码还解决了 [10000000]<sub>补码</sub>的数值问题，因为 [10000000]<sub>补码</sub> &#x3D; [11111111]<sub>反码</sub> &#x3D; [10000000]<sub>原码</sub> &#x3D; 128。使用补码, 不仅仅修复了0的符号以及存在两个编码的问题, 而且还能够多表示一个最低数。这就是为什么8位二进制，使用原码或反码表示的范围为[-127, +127]，而使用补码表示的范围为[-128, 127]。</p>
+</li>
+</ol>
+<p>因此，最终计算机选择了使用补码的方式来存储二进制数。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/06/12/c-structure/">基础（十二）复合类型（自定义类型）</a>
+            
+            
+            <a class="next" rel="next" href="/2022/06/11/c-pointer/">基础（十一）指针</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 万叶 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
