@@ -15,7 +15,7 @@
 
 
 
-<title>基础（三）宏与常量 | 万叶&#39;s Blog</title>
+<title>Linux基础（五）常用文件内容的查看工具 | 万叶&#39;s Blog</title>
 
 
 
@@ -188,7 +188,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">基础（三）宏与常量</h1>
+            <h1 class="post-title">Linux基础（五）常用文件内容的查看工具</h1>
             
                 <div class="post-meta">
                     
@@ -197,14 +197,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">June 3, 2022&nbsp;&nbsp;12:33:18</a>
+                        Date: <a href="#">June 12, 2022&nbsp;&nbsp;8:14:41</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/C-C/">C/C++</a>
+                                <a href="/categories/Linux/">Linux</a>
                             
                         </span>
                     
@@ -213,49 +213,138 @@
         </header>
 
         <div class="post-content">
-            <h1 id="宏定义"><a href="#宏定义" class="headerlink" title="宏定义"></a>宏定义</h1><p>在C语言中，宏定义分两种：无参数宏定义和有参数宏定义。宏定义是常见的预处理指令，使用“标识符”来表示“替换列表”中的内容，标识符称为宏名。在编译过程中的预处理阶段，编译器会把源代码中的宏定义替换成列表中内容。</p>
-<h2 id="无参宏定义"><a href="#无参宏定义" class="headerlink" title="无参宏定义"></a>无参宏定义</h2><p>无参宏定义的格式为：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> 标识符 替换列表</span></span><br></pre></td></tr></table></figure>
+            <p>Linux中常用的文件内容查看工具有cat、more、less、head和tail。</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cat</td>
+<td>由第一行开始显示文件内容</td>
+</tr>
+<tr>
+<td>more</td>
+<td>一页一页地显示文件内容</td>
+</tr>
+<tr>
+<td>less</td>
+<td>与more类似，但是比more更好的是，它可以往翻页</td>
+</tr>
+<tr>
+<td>head</td>
+<td>只看前面几行</td>
+</tr>
+<tr>
+<td>tail</td>
+<td>只看后面几行</td>
+</tr>
+</tbody></table>
+<h1 id="cat"><a href="#cat" class="headerlink" title="cat"></a>cat</h1><p>concatenate。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat [-AbEnTv][文件名]</span><br></pre></td></tr></table></figure>
 
-<p>替换列表可以是数值常量、字符常量、字符串常量等。例如，需要宏定义一个圆周率π，可以写成：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> PI 3.1415926</span></span><br></pre></td></tr></table></figure>
+<h1 id="more"><a href="#more" class="headerlink" title="more"></a>more</h1><table>
+<thead>
+<tr>
+<th>动作</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>空格键</td>
+<td>代表向下翻一页</td>
+</tr>
+<tr>
+<td>回车键</td>
+<td>代表向下翻一行</td>
+</tr>
+<tr>
+<td>&#x2F;字符串</td>
+<td>代表这个显示的内容中，向下查找字符串这个关键词</td>
+</tr>
+<tr>
+<td>:f：</td>
+<td>立刻显示出文件名及其目前显示的行数</td>
+</tr>
+<tr>
+<td>q:</td>
+<td>立刻离开more，不再显示该文件内容</td>
+</tr>
+<tr>
+<td>b或ctrl+b</td>
+<td>往回翻页，仅对文件有用，对管道无效</td>
+</tr>
+</tbody></table>
+<h1 id="less"><a href="#less" class="headerlink" title="less"></a>less</h1><table>
+<thead>
+<tr>
+<th>动作</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>空格键</td>
+<td>代表向下翻一页</td>
+</tr>
+<tr>
+<td>&#x2F;字符串</td>
+<td>向下查找字符串的功能</td>
+</tr>
+<tr>
+<td>?字符串</td>
+<td>向上查找字符串的功能</td>
+</tr>
+<tr>
+<td>n</td>
+<td>重复前一个查找</td>
+</tr>
+<tr>
+<td>N</td>
+<td>反向的重复前一个查找</td>
+</tr>
+<tr>
+<td>g</td>
+<td>前进到这个数据的第一行</td>
+</tr>
+<tr>
+<td>G</td>
+<td>前进到这个数据的最后一行</td>
+</tr>
+<tr>
+<td>q</td>
+<td>离开less这个程序</td>
+</tr>
+</tbody></table>
+<h1 id="head"><a href="#head" class="headerlink" title="head"></a>head</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">head [-n number] 文件</span><br></pre></td></tr></table></figure>
 
-<p>使用宏定义的时候，需要注意<code>#define</code>最好另起一行写，最后不需要添加分号<code>;</code>，若添加分号的话，虽然不会提示错误，但是在预处理阶段的时候会造成错误。例如：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> SIZE 10;</span></span><br></pre></td></tr></table></figure>
+<h1 id="tail"><a href="#tail" class="headerlink" title="tail"></a>tail</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">head [-n number] 文件</span><br></pre></td></tr></table></figure>
 
-<p> 在预处理的时候假如存在<code>int a[SIZE];</code>，那么替换后就变成了：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a[<span class="number">10</span>;];</span><br></pre></td></tr></table></figure>
 
-<p>很明显多了一个分号，此时就会造成代码运行的过程中出现错误。</p>
-<h2 id="有参宏定义"><a href="#有参宏定义" class="headerlink" title="有参宏定义"></a>有参宏定义</h2><p>有参宏定义的格式为：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> 标识符(参数1,参数2,参数3,...)替换列表</span></span><br></pre></td></tr></table></figure>
-
-<p>例如需要使用有参的宏定义来比较两个参数最大的值，就是：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> MAX(a,b) ((a)&gt;(b)?(a):(b))</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="常量定义"><a href="#常量定义" class="headerlink" title="常量定义"></a>常量定义</h1><p>常量有时候也被称为字面量。常量在程序执行期间不会改变，因此常量也可以称为只读变量。常量可以是C语言中任何基本数据类型。在C语言中，可以使用<code>const</code>来定义一个常量。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> var = <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
-
-<h1 id="宏定义和const的区别"><a href="#宏定义和const的区别" class="headerlink" title="宏定义和const的区别"></a>宏定义和const的区别</h1><p>宏定义和使用const的两者区别是：</p>
-<ol>
-<li>编译器处理方式不同。宏定义是在预处理阶段展开，const常量是在编译运行阶段使用；</li>
-<li>类型和安全检查不同。#define 宏没有类型，不做任何类型检查，仅仅是展开。const 常量有具体的类型，在编译阶段会执行类型检查；</li>
-<li>存储方式不同。#define 宏仅仅是展开，有多少地方使用，就展开多少次，不会分配内存。宏定义不分配内存，变量定义分配内存。const定义常量会分配内存。</li>
-</ol>
-<h1 id="变量的定义与声明"><a href="#变量的定义与声明" class="headerlink" title="变量的定义与声明"></a>变量的定义与声明</h1><p>变量的定义语法是：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">类型名 变量名 = 变量值</span><br></pre></td></tr></table></figure>
-
-<p>例如需要定义一个整型的变量：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a = <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
-
-<p>在C语言中，变量的定义和变量声明是被区别开的。变量的定义用于为变量分配存储空间，还为变量指定初始值。程序中，变量有且仅有一个定义。变量声明用于向程序表明变量的类型和名字。变量的定义本身就属于变量的声明，但是使用了<code>extern</code>的声明不是变量的定义。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="type">int</span> a; <span class="comment">//不是定义，是声明。</span></span><br><span class="line"><span class="type">int</span> b; <span class="comment">//是定义，也是声明，未初始化。</span></span><br><span class="line"><span class="type">int</span> c = <span class="number">10</span>;  <span class="comment">//是定义，也是声明，且被初始化。</span></span><br></pre></td></tr></table></figure>
-
-<p>总结几点<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup>：</p>
-<ol>
-<li>带有初始化值的，不管是否有<code>extern</code>关键字，都被认为是定义；</li>
-<li>凡是带有<code>&#123;&#125;</code>的函数一定是定义，否则就是声明；</li>
-<li>除非有<code>extern</code>关键字，否则都是变量的定义。</li>
+<h1 id="课后习题"><a href="#课后习题" class="headerlink" title="课后习题"></a>课后习题</h1><ol>
+<li><p><strong>cat主要的三大功能是什么？</strong></p>
+<p>答：查看、新建和拼接文件内容。例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cat -n /etc/profile</span><br><span class="line">cat &gt; new-file.txt &lt;&lt; EOF</span><br><span class="line">cat text1.txt text2.txt text3.txt &gt; text4.txt</span><br><span class="line">cat text1.txt text2.txt text3.txt &gt;&gt; text4.txt</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>举例cat命令修改文件内容的方法？</strong></p>
+<p>答：先使用<code>cat</code>命令，然后使用<code>&gt;</code>或者<code>&gt;&gt;</code>将文件输出到一个新文件或者追加到一个新文件中。</p>
+</li>
+<li><p><strong>如何显示文件中从第3行开始的内容？</strong></p>
+<p>答：使用more、less命令从第3行开始显示的命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">more +3 /etc/profile</span><br><span class="line">less +3 /etc/profile</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>如何从文件中查找第一个出现<code>day3</code>字符串的行，并从该处前两行开始显示输出？</strong></p>
+<p>答：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">more + /day3 /etc/profile | more +2</span><br><span class="line">less -p day3 /etc/profile | more +2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>如何设定每屏显示行数？</strong></p>
+<p>答：例如需要每屏显示4行的命令是：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">more -4 /etc/profile</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>列一个目录下的文件，由于内容太多，如何用more和管道结合起来分页显示。</strong> </p>
+<p>答：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -al /etc/profile | more </span><br></pre></td></tr></table></figure></li>
 </ol>
 
         </div>
@@ -289,10 +378,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2022/06/04/c-funtion/">基础（四）函数</a>
+                <a class="prev" rel="prev" href="/2022/06/12/linux-shell/">Linux基础（六）Shell</a>
             
             
-            <a class="next" rel="next" href="/2022/06/03/c-data-types/">基础（三）数据类型</a>
+            <a class="next" rel="next" href="/2022/06/11/c-number/">通识（一）进制数与存储单位</a>
             
         </section>
 

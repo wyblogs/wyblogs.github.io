@@ -15,7 +15,7 @@
 
 
 
-<title>基础（三）宏与常量 | 万叶&#39;s Blog</title>
+<title>Linux基础（六）Shell | 万叶&#39;s Blog</title>
 
 
 
@@ -188,7 +188,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">基础（三）宏与常量</h1>
+            <h1 class="post-title">Linux基础（六）Shell</h1>
             
                 <div class="post-meta">
                     
@@ -197,14 +197,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">June 3, 2022&nbsp;&nbsp;12:33:18</a>
+                        Date: <a href="#">June 12, 2022&nbsp;&nbsp;10:31:53</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/C-C/">C/C++</a>
+                                <a href="/categories/Linux/">Linux</a>
                             
                         </span>
                     
@@ -213,49 +213,66 @@
         </header>
 
         <div class="post-content">
-            <h1 id="宏定义"><a href="#宏定义" class="headerlink" title="宏定义"></a>宏定义</h1><p>在C语言中，宏定义分两种：无参数宏定义和有参数宏定义。宏定义是常见的预处理指令，使用“标识符”来表示“替换列表”中的内容，标识符称为宏名。在编译过程中的预处理阶段，编译器会把源代码中的宏定义替换成列表中内容。</p>
-<h2 id="无参宏定义"><a href="#无参宏定义" class="headerlink" title="无参宏定义"></a>无参宏定义</h2><p>无参宏定义的格式为：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> 标识符 替换列表</span></span><br></pre></td></tr></table></figure>
-
-<p>替换列表可以是数值常量、字符常量、字符串常量等。例如，需要宏定义一个圆周率π，可以写成：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> PI 3.1415926</span></span><br></pre></td></tr></table></figure>
-
-<p>使用宏定义的时候，需要注意<code>#define</code>最好另起一行写，最后不需要添加分号<code>;</code>，若添加分号的话，虽然不会提示错误，但是在预处理阶段的时候会造成错误。例如：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> SIZE 10;</span></span><br></pre></td></tr></table></figure>
-
-<p> 在预处理的时候假如存在<code>int a[SIZE];</code>，那么替换后就变成了：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a[<span class="number">10</span>;];</span><br></pre></td></tr></table></figure>
-
-<p>很明显多了一个分号，此时就会造成代码运行的过程中出现错误。</p>
-<h2 id="有参宏定义"><a href="#有参宏定义" class="headerlink" title="有参宏定义"></a>有参宏定义</h2><p>有参宏定义的格式为：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> 标识符(参数1,参数2,参数3,...)替换列表</span></span><br></pre></td></tr></table></figure>
-
-<p>例如需要使用有参的宏定义来比较两个参数最大的值，就是：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> MAX(a,b) ((a)&gt;(b)?(a):(b))</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="常量定义"><a href="#常量定义" class="headerlink" title="常量定义"></a>常量定义</h1><p>常量有时候也被称为字面量。常量在程序执行期间不会改变，因此常量也可以称为只读变量。常量可以是C语言中任何基本数据类型。在C语言中，可以使用<code>const</code>来定义一个常量。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> var = <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
-
-<h1 id="宏定义和const的区别"><a href="#宏定义和const的区别" class="headerlink" title="宏定义和const的区别"></a>宏定义和const的区别</h1><p>宏定义和使用const的两者区别是：</p>
-<ol>
-<li>编译器处理方式不同。宏定义是在预处理阶段展开，const常量是在编译运行阶段使用；</li>
-<li>类型和安全检查不同。#define 宏没有类型，不做任何类型检查，仅仅是展开。const 常量有具体的类型，在编译阶段会执行类型检查；</li>
-<li>存储方式不同。#define 宏仅仅是展开，有多少地方使用，就展开多少次，不会分配内存。宏定义不分配内存，变量定义分配内存。const定义常量会分配内存。</li>
-</ol>
-<h1 id="变量的定义与声明"><a href="#变量的定义与声明" class="headerlink" title="变量的定义与声明"></a>变量的定义与声明</h1><p>变量的定义语法是：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">类型名 变量名 = 变量值</span><br></pre></td></tr></table></figure>
-
-<p>例如需要定义一个整型的变量：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a = <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
-
-<p>在C语言中，变量的定义和变量声明是被区别开的。变量的定义用于为变量分配存储空间，还为变量指定初始值。程序中，变量有且仅有一个定义。变量声明用于向程序表明变量的类型和名字。变量的定义本身就属于变量的声明，但是使用了<code>extern</code>的声明不是变量的定义。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="type">int</span> a; <span class="comment">//不是定义，是声明。</span></span><br><span class="line"><span class="type">int</span> b; <span class="comment">//是定义，也是声明，未初始化。</span></span><br><span class="line"><span class="type">int</span> c = <span class="number">10</span>;  <span class="comment">//是定义，也是声明，且被初始化。</span></span><br></pre></td></tr></table></figure>
-
-<p>总结几点<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup>：</p>
-<ol>
-<li>带有初始化值的，不管是否有<code>extern</code>关键字，都被认为是定义；</li>
-<li>凡是带有<code>&#123;&#125;</code>的函数一定是定义，否则就是声明；</li>
-<li>除非有<code>extern</code>关键字，否则都是变量的定义。</li>
+            <h1 id="课后习题"><a href="#课后习题" class="headerlink" title="课后习题"></a>课后习题</h1><ol>
+<li><p><strong>查看当前Linux Shell的类型，写出相应命令和查询结果。</strong></p>
+<p>答：<code>echo $ SHELL</code>或者<code>echo $&#123;SHELL&#125;</code>。</p>
+</li>
+<li><p><strong>PATH变量的作用是什么？</strong></p>
+<ul>
+<li><p>设置PATH变量，使Shell按照顺序搜索下面的目录：</p>
+<ul>
+<li>&#x2F;user&#x2F;local&#x2F;bin</li>
+<li>&#x2F;usr&#x2F;bin</li>
+<li>&#x2F;bin</li>
+<li>&#x2F;bin&#x2F;Kerberos&#x2F;bin</li>
+<li>用户的主目录中的bin目录</li>
+<li>工作目录</li>
+</ul>
+</li>
+<li><p>如果在&#x2F;usr&#x2F;bin目录中有一个名为doit的文件，同时在用户的~&#x2F;bin目录页有一个同名的文件，那么Shell会执行哪一个呢（假设具备两个文件的执行权限）？</p>
+</li>
+<li><p>使用哪条命令可以把目录&#x2F;usr&#x2F;games添加到PATH中的目录列表的末尾？</p>
+</li>
+</ul>
+<p>答：（1）PATH变量的作用是存储工具和命令的路径，当使用到工具或者命令的时候，系统会优先去PATH中查找对一个的工具和命令。（2）使用<code>echo $ PATH</code>命令查询到当前Shell的环境变量顺序，然后按照要求进行更改。（3）如果同名的文件，在Shell在查找的时候，前面的优先级要高于后面的，因此<code>/usr/bin</code>下的doit文件将获取更高的执行权限。（4）<code>PATH=$PATH:/usr/games</code>。</p>
+</li>
+<li><p><strong>由键盘输入一行字符，将该内容变成atest变量，写出相应的命令。</strong></p>
+<p>答：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line">Echo <span class="string">&quot;Please input a string...&quot;</span></span><br><span class="line"><span class="built_in">read</span> str</span><br><span class="line">Echo <span class="string">&quot;You input string is <span class="variable">$&#123;str&#125;</span>&quot;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>显示Shell的PID值</strong></p>
+<p>答：<code>ps -A | Shell</code>。</p>
+</li>
+<li><p><strong>自定义一个变量等于<code>ittle girl</code>，并将<code>little girl</code>通过自定义变量显示出来。</strong></p>
+<p>答：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line">NAME=<span class="string">&quot;liltle girl&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$NAME</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>变量运算：</strong></p>
+<ul>
+<li><p>进行100+300+50的加运算，将结果存入数值变量sum；</p>
+<p>答：<code>sum=$((100+300+50))</code></p>
+</li>
+<li><p>定义a&#x3D;3，b&#x3D;5，输出a+b；</p>
+<p>答：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line">a=3</span><br><span class="line">b=5</span><br><span class="line">Echo $((a+b))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>显示输出<code>your cost is $5.0</code></p>
+<p>答：<code>Echo &quot;your cost is \$5.0&quot;</code></p>
+</li>
+<li><p>让sum变量变成环境变量，写出两种方法。</p>
+<p>答：<code>sum=$((100+300+50))</code>或者<code>declare sum=$((100+300+50))</code></p>
+</li>
+</ul>
+</li>
+<li><p><strong>假设已经执行了下面的赋值：</strong></p>
+<p>$ person &#x3D; zach</p>
+<p>给出下面这些命令的输出：</p>
+<ul>
+<li>echo $person</li>
+<li>echo ‘ $person’</li>
+</ul>
+<p>答：分别输出<code>zach</code>和 <code>$person</code>。</p>
+</li>
 </ol>
 
         </div>
@@ -289,10 +306,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2022/06/04/c-funtion/">基础（四）函数</a>
+                <a class="prev" rel="prev" href="/2022/06/12/c-structure/">基础（十二）复杂的结构体</a>
             
             
-            <a class="next" rel="next" href="/2022/06/03/c-data-types/">基础（三）数据类型</a>
+            <a class="next" rel="next" href="/2022/06/12/linux-cat-more-less-head-tail/">Linux基础（五）常用文件内容的查看工具</a>
             
         </section>
 
