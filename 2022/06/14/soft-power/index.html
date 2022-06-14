@@ -15,7 +15,7 @@
 
 
 
-<title>基础（七）编译过程 | 万叶&#39;s Blog</title>
+<title>推荐非技术类文档 | 万叶&#39;s Blog</title>
 
 
 
@@ -125,70 +125,11 @@
                 <div class="container">
     
     
-        <div class="post-toc">
-    <div class="tocbot-list">
-    </div>
-    <div class="tocbot-list-menu">
-        <a class="tocbot-toc-expand" onclick="expandToc()">Expand all</a>
-        <a onclick="go_top()">Back to top</a>
-        <a onclick="go_bottom()">Go to bottom</a>
-    </div>
-</div>
-
-<script>
-    var tocbot_timer;
-    var DEPTH_MAX = 6;    // 为 6 时展开所有
-    var tocbot_default_config = {
-        tocSelector: '.tocbot-list',
-        contentSelector: '.post-content',
-        headingSelector: 'h1, h2, h3, h4, h5',
-        orderedList: false,
-        scrollSmooth: true,
-        onClick: extend_click,
-    };
-
-    function extend_click() {
-        clearTimeout(tocbot_timer);
-        tocbot_timer = setTimeout(function () {
-            tocbot.refresh(obj_merge(tocbot_default_config, { hasInnerContainers: true }));
-        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
-    }
-
-    document.ready(function () {
-        tocbot.init(obj_merge(tocbot_default_config, { collapseDepth: 1 }));
-    });
-
-    function expandToc() {
-        var b = document.querySelector('.tocbot-toc-expand');
-        var expanded = b.getAttribute('data-expanded');
-        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
-        tocbot.refresh(obj_merge(tocbot_default_config, { collapseDepth: expanded ? 1 : DEPTH_MAX }));
-        b.innerText = expanded ? 'Expand all' : 'Collapse all';
-    }
-
-    function go_top() {
-        window.scrollTo(0, 0);
-    }
-
-    function go_bottom() {
-        window.scrollTo(0, document.body.scrollHeight);
-    }
-
-    function obj_merge(target, source) {
-        for (var item in source) {
-            if (source.hasOwnProperty(item)) {
-                target[item] = source[item];
-            }
-        }
-        return target;
-    }
-</script>
-    
 
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">基础（七）编译过程</h1>
+            <h1 class="post-title">推荐非技术类文档</h1>
             
                 <div class="post-meta">
                     
@@ -197,14 +138,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">June 7, 2022&nbsp;&nbsp;12:33:18</a>
+                        Date: <a href="#">June 14, 2022&nbsp;&nbsp;21:47:15</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/C-C/">C/C++</a>
+                                <a href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
                             
                         </span>
                     
@@ -213,36 +154,10 @@
         </header>
 
         <div class="post-content">
-            <p>C语言编译成可执行程序需要经过四个阶段：预处理 &gt; 编译 &gt; 汇编 &gt; 链接。</p>
-<ol>
-<li><p>预处理（Preprocessing）</p>
-<p>这个阶段会对代码进行宏定义展开、头文件展开、条件编译等，同时还会把代码中的注释删除。这个阶段不对代码进行语法检查。预处理之后生成的文件叫做预处理文件，该文件依旧属于文本文件，但是体积会大很多。</p>
-</li>
-<li><p>编译（Compilation）</p>
-<p>这个阶段会对上一阶段生成的产物进行处理，转换成汇编代码，生成汇编文件。</p>
-</li>
-<li><p>汇编（Assemble）</p>
-<p>这个阶段对上一阶段生成的汇编文件进行汇编操作，将汇编代码转换成计算机能够直接识别的机器码。这个阶段生成的产物称为目标文件。</p>
-</li>
-<li><p>链接（Linking）</p>
-<p>这个阶段将多个目标文件以及所需要的库文件（例如<code>.so</code>文件等）链接成最终可以被执行的可执行文件。</p>
-</li>
+            <ol>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI0NTE4NjA0OQ==&mid=2658383103&idx=1&sn=e03ab03ca5addd752c28b23dd7d83a8f&chksm=f2d57f91c5a2f6874713fcd2f0b2c86502f1df24168d7098395db8d6ecf354bf50d951113e6d&mpshare=1&scene=1&srcid=0522a4c3YUbZB16lFspDZv67&sharer_sharetime=1653160591690&sharer_shareid=61727c61030ec55a54971443fe4f8a29&version=3.1.12.6001&platform=win#rd">谈谈技术能力</a>. 阿里云云栖号. 2022-05-20</li>
+<li></li>
 </ol>
-<p>上述四个阶段，使用图可以表示成：</p>
-<p><img src="/../assets/c-compilation-process.png" alt="Compilation Process"></p>
-<h1 id="编译命令"><a href="#编译命令" class="headerlink" title="编译命令"></a>编译命令</h1><p>C语言的每一个编译过程使用的命令是不一样的。</p>
-<h2 id="预处理阶段"><a href="#预处理阶段" class="headerlink" title="预处理阶段"></a>预处理阶段</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -E HelloWorld.c -o HelloWorld.i</span><br></pre></td></tr></table></figure>
-
-<p>参数<code>-E</code>只进行预处理。参数<code>-o</code>指定输出文件名。</p>
-<h2 id="编译阶段"><a href="#编译阶段" class="headerlink" title="编译阶段"></a>编译阶段</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -S HelloWorld.i -o HelloWorld.s</span><br></pre></td></tr></table></figure>
-
-<p>参数<code>-S</code>只进行预处理和编译。参数<code>-o</code>指定输出文件名。</p>
-<h2 id="汇编阶段"><a href="#汇编阶段" class="headerlink" title="汇编阶段"></a>汇编阶段</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -c HelloWorld.s -o HelloWorld.o</span><br></pre></td></tr></table></figure>
-
-<p>参数<code>-c</code>只进行预处理、编译和汇编。参数<code>-o</code>指定输出文件名。</p>
-<h2 id="链接阶段"><a href="#链接阶段" class="headerlink" title="链接阶段"></a>链接阶段</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc HelloWorld.o -o HelloWorld</span><br></pre></td></tr></table></figure>
-
-<p>当然，实际的开发中我们可以使用<code>gcc HelloWorld.c -o HelloWorld</code>一步到位完成上述四个阶段的全部操作。</p>
 
         </div>
 
@@ -280,10 +195,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2022/06/08/c-file/">基础（八）文件操作</a>
             
-            
-            <a class="next" rel="next" href="/2022/06/06/c-arrays/">基础（六）字符串</a>
+            <a class="next" rel="next" href="/2022/06/12/c-structure/">基础（十二）复杂的结构体</a>
             
         </section>
 
