@@ -15,7 +15,7 @@
 
 
 
-<title>VS Code使用教程 | 万叶&#39;s Blog</title>
+<title>react基础知识（一） | 万叶&#39;s Blog</title>
 
 
 
@@ -188,7 +188,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">VS Code使用教程</h1>
+            <h1 class="post-title">react基础知识（一）</h1>
             
                 <div class="post-meta">
                     
@@ -197,14 +197,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">June 11, 2022&nbsp;&nbsp;12:33:18</a>
+                        Date: <a href="#">June 15, 2022&nbsp;&nbsp;23:00:00</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+                                <a href="/categories/React/">React</a>
                             
                         </span>
                     
@@ -213,29 +213,39 @@
         </header>
 
         <div class="post-content">
-            <h1 id="Visual-Studio-Code"><a href="#Visual-Studio-Code" class="headerlink" title="Visual Studio Code"></a>Visual Studio Code</h1><p>编写C语言的程序的工具有很多，我们把提供一整套完整的开发流程的工具称为集成开发环境（Integrated Development Environment，简称IDE）。笔者学习C语言的开发决定使用微软的Visual Studio Code（也称为VS Code）。</p>
-<p>VS Code是微软在2015年4月30日Build开发者大会上正式发布的一款针对Web和云应用的跨平台源代码编辑器，内置支持JavaScript、TypeScript和Node.js等常见的编程语言。由于VS Code具有良好的扩展性，可以编写插件集成到软件中，因此扩展后理论上可以支持任何的语言编写、调试和开发。截止2019年9月份，VS Code已经支持了37种语言：F#、HandleBars、Markdown、Python、Java、PHP、Haxe、Ruby、Sass、Rust、PowerShell、Groovy、R、Makefile、HTML、JSON、TypeScript、Batch、Visual  Basic、Swift、Less、SQL、XML、Lua、Go、C++、Ini、Razor、Clojure、C#、Objective-C、CSS、JavaScript、Perl、Coffee Script、Dockerfile、Dart<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>。</p>
-<h1 id="软件安装"><a href="#软件安装" class="headerlink" title="软件安装"></a>软件安装</h1><p>可以直接访问<a target="_blank" rel="noopener" href="https://code.visualstudio.com/">官方</a>，然后下载对应的版本进行安装。</p>
-<h1 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h1><p>下载安装完成后，运行C语言需要安装一些插件。在左边的插件市场（Ctrl + Shift + X）输入<code>C/C++</code>，安装排名最高的插件即可。安装完成后，再安装一个<code>Code Runner</code>方便运行和调试C语言用。</p>
-<blockquote>
-<p>如果你的英语不好，还可以在插件市场中搜索中文插件。</p>
-</blockquote>
-<h1 id="搭建环境"><a href="#搭建环境" class="headerlink" title="搭建环境"></a>搭建环境</h1><h2 id="C语言环境"><a href="#C语言环境" class="headerlink" title="C语言环境"></a>C语言环境</h2><p>可以参考这篇文档：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44150801/article/details/120760230">https://blog.csdn.net/qq_44150801/article/details/120760230</a></p>
-<p>环境搭建完成后，就可以使用VS Code编写Hello World程序。</p>
+            <h1 id="React"><a href="#React" class="headerlink" title="React"></a>React</h1><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K" alt="React" height="80" align="left" width="100" padding="20px">
+
+<p>React是用于构建用户界面的JavaScript库，起源于Facebook的内部项目，该公司对市场上所有 JavaScript MVC框架都不满意，决定自行开发一套，用于架设Instagram的网站。于2013年5月开源。由于React的设计思想极其独特，属于革命性创新，性能出众，代码逻辑却非常简单。所以，越来越多的人开始关注和使用。</p>
+<p>React的框架特点：</p>
 <ol>
-<li><p>创建工作区</p>
-<p>首先，创建一个文件夹，然后使用VS Code打开该文件夹，之后选择File &gt; Save Workspace as &gt; 选择刚刚创建的文件夹。</p>
+<li><p>声明式设计：React 使创建交互式 UI 变得轻而易举。为你应用的每一个状态设计简洁的视图，当数据变动时 React能高效更新并渲染合适的组件。</p>
 </li>
-<li><p>新建文件</p>
-<p>File  &gt; New File &gt; <em>Select a language</em> &gt; 选择C语言 &gt; 修改名字，并保存。</p>
+<li><p>组件化: 构建管理自身状态的封装组件，然后对其组合以构成复杂的 UI。</p>
 </li>
-<li><p>运行文件</p>
-<p>在文件中输入能够运行的Hello World代码，然后点击右上角的三角形运行。</p>
+<li><p>高效：React通过对DOM的模拟，最大限度地减少与DOM的交互。</p>
+</li>
+<li><p>灵活：无论你现在使用什么技术栈，在无需重写现有代码的前提下，通过引入React来开发新功能。</p>
 </li>
 </ol>
-<h1 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h1><p>通过官网可以获取VS Code常用的快捷键：</p>
-<p><a target="_blank" rel="noopener" href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf">https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf</a></p>
-<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><div id="footnotes"><hr><div id="footnotelist"><ol style="list-style:none; padding-left: 0;"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">1.</span><span style="display: inline-block; vertical-align: top;">https://baike.baidu.com/item/visual%20studio%20code/17514281.</span><a href="#fnref:1" rev="footnote"> ↩</a></li></ol></div></div>
+<p>React的官网：</p>
+<p><a target="_blank" rel="noopener" href="https://react.docschina.org/">中文官网 </a><a target="_blank" rel="noopener" href="https://reactjs.org/">英文官网</a></p>
+<h1 id="React基础库"><a href="#React基础库" class="headerlink" title="React基础库"></a>React基础库</h1><p>React的使用到的相关库有三个：react.js、react-dom.js和babel.min.js，其中：</p>
+<ul>
+<li><p>react.js</p>
+<p>React的核心库。</p>
+</li>
+<li><p>react-dom.js</p>
+<p>提供操作DOM的react扩展库。</p>
+</li>
+<li><p>babel.min.js</p>
+<p>解析JSX语法代码为JS代码的库。因为浏览器不能直接解析JSX代码, 需要babel转译为纯JS的代码才能运行。只要用了JSX，都要加上<code>type=&quot;text/babel&quot;</code>, 声明需要babel来处理。</p>
+</li>
+</ul>
+<p>在React中创建DOM的方式有两种，一个是使用纯JS进行创建，另外一种使用JSX方式进行创建，但是纯JS的方式基本是不太使用，而会经历使用的是后者。React创建虚拟DOM对象的方式是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const VDOM = React.createElement(&#x27;xx&#x27;,&#123;id:&#x27;xx&#x27;&#125;,&#x27;x&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>通过React创建出现的虚拟DOM最终会被React转换成真实的DOM对象。我们编码的时候，只需要关注React虚拟DOM的相关数据。</p>
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><div id="footnotes"><hr><div id="footnotelist"><ol style="list-style:none; padding-left: 0;"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">1.</span><span style="display: inline-block; vertical-align: top;">https://baike.baidu.com/item/react/18077599</span><a href="#fnref:1" rev="footnote"> ↩</a></li></ol></div></div>
         </div>
 
         
@@ -272,10 +282,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2022/06/11/c-pointer/">基础（十一）指针</a>
             
-            
-            <a class="next" rel="next" href="/2022/06/11/download-aosp/">下载Android AOSP源码</a>
+            <a class="next" rel="next" href="/2022/06/14/soft-power/">推荐非技术类文档</a>
             
         </section>
 
