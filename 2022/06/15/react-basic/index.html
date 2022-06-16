@@ -241,11 +241,17 @@
 <p>解析JSX语法代码为JS代码的库。因为浏览器不能直接解析JSX代码, 需要babel转译为纯JS的代码才能运行。只要用了JSX，都要加上<code>type=&quot;text/babel&quot;</code>, 声明需要babel来处理。</p>
 </li>
 </ul>
-<p>在React中创建DOM的方式有两种，一个是使用纯JS进行创建，另外一种使用JSX方式进行创建，但是纯JS的方式基本是不太使用，而会经历使用的是后者。React创建虚拟DOM对象的方式是：</p>
+<p>在React中创建DOM的方式有两种，一个是使用纯JS进行创建，另外一种使用JSX方式进行创建，但是纯JS的方式基本是不太使用，经常使用的是后者。React创建虚拟DOM对象的方式是：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const VDOM = React.createElement(&#x27;xx&#x27;,&#123;id:&#x27;xx&#x27;&#125;,&#x27;x&#x27;);</span><br></pre></td></tr></table></figure>
 
 <p>通过React创建出现的虚拟DOM最终会被React转换成真实的DOM对象。我们编码的时候，只需要关注React虚拟DOM的相关数据。</p>
-<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><div id="footnotes"><hr><div id="footnotelist"><ol style="list-style:none; padding-left: 0;"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">1.</span><span style="display: inline-block; vertical-align: top;">https://baike.baidu.com/item/react/18077599</span><a href="#fnref:1" rev="footnote"> ↩</a></li></ol></div></div>
+<h1 id="JSX"><a href="#JSX" class="headerlink" title="JSX"></a>JSX</h1><p>JavaScript XML简称JSX，是React定义的一种类似于XML的JS扩展语法，其作用是简化创建虚拟DOM的过程。JSX的标签名任意（可以是HTML标签或者其他标签）以及标签属性任意（HTML标签属性或其他）。使用JSX的使用需要注意：</p>
+<ol>
+<li>遇到<code>&lt;</code>开头的代码时，会以标签的语法解析（HTML同名标签转换成HTML标签同名元素，其他标签需要特别的解析）；</li>
+<li>遇到以<code>&#123;</code>开头的代码时，以JavaScript语法解析，也就说在JSX中使用原生的JavaScript语法的时候需要使用<code>&#123;&#125;</code>包裹。</li>
+</ol>
+<h1 id="浏览器安装React插件"><a href="#浏览器安装React插件" class="headerlink" title="浏览器安装React插件"></a>浏览器安装React插件</h1><p>在Chrome浏览器中搜索<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi/related?hl=zh-CN">React Developer Tools</a>插件进行安装。</p>
+<h1 id="组件三大核心属性"><a href="#组件三大核心属性" class="headerlink" title="组件三大核心属性"></a>组件三大核心属性</h1><h2 id="state"><a href="#state" class="headerlink" title="state"></a>state</h2><h2 id="props"><a href="#props" class="headerlink" title="props"></a>props</h2><h2 id="refs"><a href="#refs" class="headerlink" title="refs"></a>refs</h2><h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><div id="footnotes"><hr><div id="footnotelist"><ol style="list-style:none; padding-left: 0;"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">1.</span><span style="display: inline-block; vertical-align: top;">https://baike.baidu.com/item/react/18077599</span><a href="#fnref:1" rev="footnote"> ↩</a></li><li id="fn:2"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">2.</span><span style="display: inline-block; vertical-align: top;">https://www.bilibili.com/video/BV1wy4y1D7JT</span><a href="#fnref:2" rev="footnote"> ↩</a></li></ol></div></div>
         </div>
 
         
