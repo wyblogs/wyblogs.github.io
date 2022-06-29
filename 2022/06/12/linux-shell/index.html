@@ -273,20 +273,27 @@
 </ul>
 <p>答：分别输出<code>zach</code>和 <code>$person</code>。</p>
 </li>
-<li><p>编写Shell程序文件sht1，求两个数之和18+38。</p>
+<li><p><strong>编写Shell程序文件sht1，求两个数之和18+38。</strong></p>
+<p>答：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">! /bin/bash</span></span><br><span class="line"></span><br><span class="line">sum=$((18+28))</span><br><span class="line">echo $sum</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>编写Shell恒星文件sht2，存放在当前目录下，程序功能要求如下：</p>
+<li><p><strong>编写Shell程序文件sht2，存放在当前目录下，程序功能要求如下：</strong></p>
 <ul>
 <li>清屏；</li>
 <li>当程序运行时，屏幕显示如下形式的信息；</li>
 </ul>
  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">******************************</span><br><span class="line">* Hello World ... *</span><br><span class="line">******************************</span><br></pre></td></tr></table></figure>
+
+<p>答：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">! /bin/bash</span></span><br><span class="line"></span><br><span class="line">clear</span><br><span class="line"></span><br><span class="line">echo &quot;******************************&quot;</span><br><span class="line">echo &quot;* Hello World ... *&quot;</span><br><span class="line">echo &quot;******************************&quot;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>编写一个Shell脚本sht3，输出正在执行的Shell名称。</p>
+<li><p><strong>编写一个Shell脚本sht3，输出正在执行的Shell名称。</strong></p>
+<p>答：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">! /bin/bash</span></span><br><span class="line"></span><br><span class="line">echo $0</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>编写Shell程序文件sht4，存放在当前目录下，程序功能要求如下：用for命令结构实现，检查当前目录下文件f1、f2、f3、f4、f5，若长度为零则删除它（删除时，不需要用户确认）。</p>
+<li><p><strong>编写Shell程序文件sht4，存放在当前目录下，程序功能要求如下：用for命令结构实现，检查当前目录下文件f1、f2、f3、f4、f5，若长度为零则删除它（删除时，不需要用户确认）。</strong></p>
 </li>
-<li><p>白那些Shell程序sht5，存放在当前目录下，程序功能要求如下：</p>
+<li><p><strong>编写Shell程序sht5，存放在当前目录下，程序功能要求如下：</strong></p>
 <ul>
 <li>检查fd0盘根目录下，是否存在文件fd0tree，存在则删除它；</li>
 <li>用一条命令，在fd0盘根目录下建立名为temp0、temp1、…、temp9的十个子目录；</li>
@@ -295,7 +302,30 @@
 <li>将以fd0盘根目录为起点的目录树图形结构，添加到fd0盘根目录下文件fd0tree的尾部；</li>
 </ul>
 </li>
-<li><p>编写Shell程序文件sht6，存放在当前目录下，程序功能要求如下：</p>
+<li><p><strong>编写Shell程序文件sht6，存放在当前目录下，程序功能要求如下：</strong></p>
+<p>运行程序sht4时带一个正整数参数，如果该正整数大于等于1但小于等于5，则在屏幕上显示<code>Value is not more than 5 and not less than 1.</code>；如果该参数大于5，则在屏幕上显示信息<code>Value is more than 5.</code>。</p>
+</li>
+<li><p><strong>编写Shell程序文件sht7和sub1，存放在当前目录下，完成如下的功能：</strong></p>
+<p>sht5作为Shell程序文件的主文件，sub1作为Shell程序文件的子文件，由sht5调用sub1完成自动在fd0根目录下建立USER00、USER01、…、USER99一百个子目录。</p>
+</li>
+<li><p><strong>编写Shell程序文件sht8，当以命令sht8 xx yy执行Shell程序时（其中，xx为年份参数，yy为季度参数），能自动清屏，并显示指定年份指定季度中的三个月的月历。请用if和case两种结构来实现。</strong></p>
+</li>
+<li><p><strong>用while和until语句编写程序sht9和sht10，计算1+2+3+…+100的值，注意区分while和until语句的差别。</strong></p>
+</li>
+<li><p><strong>分析下列Shell程序sht11的运行功能：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">read -n1 -p &quot;do you want to continue[Y/N]?&quot; answer</span><br><span class="line">case $answer in</span><br><span class="line">Y|y)</span><br><span class="line">	echo &quot;fine, continue.&quot;;;</span><br><span class="line">N\n)</span><br><span class="line">	echo &quot;ok, good bye.&quot;;;</span><br><span class="line">*)</span><br><span class="line">	echo &quot;error choice&quot;;;</span><br><span class="line">esac</span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>使用管道符号和tee命令实现将文件&#x2F;etc&#x2F;passwd内容即显示在屏幕上，同时又输出到另外一个文件file4中。请写出命令及运行结果。</strong></p>
+</li>
+<li><p><strong>运行管道实现，统计出ls -l显示当前目录列表中有多少行、字数、词数。请写出命令及运行结果。</strong></p>
+</li>
+<li><p><strong>找出info文件并将结果输出到info.out文件中，将错误输出到info.error文件中。</strong></p>
+</li>
+<li><p><strong>通过重定向命令捕获<code>cat -y</code>命令的输出，把它存到名为calendar的文件中，并查看 文件的内容。请写出命令及运行结果。通过重定向命令捕获<code>cal 2010</code>命令的输出，把它存到名为calendar的文件中。查看文件的内容，看calendar文件发生什么变化？若不能重写已有文件calendar，则使用什么命令进行设置？</strong></p>
+</li>
+<li><p><strong>显示<code>happy birthday</code>一行字，并使用重定向符号捕获输出，把它存到bday文件中，使用什么命令？显示<code>to you</code>一行字，使用双重定向符号，把输出追加到bday文件中，使用什么命令？</strong></p>
+</li>
+<li><p><strong>显示<code>/etc/passwd</code>内容，并以<code>；</code>隔开，以字符形式来排序第三栏。</strong></p>
 </li>
 </ol>
 
