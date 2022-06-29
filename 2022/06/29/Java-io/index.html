@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="万叶">
+
+
+    <meta name="subtitle" content="力量的秘密在于专注">
+
+
+
+
+<title>Java基础进阶（五）IO流 | 万叶&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">万叶&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">万叶&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expandToc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6;    // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function () {
+            tocbot.refresh(obj_merge(tocbot_default_config, { hasInnerContainers: true }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function () {
+        tocbot.init(obj_merge(tocbot_default_config, { collapseDepth: 1 }));
+    });
+
+    function expandToc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, { collapseDepth: expanded ? 1 : DEPTH_MAX }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Java基础进阶（五）IO流</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">万叶</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">June 29, 2022&nbsp;&nbsp;13:09:30</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Java/">Java</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>在Java中，I&#x2F;O流被分成了字节流（Byte Streams）和字符流（Character Streams）。</p>
+<ul>
+<li><p>字节流</p>
+<p>以字节（Byte）的方式来处理数据。通常，函数的参数是字节或字节数组。</p>
+</li>
+<li><p>字符流</p>
+<p>以字符（Character）的方式来处理数据。通常，函数的参数是字符或字符串。</p>
+</li>
+</ul>
+<p>在Java中对字节相关处理类均以<code>Stream</code>作为类名的后缀，对字符读&#x2F;写相关处理类均以<code>Reader/Writer</code>作为类名的后缀。</p>
+<blockquote>
+<p>通常在实际的开发中，使用字节流处理Byte类型或者二进制的数据；使用字符流处理Character或者String类型的数据。</p>
+</blockquote>
+<p><img src="/../assets/io.png"></p>
+<h1 id="IO流抽象类"><a href="#IO流抽象类" class="headerlink" title="IO流抽象类"></a>IO流抽象类</h1><p>字节流的父类是InputStream或OutputStream，字符流的父类是Reader或Writer。</p>
+<h2 id="InputStream"><a href="#InputStream" class="headerlink" title="InputStream"></a>InputStream</h2><p>是一个抽象类，实现了Closeable接口。InputStream用于处理面向字节流输入操作。</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>int available()</td>
+<td>返回可读的字节数。</td>
+</tr>
+<tr>
+<td>void close()</td>
+<td>关闭流。</td>
+</tr>
+<tr>
+<td>void mark(int numBytes)</td>
+<td>在当前点放置一个标记，该标记在读取numBytes个字节之前将保持有效。</td>
+</tr>
+<tr>
+<td>boolean markSupported()</td>
+<td>如果支持mark()和reset()，返回true。</td>
+</tr>
+<tr>
+<td>int read()</td>
+<td>返回一个整数表示下一个可读字节。如果返回-1b表示读取结束。</td>
+</tr>
+<tr>
+<td>int read(byte buffer[])</td>
+<td>读取buffer.length长度的字节到buffer中。返回数据读取成功的字节数。如果返回-1表示读取结束。</td>
+</tr>
+<tr>
+<td>int read(byte buffer[], int offset, int numBytes)</td>
+<td>从offset的位置开始读取numBytes长度的字节到buffer中。</td>
+</tr>
+<tr>
+<td>void reset()</td>
+<td>重置指针到前一个mark。</td>
+</tr>
+<tr>
+<td>long skip(long numBytes)</td>
+<td>跳过numBytes个字节。返回直接忽略的数值。</td>
+</tr>
+</tbody></table>
+<h2 id="OutputStream"><a href="#OutputStream" class="headerlink" title="OutputStream"></a>OutputStream</h2><p>是一个抽象类，实现了Closeable接口和Flushable接口。OutputStream用于处理面向字节流输出操作。</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>void close()</td>
+<td>关闭流。</td>
+</tr>
+<tr>
+<td>void flush()</td>
+<td>刷新输出流的状态，清空缓冲区。</td>
+</tr>
+<tr>
+<td>void write(int b)</td>
+<td>把b字节写入到输出流中。</td>
+</tr>
+<tr>
+<td>void write(byte buffer[])</td>
+<td>把整个buffer写入到输出流中。</td>
+</tr>
+<tr>
+<td>void write(byte buffer[], int offset, int numBytes)</td>
+<td>从offset位置开始，从buffer中写numBytes个字节到输出流中。</td>
+</tr>
+</tbody></table>
+<h2 id="Reader"><a href="#Reader" class="headerlink" title="Reader"></a>Reader</h2><p>是一个抽象类，实现了Closeable接口和Readable接口。Reader用于处理面向字符（或字符串）输入操作。</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>abstract void close()</td>
+<td>关闭流。</td>
+</tr>
+<tr>
+<td>void mark(int numChars)</td>
+<td>在当前点放置一个标记，该标记在读取numBytes个字节之前将保持有效。</td>
+</tr>
+<tr>
+<td>boolean markSupported()</td>
+<td>如果支持mark()和reset()，返回true。</td>
+</tr>
+<tr>
+<td>int read()</td>
+<td>返回一个整数表示下一个可读字符。如果返回-1b表示读取结束。</td>
+</tr>
+<tr>
+<td>int read(char buffer[])</td>
+<td>读取buffer.length长度的字符到buffer中。返回数据读取成功的字符数。如果返回-1表示读取结束。</td>
+</tr>
+<tr>
+<td>abstract int read(char buffer[], int offset, int numChars)</td>
+<td>从offset的位置开始读取numBytes长度的字节到buffer中。</td>
+</tr>
+<tr>
+<td>boolean ready()</td>
+<td>如果下一次输入请求就绪，返回true。</td>
+</tr>
+<tr>
+<td>void reset()</td>
+<td>重置指针到前一个mark。</td>
+</tr>
+<tr>
+<td>long skip(long numChars)</td>
+<td>跳过numBytes个字节。返回直接忽略的数值。</td>
+</tr>
+</tbody></table>
+<h2 id="Writer"><a href="#Writer" class="headerlink" title="Writer"></a>Writer</h2><p>是一个抽象类，实现了Closeable、Readable和Flushable接口。Writer用于处理面向字符（或字符串）输出操作。</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Writer append(char ch)</td>
+<td>追加ch到输出流。</td>
+</tr>
+<tr>
+<td>Writer append(CharSequence chars)</td>
+<td>追加chars到输出流。</td>
+</tr>
+<tr>
+<td>Writer append(CharSequence chars, int begin, int end)</td>
+<td>从begin到end追加chars到输出流。</td>
+</tr>
+<tr>
+<td>abstract void close()</td>
+<td>关闭流。</td>
+</tr>
+<tr>
+<td>abstract void flush()</td>
+<td>刷新流。</td>
+</tr>
+<tr>
+<td>void write(int ch)</td>
+<td>写ch到输出流。</td>
+</tr>
+<tr>
+<td>void write(char buffer[ ])</td>
+<td>写buffer到输出流。</td>
+</tr>
+<tr>
+<td>abstract void write(char buffer[ ], int offset, int numChars)</td>
+<td>从offset位置开始，从buffer中写numBytes个字符到输出流中。</td>
+</tr>
+<tr>
+<td>void write(String str)</td>
+<td>写str到输出流。</td>
+</tr>
+<tr>
+<td>void write(String str, int offset, int numChars)</td>
+<td>从offset位置开始，从str中写numChars个字符到输出流中。</td>
+</tr>
+</tbody></table>
+<h1 id="流的分类"><a href="#流的分类" class="headerlink" title="流的分类"></a>流的分类</h1><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>BufferedInputStream</td>
+<td>Buffered input stream</td>
+</tr>
+<tr>
+<td>BufferedOutputStream</td>
+<td>Buffered output stream</td>
+</tr>
+<tr>
+<td>ByteArrayInputStream</td>
+<td>Input stream that reads from a byte array</td>
+</tr>
+<tr>
+<td>ByteArrayOutputStream</td>
+<td>Output stream that writes to a byte array</td>
+</tr>
+<tr>
+<td>DataInputStream</td>
+<td>An input stream that contains methods for reading the Java standard data types</td>
+</tr>
+<tr>
+<td>DataOutputStream</td>
+<td>An output stream that contains methods for writing the Java standard data types</td>
+</tr>
+<tr>
+<td>FileInputStream</td>
+<td>Input stream that reads from a file</td>
+</tr>
+<tr>
+<td>FileOutputStream</td>
+<td>Output stream that writes to a file</td>
+</tr>
+<tr>
+<td>FilterInputStream</td>
+<td>Implements InputStream</td>
+</tr>
+<tr>
+<td>FilterOutputStream</td>
+<td>Implements OutputStream</td>
+</tr>
+<tr>
+<td>InputStream</td>
+<td>Abstract class that describes stream input</td>
+</tr>
+<tr>
+<td>ObjectInputStream</td>
+<td>Input stream for objects</td>
+</tr>
+<tr>
+<td>ObjectOutputStream</td>
+<td>Output stream for objects</td>
+</tr>
+<tr>
+<td>OutputStream</td>
+<td>Abstract class that describes stream output</td>
+</tr>
+<tr>
+<td>PipedInputStream</td>
+<td>Input pipe</td>
+</tr>
+<tr>
+<td>PipedOutputStream</td>
+<td>Output pipe</td>
+</tr>
+<tr>
+<td>PrintStream</td>
+<td>Output stream that contains print( ) and println( )</td>
+</tr>
+<tr>
+<td>PushbackInputStream</td>
+<td>Input stream that supports one-byte “unget,” which returns a byte to the input stream</td>
+</tr>
+<tr>
+<td>RandomAccessFile</td>
+<td>Supports random access file I&#x2F;O</td>
+</tr>
+<tr>
+<td>SequenceInputStream</td>
+<td>Input stream that is a combination of two or more input streams that will be read sequentially, one after the other</td>
+</tr>
+</tbody></table>
+<h1 id="FileInputStream"><a href="#FileInputStream" class="headerlink" title="FileInputStream"></a>FileInputStream</h1><p>从一个File中读取文件流。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> <span class="type">File</span> <span class="variable">file</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;test.txt&quot;</span>);</span><br><span class="line"> <span class="type">FileInputStream</span> <span class="variable">fis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileInputStream</span>(file);</span><br><span class="line"> <span class="type">int</span> i;</span><br><span class="line"> <span class="keyword">while</span> ((i = fis.read()) != -<span class="number">1</span>) &#123;</span><br><span class="line">    System.out.println(i);</span><br><span class="line"> &#125;</span><br><span class="line"> fis.close();</span><br></pre></td></tr></table></figure>
+
+<h1 id="FileOutputStream"><a href="#FileOutputStream" class="headerlink" title="FileOutputStream"></a>FileOutputStream</h1><p>把文件流输出到File中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> <span class="type">File</span> <span class="variable">file</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(BEAUTIFUL_ARTICLES[<span class="number">0</span>]);</span><br><span class="line"> <span class="type">FileOutputStream</span> <span class="variable">fos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(file);</span><br><span class="line"> fos.write(<span class="string">&quot;Hi Java!&quot;</span>.getBytes(StandardCharsets.UTF_8));</span><br><span class="line"> fos.write(<span class="string">&quot;Good Job!&quot;</span>.getBytes(StandardCharsets.UTF_8));</span><br><span class="line"> fos.close();</span><br></pre></td></tr></table></figure>
+
+<h1 id="BufferedInputStream"><a href="#BufferedInputStream" class="headerlink" title="BufferedInputStream"></a>BufferedInputStream</h1><p>BufferInputStream和BufferOutputStream是Java提供携带缓冲区的字节流，其存在的意义是为了提高I&#x2F;O操作的速度。携带缓冲区的输入流，其构造函数中必须要求传递一个InputputStream类型的参数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> <span class="type">FileInputStream</span> <span class="variable">fis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileInputStream</span>(<span class="string">&quot;test.txt&quot;</span>);</span><br><span class="line"> <span class="type">BufferedInputStream</span> <span class="variable">bis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedInputStream</span>(fis);</span><br><span class="line"> <span class="type">int</span> i;</span><br><span class="line"> <span class="keyword">while</span> ((i = bis.read()) != -<span class="number">1</span>) &#123;</span><br><span class="line">    System.out.println(<span class="keyword">new</span> <span class="title class_">String</span>(buff, <span class="number">0</span>, i));</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="BufferedOutputStream"><a href="#BufferedOutputStream" class="headerlink" title="BufferedOutputStream"></a>BufferedOutputStream</h1><p>携带缓冲区的输出流，其构造函数中必须要求传递一个OutputStream类型的参数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> <span class="type">FileOutputStream</span> <span class="variable">fos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="string">&quot;test.txt&quot;</span>);</span><br><span class="line"> <span class="type">BufferedOutputStream</span> <span class="variable">bos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedOutputStream</span>(fos);</span><br><span class="line"> bos.write(<span class="string">&quot;Hello Java!&quot;</span>.getBytes(StandardCharsets.UTF_8));</span><br><span class="line"> bos.close();</span><br><span class="line"> fos.close();</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>万叶</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/06/29/english-glossary/">Glossary</a>
+            
+            
+            <a class="next" rel="next" href="/2022/06/29/java-thread/">Java基础进阶（四）多线程</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 万叶 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

@@ -15,7 +15,7 @@
 
 
 
-<title>VS Code使用教程 | 万叶&#39;s Blog</title>
+<title>良好的工作习惯 | 万叶&#39;s Blog</title>
 
 
 
@@ -188,7 +188,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">VS Code使用教程</h1>
+            <h1 class="post-title">良好的工作习惯</h1>
             
                 <div class="post-meta">
                     
@@ -197,14 +197,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">June 11, 2022&nbsp;&nbsp;12:33:18</a>
+                        Date: <a href="#">June 29, 2022&nbsp;&nbsp;11:23:22</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+                                <a href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
                             
                         </span>
                     
@@ -213,29 +213,104 @@
         </header>
 
         <div class="post-content">
-            <h1 id="Visual-Studio-Code"><a href="#Visual-Studio-Code" class="headerlink" title="Visual Studio Code"></a>Visual Studio Code</h1><p>编写C语言的程序的工具有很多，我们把提供一整套完整的开发流程的工具称为集成开发环境（Integrated Development Environment，简称IDE）。笔者学习C语言的开发决定使用微软的Visual Studio Code（也称为VS Code）。</p>
-<p>VS Code是微软在2015年4月30日Build开发者大会上正式发布的一款针对Web和云应用的跨平台源代码编辑器，内置支持JavaScript、TypeScript和Node.js等常见的编程语言。由于VS Code具有良好的扩展性，可以编写插件集成到软件中，因此扩展后理论上可以支持任何的语言编写、调试和开发。截止2019年9月份，VS Code已经支持了37种语言：F#、HandleBars、Markdown、Python、Java、PHP、Haxe、Ruby、Sass、Rust、PowerShell、Groovy、R、Makefile、HTML、JSON、TypeScript、Batch、Visual  Basic、Swift、Less、SQL、XML、Lua、Go、C++、Ini、Razor、Clojure、C#、Objective-C、CSS、JavaScript、Perl、Coffee Script、Dockerfile、Dart<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>。</p>
-<h1 id="软件安装"><a href="#软件安装" class="headerlink" title="软件安装"></a>软件安装</h1><p>可以直接访问<a target="_blank" rel="noopener" href="https://code.visualstudio.com/">官方</a>，然后下载对应的版本进行安装。</p>
-<h1 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h1><p>下载安装完成后，运行C语言需要安装一些插件。在左边的插件市场（Ctrl + Shift + X）输入<code>C/C++</code>，安装排名最高的插件即可。安装完成后，再安装一个<code>Code Runner</code>方便运行和调试C语言用。</p>
+            <h1 id="老石的一天"><a href="#老石的一天" class="headerlink" title="老石的一天"></a>老石的一天</h1><p>最近，看了一个芯片工程师的一天的工作习惯，感觉还是比较受到启发的。他的公众号：老石谈芯，微博：老石谈芯的老石，知乎：老石。在他的一次分享 <a target="_blank" rel="noopener" href="https://www.zhihu.com/zvideo/1316858992840974336">芯片工程师的一天 | 我如何每天高效工作12小时？【技巧分享】</a>中，认识到良好的生活和工作习惯对于一个人成长和发展来说是非常重要的。我梳理了一下老石的习惯：</p>
+<table>
+<thead>
+<tr>
+<th>时间段</th>
+<th>工作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>08:00~08:30</td>
+<td>整理每日重点和待办事项。处理工作上的事情，还可以是生活上需要待办的事项等等。</td>
+</tr>
+<tr>
+<td>08:30~09:00</td>
+<td>冲杯咖啡，然后一直工作到12点左右。</td>
+</tr>
+<tr>
+<td>09:00~12:00</td>
+<td>1. 在家工作要有独立的工作区域，让工作与生活相互分离；<br>2. 检查昨天的工作任务；<br/>3. 处理例会和邮件（重要的邮件进行归档，跟进，不重要的邮件可以忽略）。</td>
+</tr>
+<tr>
+<td>12:00~13:30</td>
+<td>午饭午休时间。</td>
+</tr>
+<tr>
+<td>13:30~17:00</td>
+<td>高效工作时间，集中输出技术问题，写代码，调试。（避免多任务切换）</td>
+</tr>
+<tr>
+<td>17:00~21:00</td>
+<td>陪家人、锻炼，不会干任何与工作有关事情。</td>
+</tr>
+<tr>
+<td>21:00~22:30</td>
+<td>科研工作。</td>
+</tr>
+<tr>
+<td>22:30~01:30</td>
+<td>公众号、视频工作 集中处理公众号的问题，以及回复私信，还有知乎的回答。</td>
+</tr>
+</tbody></table>
 <blockquote>
-<p>如果你的英语不好，还可以在插件市场中搜索中文插件。</p>
+<p>视频中推荐了两款工作：Notion和Notability。</p>
 </blockquote>
-<h1 id="搭建环境"><a href="#搭建环境" class="headerlink" title="搭建环境"></a>搭建环境</h1><h2 id="C语言环境"><a href="#C语言环境" class="headerlink" title="C语言环境"></a>C语言环境</h2><p>可以参考这篇文档：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44150801/article/details/120760230">https://blog.csdn.net/qq_44150801/article/details/120760230</a></p>
-<p>环境搭建完成后，就可以使用VS Code编写Hello World程序。</p>
-<ol>
-<li><p>创建工作区</p>
-<p>首先，创建一个文件夹，然后使用VS Code打开该文件夹，之后选择File &gt; Save Workspace as &gt; 选择刚刚创建的文件夹。</p>
-</li>
-<li><p>新建文件</p>
-<p>File  &gt; New File &gt; <em>Select a language</em> &gt; 选择C语言 &gt; 修改名字，并保存。</p>
-</li>
-<li><p>运行文件</p>
-<p>在文件中输入能够运行的Hello World代码，然后点击右上角的三角形运行。</p>
-</li>
-</ol>
-<h1 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h1><p>通过官网可以获取VS Code常用的快捷键：</p>
-<p><a target="_blank" rel="noopener" href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf">https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf</a></p>
-<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><div id="footnotes"><hr><div id="footnotelist"><ol style="list-style:none; padding-left: 0;"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">1.</span><span style="display: inline-block; vertical-align: top;">https://baike.baidu.com/item/visual%20studio%20code/17514281.</span><a href="#fnref:1" rev="footnote"> ↩</a></li></ol></div></div>
+<h1 id="我的一天"><a href="#我的一天" class="headerlink" title="我的一天"></a>我的一天</h1><p>然后，我梳理了一下我的工作的一天：</p>
+<table>
+<thead>
+<tr>
+<th>时间段</th>
+<th>工作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>07:10~07:30</td>
+<td>起床时间。刷会手机，看会新闻，准备起床。</td>
+</tr>
+<tr>
+<td>07:30~08:30</td>
+<td>刷牙，准备早上的早餐和带到公司吃的午餐。运动和锻炼45分钟后，洗澡出门。</td>
+</tr>
+<tr>
+<td>08:30~09:30</td>
+<td>公司刷卡，吃早餐，泡一杯咖啡。准备开始一天的工作。</td>
+</tr>
+<tr>
+<td>09:30~10:30</td>
+<td>1. 检查昨日的工作任务完成情况，关注项目的进度和进展；<br/>2. 重要的邮件回复和跟踪； <br/>3. 罗列今日需要完成的三件重要的事情。</td>
+</tr>
+<tr>
+<td>10:45~11:45</td>
+<td>因为刚刚转到新模块，这段时间会进行新模块的业务学习。</td>
+</tr>
+<tr>
+<td>12:00~13:00</td>
+<td>公司午休时间，趴在桌上午睡1小时。</td>
+</tr>
+<tr>
+<td>13:00~17:00</td>
+<td>核心工作时间，集中输出文档、代码或数据报告等。</td>
+</tr>
+<tr>
+<td>17:30~18:30</td>
+<td>晚餐时间。吃完后，在公司附件与玩的好的同事散步。或者，去健身房运动1小时。</td>
+</tr>
+<tr>
+<td>18:30~19:40</td>
+<td>看看是否有培训，若有培训就参加培训，没有培训的话，收尾一下今日的工作，准备下班。</td>
+</tr>
+<tr>
+<td>20:00~21:00</td>
+<td>英语学习时间。看一些英文的学习材料和文档。或者写一些博客。要是都不想做，就和同事开黑打游戏。</td>
+</tr>
+<tr>
+<td>21:30~23:30</td>
+<td>看自己的博客文档，陪对象聊天，睡觉。</td>
+</tr>
+</tbody></table>
+
         </div>
 
         
@@ -272,10 +347,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2022/06/11/c-pointer/">基础（十一）指针</a>
+                <a class="prev" rel="prev" href="/2022/06/29/java-thread/">Java基础进阶（四）多线程</a>
             
             
-            <a class="next" rel="next" href="/2022/06/11/android-download-aosp/">下载Android AOSP源码</a>
+            <a class="next" rel="next" href="/2022/06/29/android-adb-command/">ADB Commands</a>
             
         </section>
 

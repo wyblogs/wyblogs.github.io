@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="万叶">
+
+
+    <meta name="subtitle" content="力量的秘密在于专注">
+
+
+
+
+<title>跨进程间通信机制（IPC机制） | 万叶&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">万叶&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">万叶&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expandToc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6;    // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function () {
+            tocbot.refresh(obj_merge(tocbot_default_config, { hasInnerContainers: true }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function () {
+        tocbot.init(obj_merge(tocbot_default_config, { collapseDepth: 1 }));
+    });
+
+    function expandToc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, { collapseDepth: expanded ? 1 : DEPTH_MAX }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">跨进程间通信机制（IPC机制）</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">万叶</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">June 29, 2022&nbsp;&nbsp;17:07:27</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Android/">Android</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>在Android中IPC的方式很多，比如可以使用在Intent中附件extras的方式来传递消息，通过文件共享的方式来共享数据，还可以采用Binder的方式来进行跨进程间通信，当然ContentProvider天生就支持跨进程间的通信。此外，你还可以通过网络通信，使用Socket实现IPC。所以，在Android中很多方式都可以进行IPC。下面，我们就来介绍常见的几种方式。</p>
+<h1 id="使用Messenger"><a href="#使用Messenger" class="headerlink" title="使用Messenger"></a>使用Messenger</h1><p>Messenger顾名思义就是信使的意思，可以通过它在不同进程中传递Message对象，在Message中放入需要传递的数据，就可以轻松地实现数据的进程间通信了。Messenger其实是一种轻量级的IPC方案，它的底层实现时AIDL（可以从Messenger的构造方法中寻找到AIDL的痕迹）。</p>
+<p>下面我们就用一个例子来说明一下Messenger的使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MessageService</span> <span class="keyword">extends</span> <span class="title class_">Service</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">TAG</span> <span class="operator">=</span> <span class="string">&quot;MessageService&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">REPLY_TO_CLIENT</span> <span class="operator">=</span> <span class="string">&quot;reply_to_client&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> IBinder <span class="title function_">onBind</span><span class="params">(Intent intent)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Messenger</span>(<span class="keyword">new</span> <span class="title class_">ServerHandler</span>()).getBinder();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">class</span> <span class="title class_">ServerHandler</span> <span class="keyword">extends</span> <span class="title class_">Handler</span> &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">handleMessage</span><span class="params">(<span class="meta">@NonNull</span> Message msg)</span> &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">msgFromClient</span> <span class="operator">=</span> msg.getData().getString(MainActivity.MSG_FROM_CLIENT);</span><br><span class="line">            Log.i(TAG, msgFromClient);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="type">Message</span> <span class="variable">replyMsg</span> <span class="operator">=</span> Message.obtain();</span><br><span class="line">                <span class="type">Bundle</span> <span class="variable">data</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Bundle</span>();</span><br><span class="line">                data.putString(REPLY_TO_CLIENT, <span class="string">&quot;Ok, I got it.&quot;</span>);</span><br><span class="line">                replyMsg.setData(data);</span><br><span class="line">                <span class="type">Messenger</span> <span class="variable">replyTo</span> <span class="operator">=</span> msg.replyTo;</span><br><span class="line">                replyTo.send(replyMsg);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (RemoteException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">super</span>.handleMessage(msg);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MainActivity</span> <span class="keyword">extends</span> <span class="title class_">AppCompatActivity</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">TAG</span> <span class="operator">=</span> <span class="string">&quot;HarveyLog&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">MSG_FROM_CLIENT</span> <span class="operator">=</span> <span class="string">&quot;HarveyLog&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">Messenger</span> <span class="variable">mClinetMessenger</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Messenger</span>(<span class="keyword">new</span> <span class="title class_">ClientHandler</span>());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">ServiceConnection</span> <span class="variable">mConn</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ServiceConnection</span>() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onServiceConnected</span><span class="params">(ComponentName name, IBinder service)</span> &#123;</span><br><span class="line">            <span class="type">Messenger</span> <span class="variable">messenger</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Messenger</span>(service);</span><br><span class="line">            <span class="type">Message</span> <span class="variable">msg</span> <span class="operator">=</span> Message.obtain();</span><br><span class="line">            <span class="type">Bundle</span> <span class="variable">data</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Bundle</span>();</span><br><span class="line">            data.putString(MSG_FROM_CLIENT, <span class="string">&quot;Hi, this is client speaking.&quot;</span>);</span><br><span class="line">            msg.setData(data);</span><br><span class="line">            msg.replyTo = mClinetMessenger;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                messenger.send(msg);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (RemoteException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onServiceDisconnected</span><span class="params">(ComponentName name)</span> &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">class</span> <span class="title class_">ClientHandler</span> <span class="keyword">extends</span> <span class="title class_">Handler</span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">handleMessage</span><span class="params">(<span class="meta">@NonNull</span> Message msg)</span> &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">msgFromServer</span> <span class="operator">=</span> msg.getData().getString(MessageService.REPLY_TO_CLIENT);</span><br><span class="line">            Log.i(TAG, msgFromServer);</span><br><span class="line">            <span class="built_in">super</span>.handleMessage(msg);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        <span class="type">Intent</span> <span class="variable">intent</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Intent</span>(<span class="built_in">this</span>, MessageService.class);</span><br><span class="line">        bindService(intent, mConn, Context.BIND_AUTO_CREATE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onDestroy</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onDestroy();</span><br><span class="line">        unbindService(mConn);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述例子是客户端向服务器端发送一句话，并在服务器端输出。然后，服务器端向客户端发送一句话，并在客户端输出。我们把它们间的通信可以使用如下图来表示：</p>
+<p><img src="/../assets/ipc-message.png"></p>
+<ul>
+<li>客户端发送数据到服务端：<ol>
+<li>客户端使用来自服务器端的Messenger，并向该Messenger里存放Message对象，然后再通过其发送数据到服务器端。</li>
+<li>服务器端则传递给客户端的Messenger是通过Handler进行构造出来的，服务器端在Handler中处理来自客户端的Message对象。</li>
+</ol>
+</li>
+<li>服务端发送数据到客户端：<ol>
+<li>服务端使用来自客户端的Messenger，并向该Messenger里存放Message对象，然后再通过其发送数据到客户端。</li>
+<li>客户端则通过向来自服务器端的Messenger中的replyTo变量进行赋值一个通过Handler构造出来的Messenger对象，间接把客户端的Messenger转递给服务器端。客户端在Handler中处理来自服务器端的Message对象。</li>
+</ol>
+</li>
+</ul>
+<h1 id="使用AIDL"><a href="#使用AIDL" class="headerlink" title="使用AIDL"></a>使用AIDL</h1><p>Messenger以串行的方式处理客户端发送的信息，如果大量的信息同时发送到服务端，服务端仍然需要一个一个的处理。当遇到大量并发的请求时，很明显此方式就不太合适了。同时，Messenger只是单纯的用来发送Message，假如你需要在客户端去调用服务端的方式，显然此方式就不适用了。</p>
+<p>下面我们就一个例子来介绍AIDL的使用：</p>
+<img src="/../assets/ipc-aidl.png" style="zoom:70%;" />
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// IBookManager.aidl</span></span><br><span class="line"><span class="keyword">package</span> com.harvey.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.harvey.test.model.Book;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">IBookManager</span> &#123;</span><br><span class="line">    List&lt;Book&gt; <span class="title function_">getBookList</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">addBook</span><span class="params">(in Book book)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在AIDL文件中，并不是所有的数据类型都支持，AIDL文件只支持6种数据类型：</p>
+<ul>
+<li>基本数据类型（int&#x2F;long&#x2F;char&#x2F;boolean&#x2F;double, etc.）；</li>
+<li>String和CharSequence；</li>
+<li>List：只支持ArrayList；</li>
+<li>Map：只支持HashMap；</li>
+<li>Parcelable：所有实现了Parcelable的对象；</li>
+<li>AIDL：所有的AIDL接口本身也可以在AIDL文件中使用；</li>
+</ul>
+<p>创建AIDL文件需要注意以下几个点：</p>
+<ul>
+<li>自定义的Parcelable对象和AIDL对象必须显示import到文件中；</li>
+<li>如果AIDL文件使用到了自定义的Parcelable对象，那么必须新建一个和它同名的AIDL文件，并在其中声明。所以，针对上述代码中的Book对象，我们还需要创建一个Book.aidl文件。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Book.aidl</span></span><br><span class="line"><span class="keyword">package</span> com.harvey.test;</span><br><span class="line"></span><br><span class="line">parcelable Book;</span><br></pre></td></tr></table></figure>
+
+<img src="/../assets/ipc-aidl-2.png" style="zoom: 67%;" />
+
+<p>此时，你build项目会报错，因为Book.aidl的路径与model下的Book.java路径不匹配，此时需要在创建一个与Book.java同名的路径，并把Book.aidl放进去。</p>
+<img src="/../assets/ipc-aidl-3.png" style="zoom:80%;" />
+
+<p>除此之外，AIDL文件中除了基本的数据类型以外，其他的类型参数必须标上方向：in、out和inout。in表示输入型参数、out表示输出型参数、inout表示输入输出型参数。、</p>
+<p>好了，定义好了AIDL接口，那么就开始创建Service了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BookManagerService</span> <span class="keyword">extends</span> <span class="title class_">Service</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">TAG</span> <span class="operator">=</span> <span class="string">&quot;HarveyLog&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> CopyOnWriteArrayList&lt;Book&gt; mBooks = <span class="keyword">new</span> <span class="title class_">CopyOnWriteArrayList</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">Binder</span> <span class="variable">mBinder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">IBookManager</span>.Stub() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> List&lt;Book&gt; <span class="title function_">getBookList</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException &#123;</span><br><span class="line">            <span class="keyword">return</span> mBooks;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addBook</span><span class="params">(Book book)</span> <span class="keyword">throws</span> RemoteException &#123;</span><br><span class="line">            mBooks.add(book);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> IBinder <span class="title function_">onBind</span><span class="params">(Intent intent)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> mBinder;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate();</span><br><span class="line">        mBooks.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="string">&quot;《Android Coding》&quot;</span>, <span class="number">1</span>));</span><br><span class="line">        mBooks.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="string">&quot;《Android Coding 2》&quot;</span>, <span class="number">2</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>创建完成Service后，记得在清单文件中进行配置。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">service</span></span></span><br><span class="line"><span class="tag">	<span class="attr">android:name</span>=<span class="string">&quot;.service.BookManagerService&quot;</span></span></span><br><span class="line"><span class="tag">	<span class="attr">android:process</span>=<span class="string">&quot;:remote&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>最后，我们在Activity中对其进行绑定和操作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BookManagerActivity</span> <span class="keyword">extends</span> <span class="title class_">AppCompatActivity</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">TAG</span> <span class="operator">=</span> <span class="string">&quot;HarveyLog&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">ServiceConnection</span> <span class="variable">mConn</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ServiceConnection</span>() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onServiceConnected</span><span class="params">(ComponentName name, IBinder service)</span> &#123;</span><br><span class="line">            <span class="type">IBookManager</span> <span class="variable">bookManager</span> <span class="operator">=</span> IBookManager.Stub.asInterface(service);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                List&lt;Book&gt; bookList = bookManager.getBookList();</span><br><span class="line">                Log.i(TAG, bookList.toString());</span><br><span class="line">                bookList.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="string">&quot;Test Book&quot;</span>,<span class="number">3</span>));</span><br><span class="line">                Log.i(TAG, bookList.toString());</span><br><span class="line">            &#125; <span class="keyword">catch</span> (RemoteException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onServiceDisconnected</span><span class="params">(ComponentName name)</span> &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_book_manager);</span><br><span class="line"></span><br><span class="line">        <span class="type">Intent</span> <span class="variable">intent</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Intent</span>(<span class="built_in">this</span>, BookManagerService.class);</span><br><span class="line">        bindService(intent, mConn, Context.BIND_AUTO_CREATE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onDestroy</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onDestroy();</span><br><span class="line">        unbindService(mConn);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>到此，其实已经对Android的AIDL算是入门了。为了加深对AIDL的理解，我们再多加一个需求：请使用观察者模式，当新增加一本书籍时，通知所有感兴趣的用户。</p>
+<p>好了，首先我们需要提供一个AIDL接口，每个用户都需要实现这个接口，并且向图书申请新书的提醒功能，当然用户也可以随时取消提醒。之所以会选择AIDL接口而不是普通接口，这是因为AIDL中无法使用普通接口。这里我们先创建一个IOnNewBookArrivedListener.aidl文件。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.harvey.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.harvey.test.model.Book;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">IOnNewBookArrivedListener</span> &#123;</span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">onNewBookArrived</span><span class="params">(in Book newBook)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>除了新增接口，还需要在原来的AIDL接口添加注册和取消注册方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// IBookManager.aidl</span></span><br><span class="line"><span class="keyword">package</span> com.harvey.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.harvey.test.model.Book;</span><br><span class="line"><span class="keyword">import</span> com.harvey.test.IOnNewBookArrivedListener;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">IBookManager</span> &#123;</span><br><span class="line">    List&lt;Book&gt; <span class="title function_">getBookList</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">addBook</span><span class="params">(in Book book)</span>;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">registerListener</span><span class="params">(IOnNewBookArrivedListener listener)</span>;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">unregisterListener</span><span class="params">(IOnNewBookArrivedListener listener)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接着修改Service代码。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.harvey.test.service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Service;</span><br><span class="line"><span class="keyword">import</span> android.content.Intent;</span><br><span class="line"><span class="keyword">import</span> android.os.Binder;</span><br><span class="line"><span class="keyword">import</span> android.os.IBinder;</span><br><span class="line"><span class="keyword">import</span> android.os.RemoteException;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> androidx.annotation.Nullable;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.harvey.test.IBookManager;</span><br><span class="line"><span class="keyword">import</span> com.harvey.test.IOnNewBookArrivedListener;</span><br><span class="line"><span class="keyword">import</span> com.harvey.test.model.Book;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.CopyOnWriteArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.atomic.AtomicBoolean;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BookManagerService</span> <span class="keyword">extends</span> <span class="title class_">Service</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">TAG</span> <span class="operator">=</span> <span class="string">&quot;HarveyLog&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> CopyOnWriteArrayList&lt;Book&gt; mBooks = <span class="keyword">new</span> <span class="title class_">CopyOnWriteArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">private</span> CopyOnWriteArrayList&lt;IOnNewBookArrivedListener&gt; mArrivedListeners</span><br><span class="line">            = <span class="keyword">new</span> <span class="title class_">CopyOnWriteArrayList</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">AtomicBoolean</span> <span class="variable">mIsServiceDestroyed</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AtomicBoolean</span>(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">Binder</span> <span class="variable">mBinder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">IBookManager</span>.Stub() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> List&lt;Book&gt; <span class="title function_">getBookList</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException &#123;</span><br><span class="line">            <span class="keyword">return</span> mBooks;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addBook</span><span class="params">(Book book)</span> <span class="keyword">throws</span> RemoteException &#123;</span><br><span class="line">            mBooks.add(book);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">registerListener</span><span class="params">(IOnNewBookArrivedListener listener)</span> <span class="keyword">throws</span> RemoteException &#123;</span><br><span class="line">            <span class="keyword">if</span> (!mArrivedListeners.contains(listener)) &#123;</span><br><span class="line">                mArrivedListeners.add(listener);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                Log.d(TAG, <span class="string">&quot;already exists.&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            Log.d(TAG, <span class="string">&quot;registerListener, size:&quot;</span> + mArrivedListeners.size());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">unregisterListener</span><span class="params">(IOnNewBookArrivedListener listener)</span> <span class="keyword">throws</span> RemoteException &#123;</span><br><span class="line">            <span class="keyword">if</span> (mArrivedListeners.contains(listener)) &#123;</span><br><span class="line">                mArrivedListeners.remove(listener);</span><br><span class="line">                Log.d(TAG, <span class="string">&quot;unregister listener succeed.&quot;</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                Log.d(TAG, <span class="string">&quot;not found, can not unregister.&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            Log.d(TAG, <span class="string">&quot;registerListener, size:&quot;</span> + mArrivedListeners.size());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> IBinder <span class="title function_">onBind</span><span class="params">(Intent intent)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> mBinder;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate();</span><br><span class="line">        mBooks.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="string">&quot;《Android Coding》&quot;</span>, <span class="number">1</span>));</span><br><span class="line">        mBooks.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="string">&quot;《Android Coding 2》&quot;</span>, <span class="number">2</span>));</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(<span class="keyword">new</span> <span class="title class_">ServiceWorker</span>()).start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">onNewBookArrived</span><span class="params">(Book newBook)</span> <span class="keyword">throws</span> RemoteException &#123;</span><br><span class="line">        mBooks.add(newBook);</span><br><span class="line">        Log.d(TAG, <span class="string">&quot;onNewBookArrived, notify listener:&quot;</span> + mArrivedListeners.size());</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; mArrivedListeners.size(); i++) &#123;</span><br><span class="line">            <span class="type">IOnNewBookArrivedListener</span> <span class="variable">listener</span> <span class="operator">=</span> mArrivedListeners.get(i);</span><br><span class="line">            listener.onNewBookArrived(newBook);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">class</span> <span class="title class_">ServiceWorker</span> <span class="keyword">implements</span> <span class="title class_">Runnable</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">while</span> (!mIsServiceDestroyed.get()) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> mBooks.size() + <span class="number">1</span>;</span><br><span class="line">                <span class="type">Book</span> <span class="variable">newBook</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Book</span>(<span class="string">&quot;new book#&quot;</span> + i, i);</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    onNewBookArrived(newBook);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (RemoteException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后再修改客户端代码。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.harvey.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> androidx.annotation.NonNull;</span><br><span class="line"><span class="keyword">import</span> androidx.appcompat.app.AppCompatActivity;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.content.ComponentName;</span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.content.Intent;</span><br><span class="line"><span class="keyword">import</span> android.content.ServiceConnection;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.os.Handler;</span><br><span class="line"><span class="keyword">import</span> android.os.IBinder;</span><br><span class="line"><span class="keyword">import</span> android.os.Message;</span><br><span class="line"><span class="keyword">import</span> android.os.RemoteException;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.harvey.test.model.Book;</span><br><span class="line"><span class="keyword">import</span> com.harvey.test.service.BookManagerService;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BookManagerActivity</span> <span class="keyword">extends</span> <span class="title class_">AppCompatActivity</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">TAG</span> <span class="operator">=</span> <span class="string">&quot;HarveyLog&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">MESSAGE_NEW_ARRIVED</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> IBookManager mBookManager;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">Handler</span> <span class="variable">mHandler</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Handler</span>() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">handleMessage</span><span class="params">(<span class="meta">@NonNull</span> Message msg)</span> &#123;</span><br><span class="line">            <span class="keyword">switch</span> (msg.what) &#123;</span><br><span class="line">                <span class="keyword">case</span> MESSAGE_NEW_ARRIVED:</span><br><span class="line">                    Log.d(TAG, <span class="string">&quot;receive new book: &quot;</span> + msg.obj);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">default</span>:</span><br><span class="line">                    <span class="built_in">super</span>.handleMessage(msg);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">ServiceConnection</span> <span class="variable">mConn</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ServiceConnection</span>() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onServiceConnected</span><span class="params">(ComponentName name, IBinder service)</span> &#123;</span><br><span class="line">            mBookManager = IBookManager.Stub.asInterface(service);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                List&lt;Book&gt; bookList = mBookManager.getBookList();</span><br><span class="line">                Log.i(TAG, bookList.toString());</span><br><span class="line">                bookList.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="string">&quot;Test Book&quot;</span>, <span class="number">3</span>));</span><br><span class="line">                Log.i(TAG, bookList.toString());</span><br><span class="line"></span><br><span class="line">                mBookManager.registerListener(mOnNewBookArrivedListener);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (RemoteException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onServiceDisconnected</span><span class="params">(ComponentName name)</span> &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">IOnNewBookArrivedListener</span> <span class="variable">mOnNewBookArrivedListener</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">IOnNewBookArrivedListener</span>.Stub() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onNewBookArrived</span><span class="params">(Book newBook)</span> <span class="keyword">throws</span> RemoteException &#123;</span><br><span class="line">            mHandler.obtainMessage(MESSAGE_NEW_ARRIVED, newBook).sendToTarget();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_book_manager);</span><br><span class="line"></span><br><span class="line">        <span class="type">Intent</span> <span class="variable">intent</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Intent</span>(<span class="built_in">this</span>, BookManagerService.class);</span><br><span class="line">        bindService(intent, mConn, Context.BIND_AUTO_CREATE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onDestroy</span><span class="params">()</span> &#123;</span><br><span class="line">        unbindService(mConn);</span><br><span class="line">        <span class="keyword">if</span> (mBookManager != <span class="literal">null</span> &amp;&amp; mBookManager.asBinder().isBinderAlive()) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                mBookManager.unregisterListener(mOnNewBookArrivedListener);</span><br><span class="line">                Log.d(TAG, <span class="string">&quot;unregister listener:&quot;</span> + mOnNewBookArrivedListener);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (RemoteException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">super</span>.onDestroy();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>到这里为止，AIDL使用观察者模式完成对新书的监听就完成了。假如你点击back键退出了BookManagerActivity，onDestroy()方法被执行了，但是你会惊讶的发现控制台依旧还在打印Log。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>万叶</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2022/06/29/english-spoken/">Daily Spoken</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 万叶 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
