@@ -15,7 +15,7 @@
 
 
 
-<title>基础（十一）指针 | 万叶&#39;s Blog</title>
+<title>C语言基础（十一）指针 | 万叶&#39;s Blog</title>
 
 
 
@@ -188,7 +188,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">基础（十一）指针</h1>
+            <h1 class="post-title">C语言基础（十一）指针</h1>
             
                 <div class="post-meta">
                     
@@ -326,7 +326,7 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> a = <span class="number">100</span>;</span><br><span class="line">    <span class="type">int</span> *p1 = &amp;a;</span><br><span class="line">    <span class="type">int</span> **p2 = &amp;p1;</span><br><span class="line">    <span class="type">int</span> ***p3 = &amp;p2;</span><br><span class="line">    <span class="type">int</span> ****p4 = &amp;p3;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, a); <span class="comment">//output: 100</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, *p1);<span class="comment">//output: 100</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, **p2);<span class="comment">//output: 100</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, ***p3);<span class="comment">//output: 100</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, ****p4);<span class="comment">//output: 100</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>上述过程可以描述成：</p>
-<p><img src="/..%5Cassets%5Cmulti-level-pointer.png" alt="多级指针"></p>
+<p><img src="/../assets/multi-level-pointer.png" alt="多级指针"></p>
 <h1 id="指针的关系"><a href="#指针的关系" class="headerlink" title="指针的关系"></a>指针的关系</h1><h2 id="指针与数组"><a href="#指针与数组" class="headerlink" title="指针与数组"></a>指针与数组</h2><p>数组名就是数组的地址，也是数组首元素的地址。数组名是地址常量，不可以被赋值。由于指针是变量，因此可以把数组名赋值给某个指针。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> arr[] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>&#125;;</span><br><span class="line">    <span class="type">int</span> *p = arr;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;数组名：%p\n&quot;</span>, arr);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;首地址：%p\n&quot;</span>, &amp;arr[<span class="number">0</span>]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;指针指向数组名：%p\n&quot;</span>, p);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
