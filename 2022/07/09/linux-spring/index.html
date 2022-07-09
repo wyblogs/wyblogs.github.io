@@ -15,7 +15,7 @@
 
 
 
-<title>网站收藏 | 万叶&#39;s Blog</title>
+<title>Spring Boot Commands | 万叶&#39;s Blog</title>
 
 
 
@@ -125,11 +125,70 @@
                 <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expandToc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6;    // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function () {
+            tocbot.refresh(obj_merge(tocbot_default_config, { hasInnerContainers: true }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function () {
+        tocbot.init(obj_merge(tocbot_default_config, { collapseDepth: 1 }));
+    });
+
+    function expandToc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, { collapseDepth: expanded ? 1 : DEPTH_MAX }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
 
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">网站收藏</h1>
+            <h1 class="post-title">Spring Boot Commands</h1>
             
                 <div class="post-meta">
                     
@@ -138,14 +197,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">June 14, 2022&nbsp;&nbsp;21:47:15</a>
+                        Date: <a href="#">July 9, 2022&nbsp;&nbsp;22:41:08</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+                                <a href="/categories/Linux/">Linux</a>
                             
                         </span>
                     
@@ -154,22 +213,9 @@
         </header>
 
         <div class="post-content">
-            <ol>
-<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI0NTE4NjA0OQ==&mid=2658383103&idx=1&sn=e03ab03ca5addd752c28b23dd7d83a8f&chksm=f2d57f91c5a2f6874713fcd2f0b2c86502f1df24168d7098395db8d6ecf354bf50d951113e6d&mpshare=1&scene=1&srcid=0522a4c3YUbZB16lFspDZv67&sharer_sharetime=1653160591690&sharer_shareid=61727c61030ec55a54971443fe4f8a29&version=3.1.12.6001&platform=win#rd">谈谈技术能力</a>. 阿里云云栖号. 2022-05-20</li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/30691789">Android 性能优化必知必会(2020-4-27日更新)</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/489766416">Android Weekly #34（2022.3.21 – 2022.3.27）</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/350763855/answer/2398412181">外企英文面试题常见问题有哪些？</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/34147404/answer/2539491199">哪些句子拯救了你的英文邮件？</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/497150220">如何坚持写技术博客？</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/340219070/answer/1038875031">如何看待美团效仿亚马逊，内部汇报拒用 PPT 而改用 Word?</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/269570189">全球最火的程序员学习路线！没有之一！3天就在Github收获了接近1w点赞</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/20772002/answer/376713434">有哪些堪称神器的工具或软件？</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/490844524/answer/2443013630">Win11真的比Win10好多了吗？</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/526960193">Android 平台下的 Method Trace 实现解析</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/26625249">GitHub+Hexo 搭建个人网站详细教程</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/63640148">论文常用词汇i.e.，e.g.，etc.，viz.，et al.的前世今生</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/427072891/answer/1783069518">有什么可以坚持一生的好习惯？</a></li>
-</ol>
+            <h1 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup java -jar xxx.jar &gt; catalina.out  2&gt;&amp;1 &amp; </span><br></pre></td></tr></table></figure>
+
+<h1 id="查看进程"><a href="#查看进程" class="headerlink" title="查看进程"></a>查看进程</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep java</span><br></pre></td></tr></table></figure>
 
         </div>
 
@@ -207,10 +253,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2022/06/15/react-basic/">React基础知识（一）</a>
             
-            
-            <a class="next" rel="next" href="/2022/06/12/c-structure/">C语言基础（十二）复杂的结构体</a>
+            <a class="next" rel="next" href="/2022/06/29/c-linkedlist/">C语言基础（十三）链表</a>
             
         </section>
 

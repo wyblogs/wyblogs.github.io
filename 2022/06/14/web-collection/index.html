@@ -15,7 +15,7 @@
 
 
 
-<title>C语言基础（三）宏与常量 | 万叶&#39;s Blog</title>
+<title>Website Favorites | 万叶&#39;s Blog</title>
 
 
 
@@ -188,7 +188,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">C语言基础（三）宏与常量</h1>
+            <h1 class="post-title">Website Favorites</h1>
             
                 <div class="post-meta">
                     
@@ -197,14 +197,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">June 3, 2022&nbsp;&nbsp;12:33:18</a>
+                        Date: <a href="#">June 14, 2022&nbsp;&nbsp;21:47:15</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/C-C/">C/C++</a>
+                                <a href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
                             
                         </span>
                     
@@ -213,49 +213,62 @@
         </header>
 
         <div class="post-content">
-            <h1 id="宏定义"><a href="#宏定义" class="headerlink" title="宏定义"></a>宏定义</h1><p>在C语言中，宏定义分两种：无参数宏定义和有参数宏定义。宏定义是常见的预处理指令，使用“标识符”来表示“替换列表”中的内容，标识符称为宏名。在编译过程中的预处理阶段，编译器会把源代码中的宏定义替换成列表中内容。</p>
-<h2 id="无参宏定义"><a href="#无参宏定义" class="headerlink" title="无参宏定义"></a>无参宏定义</h2><p>无参宏定义的格式为：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> 标识符 替换列表</span></span><br></pre></td></tr></table></figure>
-
-<p>替换列表可以是数值常量、字符常量、字符串常量等。例如，需要宏定义一个圆周率π，可以写成：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> PI 3.1415926</span></span><br></pre></td></tr></table></figure>
-
-<p>使用宏定义的时候，需要注意<code>#define</code>最好另起一行写，最后不需要添加分号<code>;</code>，若添加分号的话，虽然不会提示错误，但是在预处理阶段的时候会造成错误。例如：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> SIZE 10;</span></span><br></pre></td></tr></table></figure>
-
-<p> 在预处理的时候假如存在<code>int a[SIZE];</code>，那么替换后就变成了：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a[<span class="number">10</span>;];</span><br></pre></td></tr></table></figure>
-
-<p>很明显多了一个分号，此时就会造成代码运行的过程中出现错误。</p>
-<h2 id="有参宏定义"><a href="#有参宏定义" class="headerlink" title="有参宏定义"></a>有参宏定义</h2><p>有参宏定义的格式为：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> 标识符(参数1,参数2,参数3,...)替换列表</span></span><br></pre></td></tr></table></figure>
-
-<p>例如需要使用有参的宏定义来比较两个参数最大的值，就是：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> MAX(a,b) ((a)&gt;(b)?(a):(b))</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="常量定义"><a href="#常量定义" class="headerlink" title="常量定义"></a>常量定义</h1><p>常量有时候也被称为字面量。常量在程序执行期间不会改变，因此常量也可以称为只读变量。常量可以是C语言中任何基本数据类型。在C语言中，可以使用<code>const</code>来定义一个常量。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> var = <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
-
-<h1 id="宏定义和const的区别"><a href="#宏定义和const的区别" class="headerlink" title="宏定义和const的区别"></a>宏定义和const的区别</h1><p>宏定义和使用const的两者区别是：</p>
-<ol>
-<li>编译器处理方式不同。宏定义是在预处理阶段展开，const常量是在编译运行阶段使用；</li>
-<li>类型和安全检查不同。#define 宏没有类型，不做任何类型检查，仅仅是展开。const 常量有具体的类型，在编译阶段会执行类型检查；</li>
-<li>存储方式不同。#define 宏仅仅是展开，有多少地方使用，就展开多少次，不会分配内存。宏定义不分配内存，变量定义分配内存。const定义常量会分配内存。</li>
-</ol>
-<h1 id="变量的定义与声明"><a href="#变量的定义与声明" class="headerlink" title="变量的定义与声明"></a>变量的定义与声明</h1><p>变量的定义语法是：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">类型名 变量名 = 变量值</span><br></pre></td></tr></table></figure>
-
-<p>例如需要定义一个整型的变量：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a = <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
-
-<p>在C语言中，变量的定义和变量声明是被区别开的。变量的定义用于为变量分配存储空间，还为变量指定初始值。程序中，变量有且仅有一个定义。变量声明用于向程序表明变量的类型和名字。变量的定义本身就属于变量的声明，但是使用了<code>extern</code>的声明不是变量的定义。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="type">int</span> a; <span class="comment">//不是定义，是声明。</span></span><br><span class="line"><span class="type">int</span> b; <span class="comment">//是定义，也是声明，未初始化。</span></span><br><span class="line"><span class="type">int</span> c = <span class="number">10</span>;  <span class="comment">//是定义，也是声明，且被初始化。</span></span><br></pre></td></tr></table></figure>
-
-<p>总结几点<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup>：</p>
-<ol>
-<li>带有初始化值的，不管是否有<code>extern</code>关键字，都被认为是定义；</li>
-<li>凡是带有<code>&#123;&#125;</code>的函数一定是定义，否则就是声明；</li>
-<li>除非有<code>extern</code>关键字，否则都是变量的定义。</li>
+            <h1 id="Search-Engines"><a href="#Search-Engines" class="headerlink" title="Search Engines"></a>Search Engines</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://cn.bing.com/?mkt=zh-CN">Bing</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.google.com/">Google Search</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.wikipedia.org/">Wikipedia</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/">Zhihu</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/">Bilibili</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.iconfont.cn/">Iconfont</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.mydrivers.com/zhuanti/tianti/01/">手机CPU性能天梯图</a></li>
+<li><a target="_blank" rel="noopener" href="https://shouji.baidu.com/">百度手机助手</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.runoob.com/">Runoob 菜鸟教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://mvnrepository.com/">MVN Repository</a></li>
+</ul>
+<h1 id="Note"><a href="#Note" class="headerlink" title="Note"></a>Note</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://www.notion.so/">Notion</a></li>
+</ul>
+<h1 id="Dictionaries"><a href="#Dictionaries" class="headerlink" title="Dictionaries"></a>Dictionaries</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://www.youdao.com/">Youdao</a></li>
+<li><a target="_blank" rel="noopener" href="https://translate.google.cn/">Google Translate</a></li>
+</ul>
+<h1 id="Official-Docs"><a href="#Official-Docs" class="headerlink" title="Official Docs"></a>Official Docs</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://www.rssboard.org/rss-profile">RSS Advisory Board</a></li>
+<li><a target="_blank" rel="noopener" href="http://nvm.uihtm.com/">nvm(一个nodejs版本管理工具)</a></li>
+<li><a target="_blank" rel="noopener" href="https://getbootstrap.com/">Bootstrap</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript">JavaScript MDN</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.npmjs.com/">NPM</a></li>
+<li><a target="_blank" rel="noopener" href="https://validator.w3.org/feed/docs/atom.html">W3C Feed Atom</a></li>
+</ul>
+<h1 id="Well-known-technology-blogs"><a href="#Well-known-technology-blogs" class="headerlink" title="Well-known technology blogs"></a>Well-known technology blogs</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://tech.meituan.com/">美团技术团队</a></li>
+<li><a target="_blank" rel="noopener" href="https://androidperformance.com/">Android Tech And Perf - Gracker</a></li>
+</ul>
+<h1 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://cs.android.com/">Android Code Search</a></li>
+<li><a target="_blank" rel="noopener" href="https://ui.perfetto.dev/">Perfetto</a></li>
+</ul>
+<h1 id="Tools"><a href="#Tools" class="headerlink" title="Tools"></a>Tools</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://www.sojson.com/">JSON Online</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.diffchecker.com/#">Compare Text Online</a></li>
+<li><a target="_blank" rel="noopener" href="https://repo.huaweicloud.com/java/jdk/">Java JDK</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.mapull.com/gitbook/comscore/">GitBook简明教程</a></li>
+</ul>
+<h1 id="Valuable-Articles"><a href="#Valuable-Articles" class="headerlink" title="Valuable Articles"></a>Valuable Articles</h1><h2 id="Android-1"><a href="#Android-1" class="headerlink" title="Android"></a>Android</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI0NTE4NjA0OQ==&mid=2658383103&idx=1&sn=e03ab03ca5addd752c28b23dd7d83a8f&chksm=f2d57f91c5a2f6874713fcd2f0b2c86502f1df24168d7098395db8d6ecf354bf50d951113e6d&mpshare=1&scene=1&srcid=0522a4c3YUbZB16lFspDZv67&sharer_sharetime=1653160591690&sharer_shareid=61727c61030ec55a54971443fe4f8a29&version=3.1.12.6001&platform=win#rd">谈谈技术能力</a>. 阿里云云栖号. 2022-05-20</li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/30691789">Android 性能优化必知必会(2020-4-27日更新)</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/489766416">Android Weekly #34（2022.3.21 – 2022.3.27）</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/350763855/answer/2398412181">外企英文面试题常见问题有哪些？</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/34147404/answer/2539491199">哪些句子拯救了你的英文邮件？</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/497150220">如何坚持写技术博客？</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/340219070/answer/1038875031">如何看待美团效仿亚马逊，内部汇报拒用 PPT 而改用 Word?</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/269570189">全球最火的程序员学习路线！没有之一！3天就在Github收获了接近1w点赞</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/20772002/answer/376713434">有哪些堪称神器的工具或软件？</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/490844524/answer/2443013630">Win11真的比Win10好多了吗？</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/526960193">Android 平台下的 Method Trace 实现解析</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/26625249">GitHub+Hexo 搭建个人网站详细教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/63640148">论文常用词汇i.e.，e.g.，etc.，viz.，et al.的前世今生</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/427072891/answer/1783069518">有什么可以坚持一生的好习惯？</a></li>
 </ol>
 
         </div>
@@ -294,10 +307,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2022/06/04/c-funtion/">C语言基础（四）函数</a>
+                <a class="prev" rel="prev" href="/2022/06/15/react-basic/">React基础知识（一）</a>
             
             
-            <a class="next" rel="next" href="/2022/06/03/c-data-types/">C语言基础（三）数据类型</a>
+            <a class="next" rel="next" href="/2022/06/12/c-structure/">C语言基础（十二）复杂的结构体</a>
             
         </section>
 
